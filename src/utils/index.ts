@@ -5,6 +5,11 @@ export type IEtiquette = {
   color: string
 }
 
+export type IColor = {
+  label: string
+  value: string
+}
+
 export type IQuestion = {
   id: string
   label: string
