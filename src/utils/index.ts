@@ -1,5 +1,14 @@
 export type IEtiquette = {
-  label: string,
-  description: string,
+  id: string
+  label: string
+  description: string
   color: string
+}
+
+export type IQuestion = {
+  id: string
+  label: string
+  enonce: string
+  max_reponse: number
+  etiquettes: IEtiquette[]
 }
