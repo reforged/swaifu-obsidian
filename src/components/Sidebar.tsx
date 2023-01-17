@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { NavLink } from 'react-router-dom'
-import { HomeIcon } from '@heroicons/react/24/solid'
+import { HomeIcon, TagIcon } from '@heroicons/react/24/solid'
 import { classNames, ReactElement } from '../helper'
 
 type LinkItem = {
@@ -12,7 +12,8 @@ type LinkItem = {
 
 export default function Sidebar ({ ...props }) {
   const links: LinkItem[] = [
-    { label: 'Home', href: '/', icon: HomeIcon }
+    { label: 'Home', href: '/', icon: HomeIcon },
+    { label: 'Étiquettes', href: '/etiquettes', icon: TagIcon}
   ]
 
   return (
