@@ -1,10 +1,10 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import {ChatBubbleLeftRightIcon, PlusIcon} from "@heroicons/react/24/outline";
-import useComponentVisible from "../../hooks/useComponentVisible";
+import { ChatBubbleLeftRightIcon, PlusIcon } from '@heroicons/react/24/outline'
+import useComponentVisible from '../../hooks/useComponentVisible'
 import { IEtiquette } from '../../utils'
-import ProfilEtiquette from "../../components/etiquettes/ProfilEtiquette";
-import CreateEtiquette from "../../components/etiquettes/CreateEtiquette";
-import {classNames} from "../../helper";
+import ProfilEtiquette from '../../components/etiquettes/ProfilEtiquette'
+import CreateEtiquette from '../../components/etiquettes/CreateEtiquette'
+import { classNames } from '../../helper'
 
 type EtiquetteProps = {
   data: IEtiquette
@@ -12,10 +12,11 @@ type EtiquetteProps = {
   setData: Dispatch<SetStateAction<IEtiquette | null>>
 }
 
-const etiquettes: IEtiquette[] = [
-  {label: 'Lorem ipsum', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', color: 'bg-red-500'},
-  {label: 'Test 2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', color: 'bg-blue-500'},
-  {label: 'Java', description: 'dazd dza daz da ', color: 'bg-oscar'},
+
+const data: IEtiquette[] = [
+  {id: '1', label: 'Lorem ipsum', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', color: 'red'},
+  {id: '2',label: 'Test 2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', color: 'blue'},
+  {id: '3',label: 'Java', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', color: 'gray'},
 ]
 
 
@@ -46,7 +47,7 @@ const Etiquette = ({ data, toggle, setData }: EtiquetteProps) => {
     toggle()
     setData(data)
   }
-  console.log(data)
+
   return (
     <button onClick={() => click()} className="">
       <div className="col-span-1 overflow-hidden border h-full border-gray-200 rounded-md shadow hover:shadow-xl  duration-200 ease-in-out">

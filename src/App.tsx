@@ -3,6 +3,7 @@ import {Route, Routes} from 'react-router'
 import Home from './pages'
 import Layout from "./layouts/layout";
 import HomeEtiquette from "./pages/etiquettes";
+import HomeQuestion from './pages/questions';
 
 function App() {
   return (
@@ -12,6 +13,10 @@ function App() {
 
         <Route path={"/etiquettes"}>
           <Route index element={<HomeEtiquette />} />
+        </Route>
+
+        <Route path={"/questions"}>
+          <Route index element={<HomeQuestion />} />
         </Route>
       </Route>
     </Routes>
