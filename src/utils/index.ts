@@ -3,3 +3,8 @@ export type IEtiquette = {
   description: string,
   color: string
 }
+
+export type IColor = {
+  label: string
+  value: string
+}

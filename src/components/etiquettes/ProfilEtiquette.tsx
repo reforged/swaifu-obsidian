@@ -11,8 +11,6 @@ type IProfil = {
 }
 
 export default function ProfilEtiquette ({ open, setOpen, etiquette }: IProfil) {
-  const color: string = `bg-${etiquette.color}-500`
-  console.log(color)
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -62,19 +60,20 @@ export default function ProfilEtiquette ({ open, setOpen, etiquette }: IProfil) 
                     </div>
                   </Transition.Child>
                   <div className="flex h-full flex-col overflow-y-scroll bg-white pb-6 shadow-xl">
-                    <div className={classNames('h-20 w-full', color)}>
-
-                    </div>
-                    <div className="px-4 sm:px-6">
-                      <Dialog.Title className="text-lg font-medium text-gray-900">{ etiquette.label }</Dialog.Title>
-                    </div>
-                    <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                      {/* Replace with your content */}
-                      <div className="absolute inset-0 px-4 sm:px-6">
-                        <div className="h-full border-2 border-dashed border-gray-200" aria-hidden="true" />
+                    <div className={classNames('h-20 w-full', etiquette.color)} />
+                    <div className="mt-8 h-full flex flex-col">
+                      <div className="px-4 sm:px-6">
+                        <Dialog.Title className="text-lg font-medium text-gray-900">{ etiquette.label }</Dialog.Title>
                       </div>
-                      {/* /End replace */}
+                      <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                        {/* Replace with your content */}
+                        <div className="absolute inset-0 px-4 sm:px-6">
+                          <p>{ etiquette.description }</p>
+                        </div>
+                        {/* /End replace */}
+                      </div>
                     </div>
+
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
