@@ -4,6 +4,7 @@ import Home from './pages'
 import Layout from "./layouts/layout";
 import HomeEtiquette from "./pages/etiquettes";
 import HomeQuestion from './pages/questions';
+import HomeLogin from './pages/auth';
 
 function App() {
   return (
@@ -18,7 +19,13 @@ function App() {
         <Route path={"/questions"}>
           <Route index element={<HomeQuestion />} />
         </Route>
+       
+        
       </Route>
+      <Route path='/authentication'>
+            <Route index element={<HomeLogin />} />
+            
+        </Route>
     </Routes>
   )
 }
