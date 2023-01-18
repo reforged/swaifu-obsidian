@@ -42,7 +42,14 @@ export default function Sidebar ({ ...props }) {
         </div>
 
         <div>
-          test
+          <div>
+            <a href='/authentication'>
+            <button className='border px-2 py-1 border-gray-300 rounded-md '>
+              Login
+            </button>
+            </a>
+            
+          </div>
         </div>
 
       </div>
