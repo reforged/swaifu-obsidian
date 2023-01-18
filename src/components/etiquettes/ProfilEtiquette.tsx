@@ -1,8 +1,8 @@
 import React, {Fragment} from 'react'
-import { IEtiquette } from '../../utils'
+import { IEtiquette } from '@obsidian/type'
 import { Dialog, Transition, Menu } from '@headlessui/react'
-import {XMarkIcon} from "@heroicons/react/24/outline";
-import {classNames} from "../../helper";
+import {XMarkIcon} from '@heroicons/react/24/outline'
+import {classNames} from '../../utils/helper'
 
 type IProfil = {
   etiquette: IEtiquette

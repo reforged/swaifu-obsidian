@@ -1,8 +1,8 @@
 import React, {Fragment } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import { classNames } from '../helper'
-import { IColor } from '../utils'
+import { classNames } from '../utils/helper'
+import { IColor } from '@obsidian/type'
 
 type Props<T> = {
   data: T[]
