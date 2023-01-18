@@ -1,10 +1,9 @@
 import useComponentVisible from '../../hooks/useComponentVisible'
 import React, { useEffect, useState } from 'react'
-import { PlusIcon } from '@heroicons/react/24/outline'
 import { AnimatePresence, motion } from 'framer-motion'
 import SelectMenu from '../SelectMenu'
-import { classNames } from '../../helper'
-import { IColor, IEtiquette } from '../../utils'
+import { classNames } from '../../utils/helper'
+import { IColor, IEtiquette } from '@obsidian/type'
 
 type Props = {
   addData: any
@@ -55,7 +54,7 @@ export default function CreateEtiquette ({ addData, data}: Props) {
         onClick={() => toggle()}
         className="relative block w-full h-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
       >
-        <PlusIcon className="mx-auto h-12 w-12 text-gray-400" />
+
         <span className="mt-2 block text-sm font-medium text-gray-900">Créer une étiquette</span>
       </button>
       <AnimatePresence>

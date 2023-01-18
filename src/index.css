@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .button {
     @apply rounded-md border border-gray-400 px-2 py-1 duration-100 ease-in-out;
 }
@@ -12,4 +11,8 @@
 
 .button--not--disable {
     @apply bg-green-300 !border-green-400;
+}
+
+.test {
+    cursor: pointer;
 }

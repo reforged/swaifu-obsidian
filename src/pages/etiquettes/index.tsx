@@ -1,10 +1,9 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { ChatBubbleLeftRightIcon, PlusIcon } from '@heroicons/react/24/outline'
 import useComponentVisible from '../../hooks/useComponentVisible'
-import { IEtiquette } from '../../utils'
+import { IEtiquette } from '@obsidian/type'
 import ProfilEtiquette from '../../components/etiquettes/ProfilEtiquette'
 import CreateEtiquette from '../../components/etiquettes/CreateEtiquette'
-import { classNames } from '../../helper'
+import { classNames } from '../../utils/helper'
 
 type EtiquetteProps = {
   data: IEtiquette
@@ -13,10 +12,10 @@ type EtiquetteProps = {
 }
 
 
-const data: IEtiquette[] = [
-  {id: '1', label: 'Lorem ipsum', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', color: 'red'},
-  {id: '2',label: 'Test 2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', color: 'blue'},
-  {id: '3',label: 'Java', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', color: 'gray'},
+const etiquettes: IEtiquette[] = [
+  {id: '1', label: 'Lorem ipsum', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', color: 'bg-red-500'},
+  {id: '2',label: 'Test 2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', color: 'bg-blue-500'},
+  {id: '3',label: 'Java', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', color: 'bg-oscar'},
 ]
 
 
@@ -25,6 +24,7 @@ export default function HomeEtiquette () {
   const { ref, isVisible, toggle } = useComponentVisible()
   const [etiquette, setEtiquette] = useState<IEtiquette | null>(null)
   const [data, setData] = useState(etiquettes)
+  console.log(data)
   return (
     <div className={"relative"}>
       <h1 className="text-2xl font-medium">Hello Etiquettes</h1>

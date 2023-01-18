@@ -1,8 +1,9 @@
 import React, { Dispatch, SetStateAction } from 'react'
-import { classNames } from '../../helper'
+import { classNames } from '../../utils/helper'
 import useComponentVisible from '../../hooks/useComponentVisible'
-import { IQuestion } from '../../utils'
+import { IQuestion } from '@obsidian/type'
 import { etiquettes } from '../../utils/data'
+import CreateQuestion from "../../components/questions/CreateQuestion";
 
 type QuestionProps = {
   data: IQuestion
@@ -17,10 +18,16 @@ const data: IQuestion[] = [
 
 
 export default function HomeQuestion () {
-	const { ref, isVisible, toggle } = useComponentVisible()
   return (
 		<div className="relative">
-			<h1 className="text-2xl font-medium">Hello Questions</h1>
+
+			<div className="flex items-start justify-between w-full">
+				<h1 className="text-2xl font-medium">Hello Questions</h1>
+				<div>
+					<CreateQuestion />
+				</div>
+			</div>
+
 
 			<div className="mt-8 flex flex-col">
 				<div className="-my-2 -mx-4 sm:-mx-6 lg:-mx-8" >
@@ -79,14 +86,6 @@ export default function HomeQuestion () {
 const Question = ({  data }: QuestionProps) => {
 
 
-	return (
-		<div></div>
-	)
-}
-
-
-const CreateQuestion = () => {
-	const { ref, isVisible, toggle } = useComponentVisible()
 	return (
 		<div></div>
 	)
