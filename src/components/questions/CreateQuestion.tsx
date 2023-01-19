@@ -1,14 +1,20 @@
-import React, {MutableRefObject, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import {AnimatePresence, motion} from 'framer-motion'
-import useComponentVisible from "../../hooks/useComponentVisible";
-import {PlusIcon} from "@heroicons/react/24/outline";
-import {classNames} from "../../utils/helper";
+import useComponentVisible from '../../hooks/useComponentVisible'
+import {PlusIcon} from '@heroicons/react/24/outline'
+import {classNames} from '../../utils/helper'
+import Markdoc from '@markdoc/markdoc'
+import {Prose} from '../Prose'
+import Fence from '../Fence'
+import SelectType from './editor/SelectType'
+
 
 type Props = {
 }
 type ButtonProps = {
   click: () => any
 }
+
 
 const Button = ({ click }: ButtonProps) => {
   return (
@@ -26,7 +32,33 @@ const Button = ({ click }: ButtonProps) => {
 export default function CreateQuestion ({ }: Props) {
   const { ref, isVisible, toggle } = useComponentVisible()
   const [label, setLabel] = useState<string>('')
+  const [body, setBody] = useState<string>('')
+  const [bodyMd, setBodyMd] = useState<any>()
   const submit = () => {}
+
+
+  useEffect(() => {
+    const ast = Markdoc.parse(body);
+
+    const content = Markdoc.transform(ast, {
+      nodes: {
+        fence: {
+          render: 'Fence',
+          attributes: {
+            content: { type: String },
+            language: { type: String}
+          }
+        }
+      }
+    })
+
+    const children = Markdoc.renderers.react(content, React, {
+      components: {
+        Fence: Fence
+      }
+    })
+    setBodyMd(children)
+  }, [label, body])
   return (
     <div>
         <Button click={toggle} />
@@ -42,20 +74,27 @@ export default function CreateQuestion ({ }: Props) {
               exit={{opacity: 0}}
               initial={{opacity: 0}}
             >
-              <div ref={ref} className="absolute left-1/2 top-1/3 transform -translate-y-1/2 -translate-x-1/2 w-2/3 py-8 bg-white border border-gray-200 rounded-lg shadow-xl">
-                <div className="flex justify-between items-center border-b p-4">
-                  <div>
-                    <span>Link a collection</span>
+              <div ref={ref} className="absolute left-1/2 top-12 transform  -translate-x-1/2 h-[70%] w-2/3 py-8 bg-white border border-gray-200 rounded-lg shadow-xl">
+                <div className="absolute top-0 left-0 p-2">
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <span className="bg-purple-200 text-purple-900 px-1  rounded-md">Questions</span>
+                    <span>/</span>
+                    <span>{ label }</span>
                   </div>
-                  <div>
+                </div>
+                <div className="flex justify-between items-center border-b p-4">
+                  <SelectType />
+                  <div className=" w-3/5">
                     <button className="w-full">
-                      <div className="p-5 w-full">
+                      <div className="p-5 w-full text-center">
                         <input
                           id="content"
+                          maxLength={70}
                           defaultValue={label}
+                          placeholder={"Title of question"}
                           onChange={(e) => setLabel(e.currentTarget.value)}
                           className={classNames(
-                            'block w-full px-2 py-1 focus:outline-none',
+                            'block w-full px-2 py-1 text-center focus:outline-none font-bold text-2xl',
                           )}
                         />
                       </div>
@@ -93,6 +132,19 @@ export default function CreateQuestion ({ }: Props) {
                       </button>
                     </div>
                   </div>
+                </div>
+                <div className="w-full grid grid-cols-2">
+                  <textarea
+                    onChange={(e) => setBody(e.currentTarget.value)}
+                    value={body}
+                    className="w-full focus:outline-none border-none" name="" id=""  cols={30} rows={10}
+                  />
+                  <div>
+                    <Prose>
+                      {bodyMd}
+                    </Prose>
+                  </div>
+
                 </div>
               </div>
             </motion.div>

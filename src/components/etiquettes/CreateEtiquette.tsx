@@ -49,6 +49,7 @@ export default function CreateEtiquette ({ addData, data}: Props) {
 
   return (
     <div className={"col-span-1 h-full"}>
+
       <button
         type="button"
         onClick={() => toggle()}
