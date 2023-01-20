@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {AnimatePresence, motion} from 'framer-motion'
 import useComponentVisible from '../../hooks/useComponentVisible'
 import {PlusIcon} from '@heroicons/react/24/outline'
+import { XMarkIcon, ArrowDownRightIcon, MinusIcon} from "@heroicons/react/20/solid";
 import {classNames} from '../../utils/helper'
 import Markdoc from '@markdoc/markdoc'
 import {Prose} from '../Prose'
@@ -36,6 +37,16 @@ export default function CreateQuestion ({ }: Props) {
   const [bodyMd, setBodyMd] = useState<any>()
   const submit = () => {}
 
+  const close = () => {
+    setBody('')
+    setLabel('')
+
+    toggle()
+  }
+
+  const minimaze = () => {
+    toggle()
+  }
 
   useEffect(() => {
     const ast = Markdoc.parse(body);
@@ -80,6 +91,19 @@ export default function CreateQuestion ({ }: Props) {
                     <span className="bg-purple-200 text-purple-900 px-1  rounded-md">Questions</span>
                     <span>/</span>
                     <span>{ label }</span>
+                  </div>
+                </div>
+                <div className="absolute top-0 right-0 p-2">
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <button onClick={minimaze}>
+                      <MinusIcon className="w-6 h-6 font-bold stroke-2" />
+                    </button>
+                    <button>
+                      <ArrowDownRightIcon className="w-6 h-6 stroke-2"/>
+                    </button>
+                    <button onClick={close}>
+                      <XMarkIcon className="w-6 h-6 stroke-2" />
+                    </button>
                   </div>
                 </div>
                 <div className="flex justify-between items-center border-b p-4">
