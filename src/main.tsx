@@ -4,7 +4,7 @@ import App from './App'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter } from 'react-router-dom'
-
+import { CookiesProvider } from 'react-cookie';
 import './styles/tailwind.css'
 import './styles/highlight.scss'
 import './styles/global.scss'
@@ -16,9 +16,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <CookiesProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </CookiesProvider>
+
     </QueryClientProvider>
   </React.StrictMode>,
 )
