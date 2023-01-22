@@ -1,31 +1,50 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import useComponentVisible from '../../../hooks/useComponentVisible'
 import {AnimatePresence, motion} from 'framer-motion'
 import { PencilSquareIcon, QueueListIcon, ListBulletIcon} from '@heroicons/react/24/outline'
 import { classNames, ReactElement } from '../../../utils/helper'
 
-type IReponse = {
+type Reponse = {
   name: string
   icon: (...props: any) => JSX.Element
   value: string
 }
 
-const types: IReponse[] = [
+type Props = {
+  type: any
+  setType: any
+}
+
+const types: Reponse[] = [
   {name: 'Réponse libre', icon: PencilSquareIcon, value: 'input'},
   {name: 'Réponse multiple', icon: ListBulletIcon, value: 'checkbox'},
   {name: 'Réponse unique', icon: QueueListIcon, value: 'radio'},
 ]
 
-export default function SelectType () {
+export default function SelectType ({ type, setType }: Props) {
   const { ref, isVisible, toggle} = useComponentVisible()
-  const [type, setType] = useState<IReponse>(types[0])
+  const [data, setData] = useState<Reponse | null>(null)
+
+  useEffect(() => {
+    types.map((item) => {
+      if (item.value === type) setData(item)
+    })
+  }, [type])
+
   return (
     <div className="relative">
       <button
         onClick={() => toggle()}
         className="px-4 py-2 hover:bg-gray-200 duration-100 ease-in-out rounded-md"
       >
-        Asign test
+        {
+          data
+            ? <div className="flex items-center gap-2">
+              <ReactElement tag={data.icon} className={classNames('w-6 h-6')}/>
+              <span className="text-sm">{data.name}</span>
+            </div>
+            : <span>Choisit le type des réponses</span>
+        }
       </button>
       <AnimatePresence>
         { isVisible &&
@@ -41,8 +60,15 @@ export default function SelectType () {
             initial={{ opacity: 0}}
           >
             <div className="flex flex-col divide-y">
-              {types.map((type) => (
-                <button className="flex items-center gap-2 text-gray-700 p-2 hover:bg-gray-200">
+              {types.map((type, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setType(type.value)
+                    toggle()
+                  }}
+                  className="flex items-center gap-2 text-gray-700 p-2 hover:bg-gray-200"
+                >
                   <ReactElement tag={type.icon} className={classNames('w-6 h-6')}/>
                   <span>{type.name}</span>
                 </button>

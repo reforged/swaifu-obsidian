@@ -12,12 +12,12 @@ type LinkItem = {
 
 export default function Sidebar ({ ...props }) {
   const links: LinkItem[] = [
-    { label: 'Home', href: '/', icon: HomeIcon },
+    { label: 'Home', href: '/manager', icon: HomeIcon },
     {
       label: 'QCM',
       children: [
-        { label: 'Étiquettes', href: '/etiquettes', icon: TagIcon},
-        { label: 'Questions', href: '/questions', icon: ChatBubbleBottomCenterTextIcon}
+        { label: 'Étiquettes', href: '/manager/etiquettes', icon: TagIcon},
+        { label: 'Questions', href: '/manager/questions', icon: ChatBubbleBottomCenterTextIcon}
       ]
     },
 

@@ -1,4 +1,5 @@
 import { createElement, ReactNode } from 'react'
+import axios from "axios";
 
 export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -12,3 +13,10 @@ type ReactElementProps = {
 export function ReactElement ({ tag, children, ...props }: ReactElementProps): JSX.Element {
   return createElement(tag, props, children)
 }
+
+export const http = axios.create({
+  baseURL: 'http://localhost:3333',
+  withCredentials: true
+})
+
+

@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, {ReactNode, useEffect, useState} from 'react'
 import {AnimatePresence, motion} from 'framer-motion'
 import useComponentVisible from '../../hooks/useComponentVisible'
 import {PlusIcon} from '@heroicons/react/24/outline'
+import { XMarkIcon, ArrowDownRightIcon, MinusIcon} from "@heroicons/react/20/solid";
 import {classNames} from '../../utils/helper'
 import Markdoc from '@markdoc/markdoc'
 import {Prose} from '../Prose'
 import Fence from '../Fence'
 import SelectType from './editor/SelectType'
+import { Tab } from '@headlessui/react'
+import {IReponse} from '@obsidian/type'
+import TodoQuestionsCheckbox from '../questions/editor/TodoQuestionCheckbox'
+import Render from "./editor/Render";
+import TodoQuestions from "./editor/TodoQuestions";
 
 
 type Props = {
@@ -14,7 +20,6 @@ type Props = {
 type ButtonProps = {
   click: () => any
 }
-
 
 const Button = ({ click }: ButtonProps) => {
   return (
@@ -33,9 +38,35 @@ export default function CreateQuestion ({ }: Props) {
   const { ref, isVisible, toggle } = useComponentVisible()
   const [label, setLabel] = useState<string>('')
   const [body, setBody] = useState<string>('')
-  const [bodyMd, setBodyMd] = useState<any>()
-  const submit = () => {}
+  const [bodyMd, setBodyMd] = useState<ReactNode>()
+  const [disable, setDisable] = useState<boolean>(true)
+  const [reponses, setReponses] = useState<IReponse[]>([])
+  const [type, setType] = useState()
 
+  const submit = () => {
+    console.log({
+      label,
+      body,
+      reponses,
+      type
+    })
+  }
+
+  useEffect(() => {
+    console.log(reponses)
+  }, [reponses])
+
+  const close = () => {
+    setBody('')
+    setLabel('')
+    setReponses([])
+
+    toggle()
+  }
+
+  const minimaze = () => {
+    toggle()
+  }
 
   useEffect(() => {
     const ast = Markdoc.parse(body);
@@ -58,7 +89,16 @@ export default function CreateQuestion ({ }: Props) {
       }
     })
     setBodyMd(children)
-  }, [label, body])
+
+    if (label.length >= 4 && body.length >= 5 && reponses.length >= 1) {
+      const valide = reponses.some(item => item.valide)
+      if (valide) setDisable(false)
+      else setDisable(true)
+    } else {
+      setDisable(true)
+    }
+
+  }, [label, body, reponses])
   return (
     <div>
         <Button click={toggle} />
@@ -82,9 +122,33 @@ export default function CreateQuestion ({ }: Props) {
                     <span>{ label }</span>
                   </div>
                 </div>
+                <div className="absolute top-0 right-0 p-2">
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <button onClick={minimaze}>
+                      <MinusIcon className="w-6 h-6 font-bold stroke-2" />
+                    </button>
+                    <button>
+                      <ArrowDownRightIcon className="w-6 h-6 stroke-2"/>
+                    </button>
+                    <button onClick={close}>
+                      <XMarkIcon className="w-6 h-6 stroke-2" />
+                    </button>
+                  </div>
+                </div>
+                <div className="absolute bottom-0 right-0 p-2">
+                  <button
+                    disabled={disable} onClick={submit}
+                    className={classNames('border rounded-md px-2 py-1', disable ? 'bg-gray-200' : 'bg-green-200')}
+                  >
+                    Créer question
+                  </button>
+                </div>
                 <div className="flex justify-between items-center border-b p-4">
-                  <SelectType />
-                  <div className=" w-3/5">
+                  <div className="w-1/6">
+                    <SelectType type={type} setType={setType} />
+                  </div>
+
+                  <div className="">
                     <button className="w-full">
                       <div className="p-5 w-full text-center">
                         <input
@@ -100,7 +164,7 @@ export default function CreateQuestion ({ }: Props) {
                       </div>
                     </button>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 w-1/6">
                     <div className="isolate flex -space-x-1 ">
                       <img
                         className="relative z-30 inline-block h-8 w-8 rounded-full ring-2 ring-green-500 p-[2px] bg-white"
@@ -133,19 +197,41 @@ export default function CreateQuestion ({ }: Props) {
                     </div>
                   </div>
                 </div>
-                <div className="w-full grid grid-cols-2">
-                  <textarea
-                    onChange={(e) => setBody(e.currentTarget.value)}
-                    value={body}
-                    className="w-full focus:outline-none border-none" name="" id=""  cols={30} rows={10}
-                  />
-                  <div>
-                    <Prose>
-                      {bodyMd}
-                    </Prose>
-                  </div>
+                <div className="p-4">
+                  <Tab.Group>
+                    <Tab.List className="w-full flex grid grid-cols-3">
+                      <Tab className="text-lg font-medium text-gray-500 ui-selected:bg-gray-100 ui-selected:text-gray-900 p-2 rounded-md">Enoncé</Tab>
+                      <Tab className="text-lg font-medium text-gray-500 ui-selected:bg-gray-100 ui-selected:text-gray-900 p-2 rounded-md">Réponses</Tab>
+                      <Tab className="text-lg font-medium text-gray-500 ui-selected:bg-gray-100 ui-selected:text-gray-900 p-2 rounded-md">Rendu</Tab>
+                    </Tab.List>
+                    <Tab.Panels>
+                      <Tab.Panel>
+                        <div className="w-full grid grid-cols-2">
+                          <textarea
+                            onChange={(e) => setBody(e.currentTarget.value)}
+                            value={body}
+                            className="w-full focus:outline-none border-none" name="" id=""  cols={30} rows={10}
+                          />
+                          <div>
+                            <Prose>
+                              {bodyMd}
+                            </Prose>
+                          </div>
 
+                        </div>
+                      </Tab.Panel>
+                      <Tab.Panel>
+                        <div>
+                          <TodoQuestions type={type} reponses={reponses} setReponses={setReponses} />
+                        </div>
+                      </Tab.Panel>
+                      <Tab.Panel>
+                        <Render body={bodyMd} reponses={reponses} />
+                      </Tab.Panel>
+                    </Tab.Panels>
+                  </Tab.Group>
                 </div>
+
               </div>
             </motion.div>
           }
