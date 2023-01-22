@@ -8,6 +8,11 @@ declare module "@obsidian/type" {
     roles: IRole[]
   }
 
+  export type IReponse = {
+    body: string
+    valide: boolean
+  }
+
   export type IRole = {
     id?: string
     label: string
@@ -35,8 +40,9 @@ declare module "@obsidian/type" {
   export type IQuestion = {
     id?: string
     label: string
+    type: string
     enonce: string
-    max_reponse: number
     etiquettes: IEtiquette[]
+    reponses: IReponse[]
   }
 }
