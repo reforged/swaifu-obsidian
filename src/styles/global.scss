@@ -1,0 +1,43 @@
+h1, h2, h3 {
+  font-weight: 600;
+  color: #1d1d1f;
+
+  line-height: 1;
+  letter-spacing: -0.014em;
+  font-family: SF Pro Display,SF Pro Icons,Helvetica Neue,Helvetica,Arial,sans-serif;
+}
+
+h1 {
+  @apply text-4xl;
+}
+
+h2 {
+  @apply text-3xl;
+}
+
+h3 {
+  @apply text-2xl;
+}
+
+
+
+.font-title {
+  font-family: PolySans,sans-serif;
+}
+
+html, body {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+
+  color: black;
+  zoom: 1;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+
+p > code {
+  @apply bg-slate-800 text-gray-200 dark:text-opacity-50 px-2 py-1 rounded-md text-black;
+  &::before, &::after {
+    display: none;
+  }
+}
