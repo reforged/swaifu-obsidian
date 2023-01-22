@@ -8,7 +8,6 @@ import Login from "./pages/auth/login";
 import { AuthenticationContext} from './contexts/AuthenticationContext'
 import {IUser} from "@obsidian/type";
 
-
 function App() {
   const [user, setUser] = useState<IUser | null>(null)
 
