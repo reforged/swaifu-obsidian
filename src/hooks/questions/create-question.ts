@@ -1,6 +1,6 @@
 import {useCookies} from "react-cookie";
 import {useMutation} from "react-query";
-import {http} from "../utils/helper";
+import {http} from "../../utils/helper";
 import {IQuestion} from "@obsidian/type";
 
 type Props = {

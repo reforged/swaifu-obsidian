@@ -7,6 +7,7 @@ import HomeQuestion from './pages/questions';
 import Login from "./pages/auth/login";
 import { AuthenticationContext} from './contexts/AuthenticationContext'
 import {IUser} from "@obsidian/type";
+import HomePage from "./pages/pages";
 
 function App() {
   const [user, setUser] = useState<IUser | null>(null)
@@ -29,6 +30,8 @@ function App() {
               <Route path={"/manager/questions"}>
                 <Route index element={<HomeQuestion />} />
               </Route>
+
+              <Route path={"/manager/pages"} element={<HomePage />} />
             </Route>
 
 

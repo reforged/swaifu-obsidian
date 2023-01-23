@@ -1,5 +1,5 @@
 import {useQuery} from "react-query";
-import {http} from "../utils/helper";
+import {http} from "../../utils/helper";
 import {useCookies} from "react-cookie";
 
 const useQuestion = () => {

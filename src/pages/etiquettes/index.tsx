@@ -12,10 +12,6 @@ type EtiquetteProps = {
   setData: Dispatch<SetStateAction<IEtiquette | null>>
 }
 
-
-
-
-
 export default function HomeEtiquette () {
   const { ref, isVisible, toggle } = useComponentVisible()
   const [etiquette, setEtiquette] = useState<IEtiquette | null>(null)

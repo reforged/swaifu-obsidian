@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { NavLink } from 'react-router-dom'
-import {HomeIcon, TagIcon, ChatBubbleBottomCenterTextIcon, RocketLaunchIcon} from '@heroicons/react/24/solid'
+import {HomeIcon, TagIcon, ChatBubbleBottomCenterTextIcon, DocumentTextIcon} from '@heroicons/react/24/solid'
 import { classNames, ReactElement } from '../utils/helper'
 
 type LinkItem = {
@@ -17,7 +17,8 @@ export default function Sidebar ({ ...props }) {
       label: 'QCM',
       children: [
         { label: 'Étiquettes', href: '/manager/etiquettes', icon: TagIcon},
-        { label: 'Questions', href: '/manager/questions', icon: ChatBubbleBottomCenterTextIcon}
+        { label: 'Questions', href: '/manager/questions', icon: ChatBubbleBottomCenterTextIcon},
+        { label: 'Pages', href: '/manager/pages', icon: DocumentTextIcon}
       ]
     },
 

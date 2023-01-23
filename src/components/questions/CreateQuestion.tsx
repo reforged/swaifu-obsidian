@@ -12,7 +12,7 @@ import { Tab } from '@headlessui/react'
 import {IEtiquette, IQuestion, IReponse} from '@obsidian/type'
 import Render from "./editor/Render";
 import TodoQuestions from "./editor/TodoQuestions";
-import createQuestion from "../../hooks/create-question";
+import createQuestion from "../../hooks/questions/create-question";
 import useEtiquette from "../../hooks/useEtiquette";
 import TodoEtiquettes from "./editor/TodoEtiquettes";
 

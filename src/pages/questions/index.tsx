@@ -1,7 +1,7 @@
 import React  from 'react'
 import { IQuestion } from '@obsidian/type'
 import CreateQuestion from "../../components/questions/CreateQuestion";
-import useQuestion from "../../hooks/useQuestion";
+import useQuestion from "../../hooks/questions/useQuestion";
 import Question from "../../components/questions/ShowQuestion";
 
 export default function HomeQuestion () {
