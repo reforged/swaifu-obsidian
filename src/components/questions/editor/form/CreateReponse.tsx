@@ -1,72 +1,13 @@
-import {IReponse} from "@obsidian/type";
-import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
-import useComponentVisible from "../../../hooks/useComponentVisible";
+import React, {useEffect, useState} from 'react'
+import useComponentVisible from "../../../../hooks/useComponentVisible";
 import {AnimatePresence, motion} from "framer-motion";
-import Toggle from '../../Toggle'
-import {classNames} from "../../../utils/helper";
+import {classNames} from "../../../../utils/helper";
 
 type Props = {
-  type: string | undefined
-  reponses: IReponse[]
-  setReponses: Dispatch<SetStateAction<IReponse[]>>
-}
-
-export default function TodoQuestionsCheckbox ({ type, reponses, setReponses }: Props) {
-  function addData (body: string) {
-    setReponses([...reponses, { body: body, valide: false}])
-  }
-
-  function toggle (index: number) {
-    const newList = reponses
-    newList[index].valide = !newList[index].valide
-    setReponses([...newList])
-  }
-
-  const removeData = (index: number)  => {
-    console.log(index)
-    if (reponses.length === 1) setReponses([])
-    else {
-      const list: IReponse[] = reponses
-      list.splice(index, 1)
-      setReponses([...list])
-    }
-  }
-
-  return (
-    <div className="mt-8">
-        <div>
-          { reponses &&
-
-          <div>
-            {reponses.map((item: any, index: number) => (
-              <div className="flex gap-2 items-center justify-between" key={index}>
-                <Toggle enabled={item.valide} toggle={toggle} index={index}/>
-                <div>
-                  {item.body}
-                </div>
-
-                <div>
-                  <button onClick={() => removeData(index)}>Delete</button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-
-          }
-        </div>
-
-      <div>
-        <CreateReponse addData={addData} />
-      </div>
-    </div>
-  )
-}
-
-type CreateProps = {
   addData: any
 }
-const CreateReponse = ({ addData }: CreateProps) => {
+
+export default function CreateReponse ({ addData }: Props) {
   const { ref, isVisible, toggle } = useComponentVisible()
   const [body, setBody] = useState<string>('')
   const [disabled, setDisabled] = useState<boolean>(true)
@@ -76,15 +17,14 @@ const CreateReponse = ({ addData }: CreateProps) => {
     else setDisabled(true)
   }, [body])
 
-
   return (
     <div className="relative">
       <button
         type="button"
         onClick={toggle}
-        className=""
+        className="border rounded-md bg-gray-50 px-2 py-1 mt-4"
       >
-        Add réponse
+        Ajouter une réponse
       </button>
 
       <AnimatePresence>
@@ -99,7 +39,7 @@ const CreateReponse = ({ addData }: CreateProps) => {
             exit={{opacity: 0}}
             initial={{opacity: 0}}
           >
-            <div ref={ref} className="absolute w-full top-10 left-0 bg-white border shadow-xl rounded-md overflow-hidden">
+            <div ref={ref} className="absolute w-full top-16 left-0 bg-white border shadow-xl rounded-md overflow-hidden">
               <div className="bg-gray-50 border-b">
                 <div className="p-2">
                   <span>Proposition de réponse</span>
@@ -129,7 +69,11 @@ const CreateReponse = ({ addData }: CreateProps) => {
                 <div className="absolute bottom-0 right-0 p-2">
                   <div className="">
                     <button
-                      type="button" onClick={() => addData(body)} disabled={disabled}
+                      type="button"
+                      onClick={() => {
+                        addData(body)
+                        toggle()
+                      }} disabled={disabled}
                       className={classNames('border rounded-md px-2 py-1', disabled ? 'bg-gray-200' : 'bg-green-200' )}
                     >
                       Créer réponse

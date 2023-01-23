@@ -9,10 +9,12 @@ import {Prose} from '../Prose'
 import Fence from '../Fence'
 import SelectType from './editor/SelectType'
 import { Tab } from '@headlessui/react'
-import {IReponse} from '@obsidian/type'
-import TodoQuestionsCheckbox from '../questions/editor/TodoQuestionCheckbox'
+import {IEtiquette, IQuestion, IReponse} from '@obsidian/type'
 import Render from "./editor/Render";
 import TodoQuestions from "./editor/TodoQuestions";
+import createQuestion from "../../hooks/create-question";
+import useEtiquette from "../../hooks/useEtiquette";
+import TodoEtiquettes from "./editor/TodoEtiquettes";
 
 
 type Props = {
@@ -41,20 +43,26 @@ export default function CreateQuestion ({ }: Props) {
   const [bodyMd, setBodyMd] = useState<ReactNode>()
   const [disable, setDisable] = useState<boolean>(true)
   const [reponses, setReponses] = useState<IReponse[]>([])
-  const [type, setType] = useState()
+  const [etiquettes, setEtiquettes] = useState<IEtiquette[]>([])
+  const [type, setType] = useState<string>('')
+  const { mutate: InitQuestion } = createQuestion()
+  const { getEtiquettes } = useEtiquette()
+
+  const { data: listEtiquettes } = getEtiquettes()
 
   const submit = () => {
-    console.log({
-      label,
-      body,
-      reponses,
-      type
-    })
+    const data = {
+      label: label,
+      enonce: body,
+      type: type,
+      etiquettes: etiquettes.map(item => item.id),
+      reponses: reponses
+    }
+    console.log(data)
+    InitQuestion({ data })
+    close()
   }
 
-  useEffect(() => {
-    console.log(reponses)
-  }, [reponses])
 
   const close = () => {
     setBody('')
@@ -90,7 +98,7 @@ export default function CreateQuestion ({ }: Props) {
     })
     setBodyMd(children)
 
-    if (label.length >= 4 && body.length >= 5 && reponses.length >= 1) {
+    if (label.length >= 4 && body.length >= 5 && reponses.length >= 1 && etiquettes.length >= 1) {
       const valide = reponses.some(item => item.valide)
       if (valide) setDisable(false)
       else setDisable(true)
@@ -98,7 +106,8 @@ export default function CreateQuestion ({ }: Props) {
       setDisable(true)
     }
 
-  }, [label, body, reponses])
+  }, [label, body, reponses, etiquettes])
+
   return (
     <div>
         <Button click={toggle} />
@@ -115,6 +124,7 @@ export default function CreateQuestion ({ }: Props) {
               initial={{opacity: 0}}
             >
               <div ref={ref} className="absolute left-1/2 top-12 transform  -translate-x-1/2 h-[70%] w-2/3 py-8 bg-white border border-gray-200 rounded-lg shadow-xl">
+
                 <div className="absolute top-0 left-0 p-2">
                   <div className="flex items-center gap-3 text-gray-600">
                     <span className="bg-purple-200 text-purple-900 px-1  rounded-md">Questions</span>
@@ -143,95 +153,101 @@ export default function CreateQuestion ({ }: Props) {
                     Créer question
                   </button>
                 </div>
-                <div className="flex justify-between items-center border-b p-4">
-                  <div className="w-1/6">
-                    <SelectType type={type} setType={setType} />
-                  </div>
+                <div className="relative h-full">
 
-                  <div className="">
-                    <button className="w-full">
-                      <div className="p-5 w-full text-center">
-                        <input
-                          id="content"
-                          maxLength={70}
-                          defaultValue={label}
-                          placeholder={"Title of question"}
-                          onChange={(e) => setLabel(e.currentTarget.value)}
-                          className={classNames(
-                            'block w-full px-2 py-1 text-center focus:outline-none font-bold text-2xl',
-                          )}
-                        />
-                      </div>
-                    </button>
-                  </div>
-                  <div className="flex items-center gap-2 w-1/6">
-                    <div className="isolate flex -space-x-1 ">
-                      <img
-                        className="relative z-30 inline-block h-8 w-8 rounded-full ring-2 ring-green-500 p-[2px] bg-white"
-                        src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
-                      <img
-                        className="relative z-20 inline-block h-8 w-8 rounded-full ring-2 ring-amber-500 p-[2px] bg-white"
-                        src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
-                      <img
-                        className="relative z-10 inline-block h-8 w-8 rounded-full ring-2 ring-blue-500 p-[2px] bg-white"
-                        src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
-                        alt=""
-                      />
-                      <img
-                        className="relative z-0 inline-block h-8 w-8 rounded-full ring-2 ring-fuchsia-500 p-[2px] bg-white"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
+                  <div className="flex justify-between items-center border-b p-4">
+                    <div className="w-1/6">
+                      <SelectType type={type} setType={setType} setReponses={setReponses}/>
                     </div>
-                    <div>
-                      <button
-                        type="button"
-                        className="inline-flex items-center rounded-full border border-transparent bg-indigo-600 p-1 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                      >
-                        <PlusIcon className="h-5 w-5" aria-hidden="true" />
+
+                    <div className="">
+                      <button className="w-full">
+                        <div className="p-5 w-full text-center">
+                          <input
+                            id="content"
+                            maxLength={70}
+                            defaultValue={label}
+                            placeholder={"Title of question"}
+                            onChange={(e) => setLabel(e.currentTarget.value)}
+                            className={classNames(
+                              'block w-full px-2 py-1 text-center focus:outline-none font-bold text-2xl',
+                            )}
+                          />
+                        </div>
                       </button>
                     </div>
+                    <div className="flex items-center gap-2 w-1/6">
+                      <div className="isolate flex -space-x-1 ">
+                        <img
+                          className="relative z-30 inline-block h-8 w-8 rounded-full ring-2 ring-green-500 p-[2px] bg-white"
+                          src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          alt=""
+                        />
+                        <img
+                          className="relative z-20 inline-block h-8 w-8 rounded-full ring-2 ring-amber-500 p-[2px] bg-white"
+                          src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          alt=""
+                        />
+                        <img
+                          className="relative z-10 inline-block h-8 w-8 rounded-full ring-2 ring-blue-500 p-[2px] bg-white"
+                          src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+                          alt=""
+                        />
+                        <img
+                          className="relative z-0 inline-block h-8 w-8 rounded-full ring-2 ring-fuchsia-500 p-[2px] bg-white"
+                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          alt=""
+                        />
+                      </div>
+                      <div>
+                        <button
+                          type="button"
+                          className="inline-flex items-center rounded-full border border-transparent bg-indigo-600 p-1 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                          <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <TodoEtiquettes data={listEtiquettes} etiquettes={etiquettes} setEtiquettes={setEtiquettes} />
+                  </div>
+                  <div className="p-4 h-2/3 ">
+                    <Tab.Group>
+                      <Tab.List className="w-full flex grid grid-cols-3">
+                        <Tab className="text-lg font-medium text-gray-500 ui-selected:bg-gray-100 ui-selected:text-gray-900 p-2 rounded-md">Enoncé</Tab>
+                        <Tab className="text-lg font-medium text-gray-500 ui-selected:bg-gray-100 ui-selected:text-gray-900 p-2 rounded-md">Réponses</Tab>
+                        <Tab className="text-lg font-medium text-gray-500 ui-selected:bg-gray-100 ui-selected:text-gray-900 p-2 rounded-md">Rendu</Tab>
+                      </Tab.List>
+                      <Tab.Panels className="h-full">
+                        <Tab.Panel className=" h-full">
+                          <div className="w-full grid grid-cols-2 divide-x h-full">
+                            <textarea
+                              onChange={(e) => setBody(e.currentTarget.value)}
+                              value={body}
+                              className="block w-full resize-none border-0 py-3 focus:ring-0 sm:text-sm h-full"
+                              placeholder="Add your comment..."
+                            />
+                            <div className="overflow-hidden">
+                              <Prose>
+                                {bodyMd}
+                              </Prose>
+                            </div>
+
+                          </div>
+                        </Tab.Panel>
+                        <Tab.Panel>
+                          <div>
+                            <TodoQuestions type={type} reponses={reponses} setReponses={setReponses} />
+                          </div>
+                        </Tab.Panel>
+                        <Tab.Panel>
+                          <Render body={bodyMd} reponses={reponses} type={type} />
+                        </Tab.Panel>
+                      </Tab.Panels>
+                    </Tab.Group>
                   </div>
                 </div>
-                <div className="p-4">
-                  <Tab.Group>
-                    <Tab.List className="w-full flex grid grid-cols-3">
-                      <Tab className="text-lg font-medium text-gray-500 ui-selected:bg-gray-100 ui-selected:text-gray-900 p-2 rounded-md">Enoncé</Tab>
-                      <Tab className="text-lg font-medium text-gray-500 ui-selected:bg-gray-100 ui-selected:text-gray-900 p-2 rounded-md">Réponses</Tab>
-                      <Tab className="text-lg font-medium text-gray-500 ui-selected:bg-gray-100 ui-selected:text-gray-900 p-2 rounded-md">Rendu</Tab>
-                    </Tab.List>
-                    <Tab.Panels>
-                      <Tab.Panel>
-                        <div className="w-full grid grid-cols-2">
-                          <textarea
-                            onChange={(e) => setBody(e.currentTarget.value)}
-                            value={body}
-                            className="w-full focus:outline-none border-none" name="" id=""  cols={30} rows={10}
-                          />
-                          <div>
-                            <Prose>
-                              {bodyMd}
-                            </Prose>
-                          </div>
-
-                        </div>
-                      </Tab.Panel>
-                      <Tab.Panel>
-                        <div>
-                          <TodoQuestions type={type} reponses={reponses} setReponses={setReponses} />
-                        </div>
-                      </Tab.Panel>
-                      <Tab.Panel>
-                        <Render body={bodyMd} reponses={reponses} />
-                      </Tab.Panel>
-                    </Tab.Panels>
-                  </Tab.Group>
-                </div>
-
               </div>
             </motion.div>
           }

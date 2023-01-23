@@ -13,15 +13,15 @@ type Reponse = {
 type Props = {
   type: any
   setType: any
+  setReponses: any
 }
 
 const types: Reponse[] = [
   {name: 'Réponse libre', icon: PencilSquareIcon, value: 'input'},
   {name: 'Réponse multiple', icon: ListBulletIcon, value: 'checkbox'},
-  {name: 'Réponse unique', icon: QueueListIcon, value: 'radio'},
 ]
 
-export default function SelectType ({ type, setType }: Props) {
+export default function SelectType ({ type, setType, setReponses }: Props) {
   const { ref, isVisible, toggle} = useComponentVisible()
   const [data, setData] = useState<Reponse | null>(null)
 
@@ -65,6 +65,7 @@ export default function SelectType ({ type, setType }: Props) {
                   key={index}
                   onClick={() => {
                     setType(type.value)
+                    setReponses([])
                     toggle()
                   }}
                   className="flex items-center gap-2 text-gray-700 p-2 hover:bg-gray-200"

@@ -4,9 +4,9 @@ import { AnimatePresence, motion } from 'framer-motion'
 import SelectMenu from '../SelectMenu'
 import { classNames } from '../../utils/helper'
 import { IColor, IEtiquette } from '@obsidian/type'
+import useEtiquette from "../../hooks/useEtiquette";
 
 type Props = {
-  addData: any
   data: IEtiquette[]
 }
 
@@ -21,12 +21,13 @@ const colorData: IColor[] = [
   {label: 'Noir', value: 'bg-black'},
 ]
 
-export default function CreateEtiquette ({ addData, data}: Props) {
+export default function CreateEtiquette ({  data}: Props) {
   const { ref, isVisible, toggle } = useComponentVisible()
   const [name, setName] = useState<string>('')
   const [description, setDescription] = useState<string>('')
   const [color, setColor] = useState<IColor>(colorData[0])
   const [disable, setDisable] = useState<boolean>(true)
+  const { addEtiquette } = useEtiquette()
 
   useEffect(() => {
     if (name && description.length > 5) {
@@ -38,13 +39,12 @@ export default function CreateEtiquette ({ addData, data}: Props) {
 
   const submit = () => {
     toggle()
-    const newEtiquette: IEtiquette = {
+    const newEtiquette = {
       label: name,
       description: description,
       color: color.value
     }
-    addData([...data, newEtiquette])
-
+    addEtiquette({ data: newEtiquette})
   }
 
   return (

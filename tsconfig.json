@@ -16,12 +16,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "rootDir": "./",
-    "sourceMap": true,
-    "paths": {
-      "Components/*": [
-        "./src/components/*"
-      ]
-    }
+    "sourceMap": true
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

@@ -16,7 +16,7 @@ export function ReactElement ({ tag, children, ...props }: ReactElementProps): J
 
 export const http = axios.create({
   baseURL: 'http://localhost:3333',
-  withCredentials: true
+  withCredentials: true,
 })
 
 

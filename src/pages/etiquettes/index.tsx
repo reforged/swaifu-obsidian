@@ -4,6 +4,7 @@ import { IEtiquette } from '@obsidian/type'
 import ProfilEtiquette from '../../components/etiquettes/ProfilEtiquette'
 import CreateEtiquette from '../../components/etiquettes/CreateEtiquette'
 import { classNames } from '../../utils/helper'
+import useEtiquette from "../../hooks/useEtiquette";
 
 type EtiquetteProps = {
   data: IEtiquette
@@ -12,28 +13,24 @@ type EtiquetteProps = {
 }
 
 
-const etiquettes: IEtiquette[] = [
-  {id: '1', label: 'Lorem ipsum', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', color: 'bg-red-500'},
-  {id: '2',label: 'Test 2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', color: 'bg-blue-500'},
-  {id: '3',label: 'Java', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', color: 'bg-oscar'},
-]
 
 
 
 export default function HomeEtiquette () {
   const { ref, isVisible, toggle } = useComponentVisible()
   const [etiquette, setEtiquette] = useState<IEtiquette | null>(null)
-  const [data, setData] = useState(etiquettes)
-  console.log(data)
+
+  const { getEtiquettes } = useEtiquette()
+  const { data } = getEtiquettes()
   return (
     <div className={"relative"}>
       <h1 className="text-2xl font-medium">Hello Etiquettes</h1>
 
       <div className="grid grid-cols-4 mt-12 gap-4">
-        {data.map((item: IEtiquette, index) => (
+        {data.map((item: IEtiquette, index: number) => (
           <Etiquette key={index} data={item} toggle={toggle} setData={setEtiquette}/>)
         )}
-        <CreateEtiquette addData={setData} data={data}/>
+        <CreateEtiquette data={data}/>
       </div>
       {
         etiquette && <ProfilEtiquette open={isVisible} setOpen={toggle} etiquette={etiquette}/>
