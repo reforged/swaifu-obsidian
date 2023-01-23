@@ -145,7 +145,7 @@ export default function CreateQuestion ({ }: Props) {
                     </button>
                   </div>
                 </div>
-                <div className="absolute bottom-0 right-0 p-2">
+                <div className="absolute bottom-0 right-0 p-2 z-50">
                   <button
                     disabled={disable} onClick={submit}
                     className={classNames('border rounded-md px-2 py-1', disable ? 'bg-gray-200' : 'bg-green-200')}
