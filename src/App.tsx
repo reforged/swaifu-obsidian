@@ -12,9 +12,6 @@ import HomePage from "./pages/pages";
 function App() {
   const [user, setUser] = useState<IUser | null>(null)
 
-  useEffect(() => {
-    console.log(user)
-  }, [user])
   return (
     <div>
       <AuthenticationContext.Provider value={{ user, setUser}}>

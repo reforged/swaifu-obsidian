@@ -1,6 +1,7 @@
 import { useMutation } from 'react-query'
 import { http } from '../utils/helper'
 import { useCookies } from 'react-cookie'
+import {useNavigate} from "react-router";
 
 type Props = {
   params: {
@@ -11,6 +12,7 @@ type Props = {
 
 export default () => {
   const [cookie, setCookie] = useCookies(['token'])
+  const router = useNavigate()
   return useMutation(async (params: Props) => {
     const data = params.params
 
@@ -28,7 +30,7 @@ export default () => {
     })
 
     http.defaults.headers.common['Authorization'] = `${response.data.token.token}`
-
+    router('/manager')
     return response.data
   })
 }

@@ -1,15 +1,7 @@
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react'
+import React, {Dispatch, SetStateAction } from 'react'
 import {IQuestion} from "@obsidian/type";
 import {ListBulletIcon, PencilSquareIcon, QueueListIcon} from "@heroicons/react/24/outline";
 import {classNames, ReactElement} from "../../utils/helper";
-import {
-  BlobProvider,
-  Document,
-  Page,
-  StyleSheet,
-  Text,
-  View
-} from "@react-pdf/renderer";
 
 type Props = {
   data: any
@@ -21,7 +13,6 @@ function TypeQuestion ({ type }: { type: string}) {
   const types = [
     {name: 'Réponse libre', icon: PencilSquareIcon, value: 'input'},
     {name: 'Réponse multiple', icon: ListBulletIcon, value: 'checkbox'},
-    {name: 'Réponse unique', icon: QueueListIcon, value: 'radio'},
   ]
 
   let selection = 0
@@ -29,7 +20,6 @@ function TypeQuestion ({ type }: { type: string}) {
   types.map((item, index) => {
     if (item.value === type) {
       selection = index
-
     }
   })
 
@@ -42,10 +32,6 @@ function TypeQuestion ({ type }: { type: string}) {
 }
 
 export default function ShowQuestion ({ data, setSelected, selected }: Props) {
-  useEffect(() => {
-    console.log(selected)
-  }, [selected])
-
   return (
     <div className="flex flex-col gap-4 pt-10">
       { data.map((item: IQuestion, index: number) => (
@@ -58,7 +44,9 @@ export default function ShowQuestion ({ data, setSelected, selected }: Props) {
           } else {
             setSelected([...list, index])
           }
-        }}>
+        }}
+        key={index}
+        >
           <div className={classNames(
             " rounded-md p-3 duration-100 ease-in-out border",
             selected.includes(index) ? 'bg-green-100 hover:bg-green-200 border-green-200' : 'bg-gray-50 hover:bg-gray-100'

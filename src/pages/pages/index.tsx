@@ -28,7 +28,7 @@ const ReponsesPreview = ({ data }: ReponsesPreviewProps) => {
             )}
             key={index}
           >
-            <span className="absolute top-0 left-0 p-2 text-gray-600">{index}</span>
+            <span className="absolute top-0 m-2 left-0 p-2 text-gray-600 border bg-white rounded-sm"></span>
             <div className="pt-4">
               <MarkDownRender data={item.body} />
             </div>
@@ -45,7 +45,6 @@ export default function HomePage () {
   const context = useContext(AuthenticationContext)
   const [selected, setSelected] = useState<number[]>([])
   const [questions, setQuestions] = useState<IQuestion[]>([])
-  console.log(context.user)
   const { data } = questionsUser({ user: context.user!})
 
   useEffect(() => {
@@ -55,7 +54,6 @@ export default function HomePage () {
     setQuestions([...list])
   }, [selected])
 
-  console.log(data)
   return (
     <div className="relative">
       <div className="flex justify-between items-center border-b pb-4">
@@ -90,8 +88,8 @@ export default function HomePage () {
                   </div>
 
                   <div className="relative h-full flex flex-col gap-6 divide-y p-4">
-                    { questions.map((question) => (
-                      <div className="flex flex-col pt-6">
+                    { questions.map((question, index: number) => (
+                      <div className="flex flex-col pt-6" key={index}>
                         <div className="border rounded-md p-6 relative">
                           <span className="text-xs absolute top-0 left-0 p-2 text-gray-400">Énoncé</span>
                           <Prose>
