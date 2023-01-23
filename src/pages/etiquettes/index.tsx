@@ -26,11 +26,19 @@ export default function HomeEtiquette () {
     <div className={"relative"}>
       <h1 className="text-2xl font-medium">Hello Etiquettes</h1>
 
-      <div className="grid grid-cols-4 mt-12 gap-4">
-        {data.map((item: IEtiquette, index: number) => (
-          <Etiquette key={index} data={item} toggle={toggle} setData={setEtiquette}/>)
-        )}
-        <CreateEtiquette data={data}/>
+      <div className="">
+        { data ?
+          <div className="grid grid-cols-4 mt-12 gap-4">
+            {data.map((item: IEtiquette, index: number) => (
+              <Etiquette key={index} data={item} toggle={toggle} setData={setEtiquette}/>)
+            )}
+            <CreateEtiquette data={data}/>
+          </div>
+
+          :  <CreateEtiquette data={data}/>
+        }
+
+
       </div>
       {
         etiquette && <ProfilEtiquette open={isVisible} setOpen={toggle} etiquette={etiquette}/>

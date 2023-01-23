@@ -22,12 +22,12 @@ export default () => {
       }
     })
 
-    setCookie('token', `Bearer ${response.data.token.token}`, {
+    setCookie('token', `${response.data.token}`, {
       path: '/',
       sameSite: true
     })
 
-    http.defaults.headers.common['Authorization'] = `Bearer ${response.data.token.token}`
+    http.defaults.headers.common['Authorization'] = `${response.data.token.token}`
 
     return response.data
   })
