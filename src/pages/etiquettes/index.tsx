@@ -1,10 +1,12 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import useComponentVisible from '../../hooks/useComponentVisible'
+import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { IEtiquette } from '@obsidian/type'
 import ProfilEtiquette from '../../components/etiquettes/ProfilEtiquette'
 import CreateEtiquette from '../../components/etiquettes/CreateEtiquette'
 import { classNames } from '../../utils/helper'
 import useEtiquette from "../../hooks/useEtiquette";
+import Search from "../../components/Search";
 
 type EtiquetteProps = {
   data: IEtiquette
@@ -15,28 +17,54 @@ type EtiquetteProps = {
 export default function HomeEtiquette () {
   const { ref, isVisible, toggle } = useComponentVisible()
   const [etiquette, setEtiquette] = useState<IEtiquette | null>(null)
-
   const { getEtiquettes } = useEtiquette()
   const { data } = getEtiquettes()
+
+  const [value, setValue] = useState<string>('')
+
+
   return (
     <div className={"relative"}>
-      <h1 className="text-2xl font-medium">Hello Etiquettes</h1>
 
-      <div className="">
-        { data ?
-          <div className="grid grid-cols-4 mt-12 gap-4">
-            {data.map((item: IEtiquette, index: number) => (
-              <Etiquette key={index} data={item} toggle={toggle} setData={setEtiquette}/>)
-            )}
-            <CreateEtiquette data={data}/>
-          </div>
-          :  <CreateEtiquette data={data}/>
-        }
-
-
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-medium">Hello Etiquettes</h1>
+        <Search value={value} setValue={setValue}/>
       </div>
+      { data &&
+        <ShowEtiquette data={data} value={value} toggle={toggle} setEtiquette={setEtiquette} />
+      }
       {
         etiquette && <ProfilEtiquette open={isVisible} setOpen={toggle} etiquette={etiquette}/>
+      }
+    </div>
+  )
+}
+
+type PropsEtiquettes = {
+  data: any
+  value: string
+  toggle: any
+  setEtiquette: any
+}
+const ShowEtiquette = ({ data, toggle, setEtiquette, value }: PropsEtiquettes) => {
+  const filteredItems = data.filter(
+    (item: any) =>
+      JSON.stringify(item)
+        .toLowerCase()
+        .indexOf(value.toLowerCase()) !== -1
+  )
+
+  return (
+    <div>
+      {
+        data ?
+          <div className="grid grid-cols-4 mt-12 gap-4">
+            { filteredItems.map((item: IEtiquette, index: number) => (
+              <Etiquette data={item} toggle={toggle} setData={setEtiquette} key={index} />
+              ))}
+            <CreateEtiquette data={data} />
+          </div>
+          : <CreateEtiquette data={data} />
       }
     </div>
   )

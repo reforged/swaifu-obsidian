@@ -2,6 +2,8 @@ import { useMutation } from 'react-query'
 import { http } from '../utils/helper'
 import { useCookies } from 'react-cookie'
 import {useNavigate} from "react-router";
+import {useContext, useEffect} from "react";
+import {AuthenticationContext} from "../contexts/AuthenticationContext";
 
 type Props = {
   params: {
@@ -13,6 +15,7 @@ type Props = {
 export default () => {
   const [cookie, setCookie] = useCookies(['token'])
   const router = useNavigate()
+  const { user, setUser } = useContext(AuthenticationContext)
   return useMutation(async (params: Props) => {
     const data = params.params
 
@@ -30,7 +33,12 @@ export default () => {
     })
 
     http.defaults.headers.common['Authorization'] = `${response.data.token.token}`
-    router('/manager')
+
     return response.data
+  }, {
+    onSuccess: async (data) => {
+      setUser(data.user)
+      router('/manager')
+    }
   })
 }

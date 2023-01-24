@@ -4,6 +4,7 @@ import {HomeIcon, TagIcon, ChatBubbleBottomCenterTextIcon, DocumentTextIcon} fro
 import { classNames, ReactElement } from '../utils/helper'
 import { AuthenticationContext } from '../contexts/AuthenticationContext'
 import { Transition } from '@headlessui/react'
+import Profil from "./Profil";
 
 type LinkItem = {
   label: string
@@ -42,40 +43,11 @@ export default function Sidebar ({ ...props }) {
               ? <ChildLinks key={link.label} link={link} />
               : <Link key={link.label} link={link} /> )}
           </div>
-
         </div>
-
         <div>
-          <AuthenticationContext.Consumer>
-            {({ user }) => (
-              <div>
-                <button>
-                  {user!.firstname }
-                </button>
-                <div>
-                  <Fragment>
-                    <Transition
-                      as={Fragment}
-                      show={open}
-                      enter="transform transition duration-[400ms]"
-                      enterFrom="opacity-0"
-                      enterTo="opacity-100"
-                      leave="transform duration-200 transition ease-in-out"
-                      leaveFrom="opacity-100"
-                      leaveTo="opacity-0"
-                    >
-                      <div className="-top-20 left-0 absolute">
-                        test
-                      </div>
-                    </Transition>
-                  </Fragment>
-                </div>
-              </div>
-
-            )}
-
-            
-          </AuthenticationContext.Consumer>
+          <div className="relative">
+            <Profil />
+          </div>
         </div>
 
       </div>
