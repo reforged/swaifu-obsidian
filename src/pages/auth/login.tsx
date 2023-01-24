@@ -11,28 +11,10 @@ export default function Login () {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const { mutate: loginUser} = useAuth()
-  const { setUser} = useContext(AuthenticationContext)
 
   const handle = () => {
     loginUser({ params: { email, password}})
   }
-
-  const {} = useQuery(queryKeys.auth, async () => {
-    const response = await http.get('http://localhost:3333/authentication/me', {
-      headers: {
-        "Authorization": http.defaults.headers.common['Authorization']
-      }
-    })
-
-    setUser(response.data)
-
-    return response.data
-  }, {
-    enabled: !!http.defaults.headers.common['Authorization'],
-    onSuccess: () => {
-      router('/manager')
-    }, staleTime: Infinity
-  })
 
   return (
     <div className="flex min-h-screen overflow-hidden">

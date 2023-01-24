@@ -1,7 +1,10 @@
-import React, { Fragment } from 'react'
+import React, {Fragment, useState} from 'react'
 import { NavLink } from 'react-router-dom'
 import {HomeIcon, TagIcon, ChatBubbleBottomCenterTextIcon, DocumentTextIcon} from '@heroicons/react/24/solid'
 import { classNames, ReactElement } from '../utils/helper'
+import { AuthenticationContext } from '../contexts/AuthenticationContext'
+import { Transition } from '@headlessui/react'
+import Profil from "./Profil";
 
 type LinkItem = {
   label: string
@@ -21,8 +24,9 @@ export default function Sidebar ({ ...props }) {
         { label: 'Pages', href: '/manager/pages', icon: DocumentTextIcon}
       ]
     },
-
   ]
+
+  const [open, setOpen] = useState<boolean>(false)
 
   return (
     <div {...props}>
@@ -39,17 +43,10 @@ export default function Sidebar ({ ...props }) {
               ? <ChildLinks key={link.label} link={link} />
               : <Link key={link.label} link={link} /> )}
           </div>
-
         </div>
-
         <div>
-          <div>
-            <a href='/authentication'>
-            <button className='border px-2 py-1 border-gray-300 rounded-md '>
-              Login
-            </button>
-            </a>
-            
+          <div className="relative">
+            <Profil />
           </div>
         </div>
 
