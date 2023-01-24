@@ -4,8 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import SelectMenu from '../SelectMenu'
 import { classNames } from '../../utils/helper'
 import { IColor, IEtiquette } from '@obsidian/type'
-import useEtiquette from "../../hooks/useEtiquette";
-import createEtiquette from "../../hooks/create-etiquette";
+import createEtiquette from "../../hooks/create-etiquette"
 
 type Props = {
   data: IEtiquette[]
@@ -39,7 +38,6 @@ export default function CreateEtiquette ({ data}: Props) {
   }, [name, description])
 
   const submit = () => {
-
     const newEtiquette = {
       label: name,
       description: description,

@@ -30,7 +30,6 @@ export default function HomeEtiquette () {
             )}
             <CreateEtiquette data={data}/>
           </div>
-
           :  <CreateEtiquette data={data}/>
         }
 

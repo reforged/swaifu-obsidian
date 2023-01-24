@@ -1,5 +1,5 @@
 import {useCookies} from "react-cookie";
-import {useMutation} from "react-query";
+import {useMutation, useQueryClient} from "react-query";
 import {http} from "../../utils/helper";
 import {IQuestion} from "@obsidian/type";
 
@@ -8,6 +8,7 @@ type Props = {
 }
 export default () => {
   const [cookie, setCookie] = useCookies(['token'])
+  const queryClient = useQueryClient()
 
   return useMutation(async ({ data }: Props) => {
     const response = await http.post('/questions/create', data, {
@@ -18,6 +19,11 @@ export default () => {
         'Authorization': cookie.token
       }
     })
-    console.log(response)
-  })
+
+    return response.data
+  }, { onSuccess: async (data) => {
+    queryClient.setQueryData(['questions'], (oldData: any) => {
+      return [...oldData, data]
+    })
+  }})
 }

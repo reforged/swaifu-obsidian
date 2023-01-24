@@ -1,7 +1,9 @@
-import React, { Fragment } from 'react'
+import React, {Fragment, useState} from 'react'
 import { NavLink } from 'react-router-dom'
 import {HomeIcon, TagIcon, ChatBubbleBottomCenterTextIcon, DocumentTextIcon} from '@heroicons/react/24/solid'
 import { classNames, ReactElement } from '../utils/helper'
+import { AuthenticationContext } from '../contexts/AuthenticationContext'
+import { Transition } from '@headlessui/react'
 
 type LinkItem = {
   label: string
@@ -21,8 +23,9 @@ export default function Sidebar ({ ...props }) {
         { label: 'Pages', href: '/manager/pages', icon: DocumentTextIcon}
       ]
     },
-
   ]
+
+  const [open, setOpen] = useState<boolean>(false)
 
   return (
     <div {...props}>
@@ -43,14 +46,36 @@ export default function Sidebar ({ ...props }) {
         </div>
 
         <div>
-          <div>
-            <a href='/authentication'>
-            <button className='border px-2 py-1 border-gray-300 rounded-md '>
-              Login
-            </button>
-            </a>
+          <AuthenticationContext.Consumer>
+            {({ user }) => (
+              <div>
+                <button>
+                  {user!.firstname }
+                </button>
+                <div>
+                  <Fragment>
+                    <Transition
+                      as={Fragment}
+                      show={open}
+                      enter="transform transition duration-[400ms]"
+                      enterFrom="opacity-0"
+                      enterTo="opacity-100"
+                      leave="transform duration-200 transition ease-in-out"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <div className="-top-20 left-0 absolute">
+                        test
+                      </div>
+                    </Transition>
+                  </Fragment>
+                </div>
+              </div>
+
+            )}
+
             
-          </div>
+          </AuthenticationContext.Consumer>
         </div>
 
       </div>

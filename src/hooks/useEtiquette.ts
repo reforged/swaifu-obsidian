@@ -1,4 +1,4 @@
-import {useMutation, useQuery} from "react-query";
+import {useMutation, useQuery, useQueryClient} from "react-query";
 import {useCookies} from "react-cookie";
 import {http} from "../utils/helper";
 
@@ -20,10 +20,11 @@ const useEtiquette = () => {
         withCredentials: true
       })
       return response.data
-    }, { staleTime: Infinity })
+    }, )
   }
 
   function addEtiquette ({ data }: AddProps) {
+    const queryClient = useQueryClient()
     return useMutation(async () => {
       const response = await http.post('/etiquettes/create', data, {
         method: 'POST',
@@ -33,6 +34,14 @@ const useEtiquette = () => {
           'Authorization': cookie.token
         }
       })
+
+      return response.data
+    }, {
+      onSuccess: async (data, variables) => {
+        console.log(data, variables)
+        queryClient.setQueryData(['etiquettes'], data)
+      },
+
     })
   }
 
