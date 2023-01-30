@@ -38,7 +38,7 @@ export default () => {
   }, {
     onSuccess: async (data) => {
       setUser(data.user)
-      router('/manager')
+      router('/')
     }
   })
 }

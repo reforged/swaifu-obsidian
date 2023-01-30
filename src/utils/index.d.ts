@@ -28,6 +28,7 @@ declare module "@obsidian/type" {
   export type IEtiquette = {
     id?: string
     label: string
+    slug?: string
     description: string
     color: string
   }
@@ -44,5 +45,11 @@ declare module "@obsidian/type" {
     enonce: string
     etiquettes: IEtiquette[]
     reponses: IReponse[]
+  }
+
+  export type IBlock = {
+    id: string
+    html: string
+    tag: string
   }
 }

@@ -1,5 +1,5 @@
 declare module "@obsidian/components" {
-  import Sidebar from "./Sidebar";
+  import Sidebar from "./manager/Sidebar";
 
   export {
     Sidebar

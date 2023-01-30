@@ -5,7 +5,7 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   presets: [],
-  darkMode: 'media', // or 'class'
+  darkMode: 'class', // or 'class'
   theme: {
     screens: {
       sm: '640px',
@@ -16,6 +16,7 @@ module.exports = {
     },
     supports: {},
     colors: ({ colors }) => ({
+      theme: '#fff0e5',
       oscar: '#FFFF00',
       inherit: colors.inherit,
       current: colors.current,

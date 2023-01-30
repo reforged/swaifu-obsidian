@@ -1,25 +1,36 @@
 import React, {useEffect, useState} from 'react'
 import {Route, Routes} from 'react-router'
-import Home from './pages'
+import Home from './pages/manager'
 import Layout from "./layouts/layout";
-import HomeEtiquette from "./pages/etiquettes";
-import HomeQuestion from './pages/questions';
+import HomeEtiquette from "./pages/manager/etiquettes";
+import HomeQuestion from './pages/manager/questions';
 import Login from "./pages/auth/login";
 import { AuthenticationContext} from './contexts/AuthenticationContext'
-import {IUser} from "@obsidian/type";
-import HomePage from "./pages/pages";
+import { EtiquettesContext } from "./contexts/EtiquettesContext";
+import {IEtiquette, IUser} from "@obsidian/type";
+import HomePage from "./pages/manager/pages";
+import Editeur from "./pages/manager/Editeur";
+import Index from "./pages";
+import Manager from "./layouts/manager";
+import useMe from "./hooks/useMe";
 
 function App() {
   const [user, setUser] = useState<IUser | null>(null)
+  const [etiquette, setEtiquette] = useState<IEtiquette | null>(null)
 
   return (
     <div>
       <AuthenticationContext.Provider value={{ user, setUser}}>
+        <EtiquettesContext.Provider value={{ etiquette, setEtiquette}} >
           <Routes>
-            <Route path={"/login"} element={<Login />}/>
-            <Route path={"/manager"} element={<Layout/>}>
-              <Route index element={<Home />} />
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Index />} />
+            </Route>
 
+            <Route path={"/login"} element={<Login />}/>
+            <Route path={"/manager"} element={<Manager />}>
+              <Route index element={<Home />} />
+              <Route path={"/manager/editeur"} element={<Editeur />} />
               <Route path={"/manager/etiquettes"}>
                 <Route index element={<HomeEtiquette />} />
               </Route>
@@ -32,6 +43,7 @@ function App() {
             </Route>
             <Route path='*' element={<NotFound />}/>
           </Routes>
+        </EtiquettesContext.Provider>
       </AuthenticationContext.Provider>
     </div>
   )

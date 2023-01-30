@@ -5,4 +5,3 @@ export const AuthenticationContext = createContext<{ user: IUser | null, setUser
   user: null,
   setUser: (user: any) => {}
 })
-
