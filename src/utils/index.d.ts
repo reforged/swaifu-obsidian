@@ -13,6 +13,12 @@ declare module "@obsidian/type" {
     valide: boolean
   }
 
+  export type ITypeQuestion = {
+    name: string
+    icon: (...props: any) => JSX.Element
+    value: string
+  }
+
   export type IRole = {
     id?: string
     label: string
