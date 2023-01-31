@@ -29,8 +29,11 @@ export default function HomeEtiquette () {
         <h1 className="text-2xl font-medium">Hello Etiquettes</h1>
         <Search value={value} setValue={setValue}/>
       </div>
-      { data &&
+      { data ?
         <ShowEtiquette data={data} value={value} toggle={toggle} setEtiquette={setEtiquette} />
+        : <div className="grid grid-cols-4 mt-12 gap-4">
+          <CreateEtiquette />
+        </div>
       }
       {
         etiquette && <ProfilEtiquette etiquettes={data} setEtiquette={setEtiquette} open={isVisible} setOpen={toggle} etiquette={etiquette}/>
@@ -62,9 +65,9 @@ const ShowEtiquette = ({ data, toggle, setEtiquette, value }: PropsEtiquettes) =
             { filteredItems.map((item: IEtiquette, index: number) => (
               <Etiquette data={item} toggle={toggle} setData={setEtiquette} key={index} />
               ))}
-            <CreateEtiquette data={data} />
+            <CreateEtiquette />
           </div>
-          : <CreateEtiquette data={data} />
+          : <CreateEtiquette />
       }
     </div>
   )
