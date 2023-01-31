@@ -9,7 +9,7 @@ import { Prose } from '../Prose'
 import Fence from '../Fence'
 import SelectType from './editor/SelectType'
 import { Tab } from '@headlessui/react'
-import {IEtiquette, IQuestion, IReponse} from '@obsidian/type'
+import {IEtiquette, IQuestion, IReponse, ITypeQuestion} from '@obsidian/type'
 import Render from './editor/Render'
 import TodoQuestions from './editor/TodoQuestions'
 import TodoEtiquettes from './editor/TodoEtiquettes'
@@ -39,24 +39,27 @@ const Button = ({ click }: ButtonProps) => {
 
 export default function CreateQuestion ({ }: Props) {
   const { ref, isVisible, toggle } = useComponentVisible()
+
   const [label, setLabel] = useState<string>('')
   const [body, setBody] = useState<string>('')
   const [bodyMd, setBodyMd] = useState<ReactNode>()
   const [disable, setDisable] = useState<boolean>(true)
   const [reponses, setReponses] = useState<IReponse[]>([])
+
   const [etiquettes, setEtiquettes] = useState<IEtiquette[]>([])
-  const [type, setType] = useState<string>('')
+  const [type, setType] = useState<ITypeQuestion | null>(null)
+
   const { create } = useQuestions()
-  const { mutate: InitQuestion } = create()
   const { fetch } = useEtiquettes()
 
-  const { data: listEtiquettes } = fetch()
+  const { mutate: InitQuestion } = create()
+  const { data: listEtiquettes} = fetch()
 
   const submit = () => {
     const data = {
       label: label,
       enonce: body,
-      type: type,
+      type: type?.value,
       etiquettes: etiquettes.map(item => item.id),
       reponses: reponses
     }
@@ -123,7 +126,7 @@ export default function CreateQuestion ({ }: Props) {
               exit={{opacity: 0}}
               initial={{opacity: 0}}
             >
-              <div ref={ref} className="absolute left-1/2 top-12 transform  -translate-x-1/2 h-[70%] w-2/3 py-8 bg-white border border-gray-200 rounded-lg shadow-xl">
+              <div ref={ref} className="absolute left-1/2 top-12 transform  -translate-x-1/2 h-[70%] w-1/2 py-8 bg-white border border-gray-200 rounded-lg shadow-xl">
 
                 <div className="absolute top-0 left-0 p-2">
                   <div className="flex items-center gap-3 text-gray-600">
@@ -154,7 +157,11 @@ export default function CreateQuestion ({ }: Props) {
                   </button>
                 </div>
                 <div className="relative h-full">
-                  <Header label={label} setLabel={setLabel} />
+                  <Header 
+                    label={label} setLabel={setLabel}
+                    type={type} setType={setType}
+                    etiquettes={etiquettes} setEtiquettes={setEtiquettes}
+                  />
                   <div className="p-4 h-2/3 ">
                     <Tab.Group>
                       <Tab.List className="w-full flex grid grid-cols-3">

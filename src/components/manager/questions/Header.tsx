@@ -1,13 +1,19 @@
 import React, {Dispatch, SetStateAction} from 'react'
 import {classNames} from "../../../utils/helper";
 import ModalEtiquettes from "./ModalEtiquettes";
+import ModalType from './ModalType';
+import { IEtiquette, ITypeQuestion } from '@obsidian/type';
 
 type Props = {
   label: string
   setLabel: Dispatch<SetStateAction<string>>
+  type: ITypeQuestion | null
+	setType: Dispatch<SetStateAction<ITypeQuestion | null>>
+  etiquettes: IEtiquette[]
+	setEtiquettes: Dispatch<SetStateAction<IEtiquette[]>>
 }
 
-export default function Header ({ label, setLabel }: Props) {
+export default function Header ({ label, setLabel, setType, type, setEtiquettes, etiquettes }: Props) {
   return (
     <div className="relative w-full p-12">
       <div>
@@ -22,8 +28,9 @@ export default function Header ({ label, setLabel }: Props) {
           )}
         />
       </div>
-      <div className="pt-8">
-        <ModalEtiquettes />
+      <div className="pt-8 flex flex-col">
+        <ModalEtiquettes etiquettes={etiquettes} setEtiquettes={setEtiquettes} />
+        <ModalType setType={setType} type={type} />
       </div>
     </div>
   )

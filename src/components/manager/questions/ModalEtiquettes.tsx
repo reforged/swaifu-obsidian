@@ -7,8 +7,12 @@ import { classNames } from '../../../utils/helper'
 import { IEtiquette } from '@obsidian/type'
 import {EtiquettesContext} from "../../../contexts/EtiquettesContext";
 
-export default function ModalEtiquettes () {
-  const [etiquettes, setEtiquettes] = useState<IEtiquette[]>([])
+type Props = {
+  etiquettes: IEtiquette[]
+  setEtiquettes: Dispatch<SetStateAction<IEtiquette[]>>
+}
+
+export default function ModalEtiquettes ({ etiquettes, setEtiquettes}: Props) {
   const [value, setValue] = useState<string>('')
 
   useEffect(() => {
@@ -57,11 +61,11 @@ const Content = ({ etiquettes, addEtiquette, removeEtiquette, value, setValue }:
   const { ref, isVisible, toggle, setIsVisible } = useComponentVisible()
   return (
     <div className="grid grid-cols-12">
-      <div className="text-gray-500 flex items-center gap-2 col-span-2">
+      <div className="text-gray-500 flex items-center gap-2 col-span-4 xl:col-span-2">
         <ListBulletIcon className="w-6 h-6" />
         <span className="text-md">Étiquettes</span>
       </div>
-      <div className="hover:bg-gray-200 relative w-full col-span-10 p-2 rounded-md duration-100 ease-in-out">
+      <div className="hover:bg-gray-200 relative w-full col-span-8 xl:col-span-10 p-2 rounded-md duration-100 ease-in-out">
         <div className="" onClick={toggle}>
           { etiquettes.length ?
             <div>
@@ -143,7 +147,6 @@ const Modal = ({ addEtiquette, etiquettes, removeEtiquette, value, setValue }: M
       if (!keyExist(value)) {
         const newEtiquette: IEtiquette = {
           label: value,
-          description: 'lorem',
           color: 'bg-red-200'
         }
 
