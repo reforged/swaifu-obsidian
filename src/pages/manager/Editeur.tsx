@@ -2,7 +2,7 @@ import {createRef, useState} from "react";
 
 export default function Editeur () {
 
-  function onKeyDownhandler (e) {
+  function onKeyDownhandler (e: any) {
     if (e.key === '/') {
       console.log("Open Slash Menu")
     }

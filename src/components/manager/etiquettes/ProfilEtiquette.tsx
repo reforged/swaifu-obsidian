@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React, {Dispatch, Fragment, SetStateAction, useEffect, useState} from 'react'
 import { IEtiquette } from '@obsidian/type'
 import { Dialog, Transition, Menu } from '@headlessui/react'
 import {XMarkIcon, TrashIcon} from '@heroicons/react/24/outline'
@@ -7,13 +7,38 @@ import useEtiquettes from "../../../hooks/use-etiquettes";
 
 type IProfil = {
   etiquette: IEtiquette
+  etiquettes: IEtiquette[]
+  setEtiquette: Dispatch<SetStateAction<IEtiquette | null>>
   open: boolean
   setOpen: any
 }
 
-export default function ProfilEtiquette ({ open, setOpen, etiquette }: IProfil) {
+export default function ProfilEtiquette ({ open, setOpen, etiquette, setEtiquette, etiquettes }: IProfil) {
   const { destroy } = useEtiquettes()
   const { mutate: DestroyEtiquette} = destroy()
+  const [disabled, setDisabled] = useState<boolean>(true)
+
+  function verif () {
+    let valide = true
+    etiquettes.forEach((item) => {
+      if (item.id !== etiquette.id) {
+        if (item.label === etiquette.label) {
+          valide = false
+        }
+      }
+    })
+    return valide
+  }
+
+  function update () {
+    console.log("modifié: ", etiquette)
+  }
+
+  useEffect(() => {
+    if (verif() && etiquette.label.length) {
+      console.log("Tu peux modifier")
+    }
+  }, [etiquette])
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -76,14 +101,28 @@ export default function ProfilEtiquette ({ open, setOpen, etiquette }: IProfil) 
                         </button>
                       </div>
                       <div className="px-4 sm:px-6">
-                        <Dialog.Title className="text-lg font-medium text-gray-900">{ etiquette.label }</Dialog.Title>
+                        <Dialog.Title className="text-lg font-medium text-gray-900">
+                          <input
+                            type="text" value={etiquette.label}
+                            className="block w-full border-0 "
+                            onChange={(e) => {
+                              setEtiquette({
+                                ...etiquette,
+                                label: e.currentTarget.value
+                              })
+                            }}
+                          />
+                        </Dialog.Title>
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         {/* Replace with your content */}
                         <div className="absolute inset-0 px-4 sm:px-6">
-                          <p>{ etiquette.description }</p>
+                          <div>
+                            <div>
+                              <button onClick={update} disabled={disabled} type="button">Modifier</button>
+                            </div>
+                          </div>
                         </div>
-                        {/* /End replace */}
                       </div>
                     </div>
 

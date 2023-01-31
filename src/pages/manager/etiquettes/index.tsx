@@ -33,7 +33,7 @@ export default function HomeEtiquette () {
         <ShowEtiquette data={data} value={value} toggle={toggle} setEtiquette={setEtiquette} />
       }
       {
-        etiquette && <ProfilEtiquette open={isVisible} setOpen={toggle} etiquette={etiquette}/>
+        etiquette && <ProfilEtiquette etiquettes={data} setEtiquette={setEtiquette} open={isVisible} setOpen={toggle} etiquette={etiquette}/>
       }
     </div>
   )
