@@ -47,7 +47,7 @@ const useQuestions = () => {
       })
 
       return response.data
-    }, { staleTime: Infinity })
+    })
   }
   function destroy () {}
 
