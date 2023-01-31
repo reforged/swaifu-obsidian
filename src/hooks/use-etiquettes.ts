@@ -32,6 +32,27 @@ const useEtiquettes = () => {
     })
   }
 
+  function update () {
+    return useMutation(async (data: any) => {
+      const response = await http.put(`/etiquettes/${data.id}`, data, {
+        method: 'PUT',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': cookie.token
+        }
+      })
+
+      return response.data
+    }, {
+      onSuccess: async (data, variables, context) => {
+        console.log(data);
+        
+        await queryClient.invalidateQueries(['etiquettes'])
+      },
+    })
+  }
+
   function fetch () {
     return useQuery('etiquettes', async () => {
       const response = await http.get('/etiquettes', {
@@ -67,6 +88,7 @@ const useEtiquettes = () => {
 
   return {
     create,
+    update,
     fetch,
     destroy
   }
