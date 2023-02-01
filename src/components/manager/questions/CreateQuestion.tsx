@@ -16,8 +16,8 @@ import TodoEtiquettes from './editor/TodoEtiquettes'
 import useEtiquettes from '../../../hooks/use-etiquettes'
 import useQuestions from '../../../hooks/use-questions'
 import Markdown from '../Markdown'
-import ModalEtiquettes from "./ModalEtiquettes";
-import Header from "./Header";
+import ModalEtiquettes from "./editor/header/ModalEtiquettes";
+import Header from "./editor/header/Header";
 
 type Props = {}
 type ButtonProps = {

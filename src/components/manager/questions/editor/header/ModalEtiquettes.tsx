@@ -1,11 +1,11 @@
 import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from 'react'
-import useComponentVisible from '../../../hooks/useComponentVisible'
+import useComponentVisible from '../../../../../hooks/useComponentVisible'
 import { AnimatePresence, motion } from 'framer-motion'
-import useEtiquettes from '../../../hooks/use-etiquettes'
+import useEtiquettes from '../../../../../hooks/use-etiquettes'
 import { ListBulletIcon, XMarkIcon, EllipsisHorizontalIcon } from '@heroicons/react/24/outline'
-import { classNames } from '../../../utils/helper'
+import { classNames } from '../../../../../utils/helper'
 import { IEtiquette } from '@obsidian/type'
-import {EtiquettesContext} from "../../../contexts/EtiquettesContext";
+import {EtiquettesContext} from "../../../../../contexts/EtiquettesContext";
 
 type Props = {
   etiquettes: IEtiquette[]
@@ -149,6 +149,7 @@ const Modal = ({ addEtiquette, etiquettes, removeEtiquette, value, setValue }: M
           label: value,
           color: 'bg-red-200'
         }
+        setValue('')
 
         mutation.mutate(newEtiquette)
       }

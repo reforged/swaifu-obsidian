@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction} from 'react'
-import {classNames} from "../../../utils/helper";
+import {classNames} from "../../../../../utils/helper";
 import ModalEtiquettes from "./ModalEtiquettes";
 import ModalType from './ModalType';
 import { IEtiquette, ITypeQuestion } from '@obsidian/type';

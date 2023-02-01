@@ -1,10 +1,10 @@
 import React, { useState, Dispatch, SetStateAction, useEffect } from 'react'
-import SelectType from './editor/SelectType'
+import SelectType from '../SelectType'
 import { IReponse, ITypeQuestion } from '@obsidian/type'
-import useComponentVisible from '../../../hooks/useComponentVisible'
+import useComponentVisible from '../../../../../hooks/useComponentVisible'
 import { ListBulletIcon, PencilSquareIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ReactElement, classNames } from '../../../utils/helper'
+import { ReactElement, classNames } from '../../../../../utils/helper'
 
 
 const types: ITypeQuestion[] = [
