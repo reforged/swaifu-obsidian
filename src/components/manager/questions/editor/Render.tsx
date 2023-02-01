@@ -1,13 +1,13 @@
 import React, {ReactNode, useEffect, useState} from 'react'
 import {Prose} from "../../Prose";
-import {IReponse} from "@obsidian/type";
+import {IReponse, ITypeQuestion} from "@obsidian/type";
 import Markdoc from "@markdoc/markdoc";
 import Fence from "../../Fence";
 import {classNames} from "../../../../utils/helper";
 import MarkDownRender from "./MarkDownRender";
 
 type Props = {
-  type: string
+  type: ITypeQuestion | null
   body: ReactNode
   reponses: IReponse[]
 }
@@ -22,9 +22,9 @@ export default function Render ({ body, reponses, type }: Props) {
       </div>
       { reponses.length ?
           <div className="pt-4 border-t mt-4">
-            { type === 'checkbox' && <ReponsesPreview data={reponses} /> }
-            { type === 'radio' && <ReponsesPreview data={reponses} /> }
-            { type === 'input' && <MarkDownRender data={reponses[0].body}/> }
+            { type?.value === 'checkbox' && <ReponsesPreview data={reponses} /> }
+            { type?.value === 'radio' && <ReponsesPreview data={reponses} /> }
+            { type?.value === 'input' && <MarkDownRender data={reponses[0].body}/> }
           </div>
 
         : <div className="pt-6">

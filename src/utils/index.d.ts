@@ -15,7 +15,7 @@ declare module "@obsidian/type" {
 
   export type ITypeQuestion = {
     name: string
-    icon: (...props: any) => JSX.Element
+    icon: ForwardRefExoticComponent<SVGProps<SVGSVGElement> & { title?: string | undefined; titleId?: string | undefined; }>
     value: string
   }
 
