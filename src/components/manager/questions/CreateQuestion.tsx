@@ -5,19 +5,16 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import { XMarkIcon, ArrowDownRightIcon, MinusIcon } from '@heroicons/react/20/solid'
 import { classNames } from '../../../utils/helper'
 import Markdoc from '@markdoc/markdoc'
-import { Prose } from '../Prose'
 import Fence from '../Fence'
-import SelectType from './editor/SelectType'
 import { Tab } from '@headlessui/react'
-import {IEtiquette, IQuestion, IReponse, ITypeQuestion} from '@obsidian/type'
+import {IEtiquette, IReponse, ITypeQuestion} from '@obsidian/type'
 import Render from './editor/Render'
 import TodoQuestions from './editor/TodoQuestions'
-import TodoEtiquettes from './editor/TodoEtiquettes'
 import useEtiquettes from '../../../hooks/use-etiquettes'
 import useQuestions from '../../../hooks/use-questions'
 import Markdown from '../Markdown'
-import ModalEtiquettes from "./editor/header/ModalEtiquettes";
 import Header from "./editor/header/Header";
+import MarkDownRender from "./editor/MarkDownRender";
 
 type Props = {}
 type ButtonProps = {
@@ -126,7 +123,7 @@ export default function CreateQuestion ({ }: Props) {
               exit={{opacity: 0}}
               initial={{opacity: 0}}
             >
-              <div ref={ref} className="absolute left-1/2 top-12 transform  -translate-x-1/2 h-[70%] w-1/2 py-8 bg-white border border-gray-200 rounded-lg shadow-xl">
+              <div ref={ref} className="absolute left-1/2 top-12 transform  -translate-x-1/2 h-[70%] w-1/2 py-8 bg-white border border-gray-200 rounded-md shadow-xl">
 
                 <div className="absolute top-0 left-0 p-2">
                   <div className="flex items-center gap-3 text-gray-600">
@@ -180,7 +177,9 @@ export default function CreateQuestion ({ }: Props) {
                               placeholder="Add your comment..."
                             />
                             <div className="overflow-hidden">
-                             <Markdown data={body} />
+                              { body &&
+                             <MarkDownRender data={body}/>
+                              }
                             </div>
 
                           </div>
