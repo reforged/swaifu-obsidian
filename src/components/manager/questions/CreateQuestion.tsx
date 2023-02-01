@@ -161,6 +161,7 @@ export default function CreateQuestion ({ }: Props) {
                     label={label} setLabel={setLabel}
                     type={type} setType={setType}
                     etiquettes={etiquettes} setEtiquettes={setEtiquettes}
+                    setReponses={setReponses}
                   />
                   <div className="p-4 h-2/3 ">
                     <Tab.Group>
