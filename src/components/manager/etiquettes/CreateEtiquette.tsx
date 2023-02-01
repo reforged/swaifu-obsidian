@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from 'framer-motion'
 import SelectMenu from '../SelectMenu'
 import { classNames } from '../../../utils/helper'
 import { IColor, IEtiquette } from '@obsidian/type'
-import createEtiquette from "../../hooks/create-etiquette"
 import useEtiquettes from "../../../hooks/use-etiquettes";
 
 type Props = {
@@ -12,37 +11,37 @@ type Props = {
 }
 
 const colorData: IColor[] = [
-  {label: 'Oscar', value: 'bg-oscar'},
-  {label: 'Rouge', value: 'bg-red-500'},
-  {label: 'Bleu', value: 'bg-blue-500'},
-  {label: 'Jaune', value: 'bg-yellow-500'},
-  {label: 'Vert', value: 'bg-green-500'},
-  {label: 'Violet', value: 'bg-pink-500'},
-  {label: 'Gris', value: 'bg-gray-500'},
-  {label: 'Noir', value: 'bg-black'},
+  {label: 'Gris clair', value: 'bg-[#E2E3E080]'},
+  {label: 'Gris', value: 'bg-[#E3E2E0]'},
+  {label: 'Marron', value: 'bg-[#EEE0DA]'},
+  {label: 'Orange', value: 'bg-[#FADEC9]'},
+  {label: 'Jaune', value: 'bg-[#FDECC8]'},
+  {label: 'Vert', value: 'bg-[#DBEDDB]'},
+  {label: 'Bleu', value: 'bg-[#D3E5EF]'},
+  {label: 'Violet', value: 'bg-[#E8DEEE]'},
+  {label: 'Rose', value: 'bg-[#F5E0E9]'},
+  {label: 'Rouge', value: 'bg-[#FFE2DD]'},
 ]
-
-export default function CreateEtiquette ({ data}: Props) {
+export default function CreateEtiquette ({ } ) {
   const { ref, isVisible, toggle } = useComponentVisible()
   const [name, setName] = useState<string>('')
-  const [description, setDescription] = useState<string>('')
+
   const [color, setColor] = useState<IColor>(colorData[0])
   const [disable, setDisable] = useState<boolean>(true)
   const { create } = useEtiquettes()
   const { mutate: InitEtiquette } = create()
 
   useEffect(() => {
-    if (name && description.length > 5) {
+    if (name) {
       setDisable(false)
     } else {
       setDisable(true)
     }
-  }, [name, description])
+  }, [name])
 
   const submit = () => {
     const newEtiquette = {
       label: name,
-      description: description,
       color: color.value
     }
     InitEtiquette(newEtiquette)
@@ -90,16 +89,7 @@ export default function CreateEtiquette ({ data}: Props) {
                         />
                       </div>
                     </div>
-                    <div>
-                      <label htmlFor="description">Description de l'étiquette</label>
-                      <div className="mt-1">
-                        <input
-                          value={description}
-                          onChange={(e) => setDescription(e.target.value)}
-                          type="text" className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                      </div>
-                    </div>
+                
                     <div>
                       <SelectMenu data={colorData} setColor={setColor} color={color}/>
                     </div>

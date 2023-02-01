@@ -1,9 +1,10 @@
 import React, {Dispatch, Fragment, SetStateAction, useEffect, useState} from 'react'
-import { IEtiquette } from '@obsidian/type'
+import { IColor, IEtiquette } from '@obsidian/type'
 import { Dialog, Transition, Menu } from '@headlessui/react'
 import {XMarkIcon, TrashIcon} from '@heroicons/react/24/outline'
 import {classNames} from '../../../utils/helper'
 import useEtiquettes from "../../../hooks/use-etiquettes";
+import SelectMenu from '../SelectMenu'
 
 type IProfil = {
   etiquette: IEtiquette
@@ -13,16 +14,40 @@ type IProfil = {
   setOpen: any
 }
 
+const colorData: IColor[] = [
+  {label: 'Gris clair', value: 'bg-[#E2E3E080]'},
+  {label: 'Gris', value: 'bg-[#E3E2E0]'},
+  {label: 'Marron', value: 'bg-[#EEE0DA]'},
+  {label: 'Orange', value: 'bg-[#FADEC9]'},
+  {label: 'Jaune', value: 'bg-[#FDECC8]'},
+  {label: 'Vert', value: 'bg-[#DBEDDB]'},
+  {label: 'Bleu', value: 'bg-[#D3E5EF]'},
+  {label: 'Violet', value: 'bg-[#E8DEEE]'},
+  {label: 'Rose', value: 'bg-[#F5E0E9]'},
+  {label: 'Rouge', value: 'bg-[#FFE2DD]'},
+]
+
 export default function ProfilEtiquette ({ open, setOpen, etiquette, setEtiquette, etiquettes }: IProfil) {
-  const { destroy } = useEtiquettes()
-  const { mutate: DestroyEtiquette} = destroy()
+  const { destroy, update } = useEtiquettes()
+  const { mutate: DestroyEtiquette } = destroy()
+  const { mutate: UpdateEtiquette } = update()
   const [disabled, setDisabled] = useState<boolean>(true)
 
+  const [label, setLabel] = useState<string>(etiquette.label)
+  const [color, setColor] = useState<IColor>(colorData[0])
+
+  useEffect(() => {
+    const item = colorData.find((item) => item.value === etiquette.color)
+    setColor(item!)
+    setLabel(etiquette.label)
+  }, [etiquette])
+
+  
   function verif () {
     let valide = true
     etiquettes.forEach((item) => {
       if (item.id !== etiquette.id) {
-        if (item.label === etiquette.label) {
+        if (item.label === label) {
           valide = false
         }
       }
@@ -30,15 +55,25 @@ export default function ProfilEtiquette ({ open, setOpen, etiquette, setEtiquett
     return valide
   }
 
-  function update () {
-    console.log("modifié: ", etiquette)
+  function handlerUpdate () {
+    const newEtiquette: IEtiquette = {
+      id: etiquette.id,
+      label: label,
+      color: color.value
+    }
+    setOpen(false)
+    UpdateEtiquette(newEtiquette)
   }
 
   useEffect(() => {
-    if (verif() && etiquette.label.length) {
-      console.log("Tu peux modifier")
+    console.log(label, etiquette.label);
+    
+    if (verif() && etiquette.label.length && (etiquette.label != label || etiquette.color != color.value)) {
+      setDisabled(false)
+    } else {
+      setDisabled(true)
     }
-  }, [etiquette])
+  }, [label,color])
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -103,23 +138,29 @@ export default function ProfilEtiquette ({ open, setOpen, etiquette, setEtiquett
                       <div className="px-4 sm:px-6">
                         <Dialog.Title className="text-lg font-medium text-gray-900">
                           <input
-                            type="text" value={etiquette.label}
+                            type="text" value={label}
                             className="block w-full border-0 "
                             onChange={(e) => {
-                              setEtiquette({
-                                ...etiquette,
-                                label: e.currentTarget.value
-                              })
+                             setLabel(e.currentTarget.value)
                             }}
                           />
                         </Dialog.Title>
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                        {/* Replace with your content */}
-                        <div className="absolute inset-0 px-4 sm:px-6">
+                        <div>
+                          <SelectMenu data={colorData} setColor={setColor} color={color} />
+                        </div>
+                        <div className="absolute right-0 bottom-12 px-4 sm:px-6">
                           <div>
                             <div>
-                              <button onClick={update} disabled={disabled} type="button">Modifier</button>
+                              <button 
+                                onClick={handlerUpdate} disabled={disabled} type="button"
+                                className={classNames(
+                                  disabled ? 'bg-red-500' : 'bg-green-500'
+                                )}
+                              >
+                                Modifier
+                                </button>
                             </div>
                           </div>
                         </div>

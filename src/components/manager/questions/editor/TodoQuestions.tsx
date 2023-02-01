@@ -1,10 +1,10 @@
 import React, {Dispatch, SetStateAction} from 'react'
 import Input from "./form/Input";
 import Checkbox from "./form/Checkbox";
-import {IReponse} from "@obsidian/type";
+import {IReponse, ITypeQuestion} from "@obsidian/type";
 
 type Props = {
-  type: string | undefined
+  type: ITypeQuestion | null
   reponses: IReponse[]
   setReponses: Dispatch<SetStateAction<IReponse[]>>
 }
@@ -12,8 +12,8 @@ type Props = {
 export default function TodoQuestions ({ type, reponses, setReponses }: Props) {
   return (
     <div className="mt-8">
-      { type === 'checkbox' && <Checkbox reponses={reponses} setReponses={setReponses} /> }
-      { type === 'input' && <Input reponses={reponses} setReponses={setReponses} /> }
+      { type?.value === 'checkbox' && <Checkbox reponses={reponses} setReponses={setReponses} /> }
+      { type?.value === 'input' && <Input reponses={reponses} setReponses={setReponses} /> }
     </div>
   )
 }

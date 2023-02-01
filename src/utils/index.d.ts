@@ -13,6 +13,12 @@ declare module "@obsidian/type" {
     valide: boolean
   }
 
+  export type ITypeQuestion = {
+    name: string
+    icon: ForwardRefExoticComponent<SVGProps<SVGSVGElement> & { title?: string | undefined; titleId?: string | undefined; }>
+    value: string
+  }
+
   export type IRole = {
     id?: string
     label: string
@@ -28,8 +34,6 @@ declare module "@obsidian/type" {
   export type IEtiquette = {
     id?: string
     label: string
-    slug?: string
-    description: string
     color: string
   }
 

@@ -11,6 +11,7 @@ type Props<T> = {
 }
 
 export default function SelectMenu({ data, color, setColor }: Props<IColor>) {
+  
   return (
     <Listbox value={color} onChange={(e) => {
       setColor(e)
@@ -24,7 +25,7 @@ export default function SelectMenu({ data, color, setColor }: Props<IColor>) {
                 <span
                   className={classNames(
                     color.value,
-                    'inline-block h-3 w-3 flex-shrink-0 rounded-full'
+                    'inline-block h-3 w-3 flex-shrink-0 rounded-[2px] border'
                   )}
                 />
                 <span className="ml-3 block truncate">{color.label}</span>
@@ -48,7 +49,7 @@ export default function SelectMenu({ data, color, setColor }: Props<IColor>) {
                     onClick={(e: any) => console.log(e.target.value)}
                     className={({ active }) =>
                       classNames(
-                        active ? 'text-white bg-indigo-600' : 'text-gray-900',
+                        active ? 'bg-indigo-500 text-white' : 'text-gray-900',
                         'relative cursor-default select-none py-2 pl-3 pr-9'
                       )
                     }
@@ -60,7 +61,7 @@ export default function SelectMenu({ data, color, setColor }: Props<IColor>) {
                           <span
                             className={classNames(
                               item.value,
-                              'inline-block h-3 w-3 flex-shrink-0 rounded-full'
+                              'inline-block h-3 w-3 flex-shrink-0 rounded-[2px] border'
                             )}
                             aria-hidden="true"
                           />
