@@ -1,10 +1,11 @@
-import React, { Fragment } from 'react'
+import React, {Fragment, useState} from 'react'
 import { Link } from 'react-router-dom'
 import { Disclosure, Menu, Transition, Dialog } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import {Bars3Icon, BellIcon, ChevronDownIcon, XMarkIcon} from '@heroicons/react/24/outline'
 import { classNames } from '../../utils/helper'
 import DarkMode from "../DarkMode";
 import {AuthenticationContext} from '../../contexts/AuthenticationContext'
+import {IUser} from "@obsidian/type";
 
 type Props = {
   open: boolean
@@ -43,60 +44,16 @@ export default function Navbar ({ }: Props) {
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:items-center gap-8">
                 <AuthenticationContext.Consumer>
-                  {({ user }) => {
-                    if (user) return (
-                     <Menu>
-                       <Menu.Button>
-                         <span className="px-2 py-2 border rounded-md bg-gray-50 shadow-sm">{ user.firstname }</span>
-                       </Menu.Button>
-                       <div className="">
-                         <Transition
-                           as={Fragment}
-                           enter="transition ease-out duration-100"
-                           enterFrom="transform opacity-0 scale-95"
-                           enterTo="transform opacity-100 scale-100"
-                           leave="transition ease-in duration-75"
-                           leaveFrom="transform opacity-100 scale-100"
-                           leaveTo="transform opacity-0 scale-95"
-                         >
-                           <div className="absolute rounded-md left-0 -top-44 mt-2 origin-top-left divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                             <div className="px-4 py-3">
-                               <p className="text-sm">Connecté avec</p>
-                               <p className="truncate text-sm font-medium text-gray-900">{ user.email }</p>
-                             </div>
-
-                             <div className="py-1">
-                               <a
-                                 href="src/components/manager/Profil#"
-                                 className={classNames(
-                                   'block px-4 py-2 text-sm'
-                                 )}
-                               >
-                                 Account settings
-                               </a>
-                             </div>
-
-                             <div className="py-1">
-                               <button
-                                 type="button"
-                                 className={classNames(
-                                   'block w-full px-4 py-2 text-left text-sm'
-                                 )}
-                               >
-                                 Se déconnecter
-                               </button>
-                             </div>
-                           </div>
-                         </Transition>
-                       </div>
-
-                     </Menu>
-                    )
-
-                    return (
-                      <Link to={"/login"}>Login</Link>
-                    )
-                  }}
+                  {({ user }) => (
+                    <div>
+                      { user ?
+                        <div>
+                          <Profil user={user} />
+                        </div>
+                        : <div>Login</div>
+                      }
+                    </div>
+                  )}
                 </AuthenticationContext.Consumer>
 
                 <DarkMode />
@@ -115,6 +72,109 @@ export default function Navbar ({ }: Props) {
         </>
       )}
     </Disclosure>
+  )
+}
+
+const Profil = ({ user }: {user: IUser}) => {
+  const permissions: string[] = []
+  user.permissions?.forEach((permission) => permissions.push(permission.key))
+  user.roles?.forEach((role) => {
+    role.permissions.forEach((item) => {
+      if (!permissions.includes(item.key)) permissions.push(item.key)
+    })
+  })
+
+  const [manager] = useState<boolean>((permissions.includes('admin') || permissions.includes('manager')))
+
+  return (
+    <Menu as="div" className="relative inline-block text-left">
+      <div>
+        <Menu.Button className="inline-flex w-full justify-center rounded-md bg-gray-800 border border-gray-700  px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+          {user.email}
+          <ChevronDownIcon
+            className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
+            aria-hidden="true"
+          />
+        </Menu.Button>
+      </div>
+      <Transition
+        as={Fragment}
+        enter="transition ease-out duration-100"
+        enterFrom="transform opacity-0 scale-95"
+        enterTo="transform opacity-100 scale-100"
+        leave="transition ease-in duration-75"
+        leaveFrom="transform opacity-100 scale-100"
+        leaveTo="transform opacity-0 scale-95"
+      >
+        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <div className="px-4 py-3">
+            <p className="text-sm">Connecté avec</p>
+            <p className="truncate text-sm font-medium text-gray-900">{ user.email }</p>
+          </div>
+          <div className="py-1">
+            <Menu.Item>
+              {({ active }) => (
+                <a
+                  href="#"
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block px-4 py-2 text-sm'
+                  )}
+                >
+                  Account settings
+                </a>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <a
+                  href="#"
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block px-4 py-2 text-sm'
+                  )}
+                >
+                  Support
+                </a>
+              )}
+            </Menu.Item>
+            { manager &&
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to={"/manager"}
+                    className={classNames(
+                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                      'block px-4 py-2 text-sm'
+                    )}
+                  >
+                    Manager
+                  </Link>
+                )}
+              </Menu.Item>
+            }
+
+          </div>
+          <div className="py-1">
+            <form method="POST" action="#">
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    type="submit"
+                    className={classNames(
+                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                      'block w-full px-4 py-2 text-left text-sm'
+                    )}
+                  >
+                    Sign out
+                  </button>
+                )}
+              </Menu.Item>
+            </form>
+          </div>
+        </Menu.Items>
+      </Transition>
+    </Menu>
   )
 }
 
