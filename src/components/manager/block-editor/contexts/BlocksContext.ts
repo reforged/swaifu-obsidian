@@ -1,3 +1,14 @@
-import {createContext } from 'react'
+import { createContext } from 'react'
 
-export default createContext<{} | null>(null)
+export type BlockContract = {
+  uid: string
+  type: string
+  fields: { [key: string]: any }
+}
+
+export type BlockContextContract = {
+  block: (...props) => JSX.Element
+  structure: BlockContract
+}
+
+export default createContext<{ [identifier: string]: () => BlockContextContract }>(null)

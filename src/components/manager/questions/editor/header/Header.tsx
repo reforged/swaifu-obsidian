@@ -3,6 +3,7 @@ import {classNames} from "../../../../../utils/helper";
 import ModalEtiquettes from "./ModalEtiquettes";
 import ModalType from './ModalType';
 import {IEtiquette, IReponse, ITypeQuestion} from '@obsidian/type';
+import ModalReponses from "./ModalQuestions";
 
 type Props = {
   label: string
@@ -22,7 +23,7 @@ export default function Header (
     setReponses
   }: Props) {
   return (
-    <div className="relative w-full p-12">
+    <div className="relative w-full border-b pb-8">
       <div>
         <input
           type="text"
@@ -38,6 +39,7 @@ export default function Header (
       <div className="pt-8 flex flex-col">
         <ModalEtiquettes etiquettes={etiquettes} setEtiquettes={setEtiquettes} />
         <ModalType setType={setType} type={type} setReponses={setReponses} />
+        <ModalReponses />
       </div>
     </div>
   )

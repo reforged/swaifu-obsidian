@@ -2,8 +2,6 @@ import React, {Fragment, useState} from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import {HomeIcon, TagIcon, ChatBubbleBottomCenterTextIcon, DocumentTextIcon} from '@heroicons/react/24/solid'
 import { classNames, ReactElement } from '../../utils/helper'
-import { AuthenticationContext } from '../../contexts/AuthenticationContext'
-import { Transition } from '@headlessui/react'
 import Profil from "./Profil";
 
 type LinkItem = {
