@@ -3,7 +3,7 @@ import { http } from '../utils/helper'
 import { useCookies } from 'react-cookie'
 import { useContext } from 'react'
 import { EtiquettesContext } from '../contexts/EtiquettesContext'
-import { IEtiquette } from '@obsidian/type'
+import { IEtiquette } from '../utils'
 
 const useEtiquettes = () => {
   const [cookie, setCookie] = useCookies(['token'])
@@ -63,7 +63,7 @@ const useEtiquettes = () => {
         withCredentials: true
       })
       return response.data
-    }, )
+    })
   }
 
   function destroy () {
