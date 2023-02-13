@@ -1,3 +1,8 @@
+declare module "*.svg" {
+  const content: React.FunctionComponent<React.SVGAttributes<SVGElement>>;
+  export default content;
+}
+
 declare module "@obsidian/type" {
   export type IUser = {
     id?: string
@@ -28,6 +33,7 @@ declare module "@obsidian/type" {
 
   export type IPermission = {
     id?: string
+    key: string
     label: string
   }
 

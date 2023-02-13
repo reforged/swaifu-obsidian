@@ -2,6 +2,18 @@ import React from 'react'
 import { ChatBubbleLeftRightIcon, RocketLaunchIcon } from '@heroicons/react/24/outline'
 import { NavLink } from 'react-router-dom'
 import { AuthenticationContext } from '../../contexts/AuthenticationContext'
+import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+
+const finalSpaceCharacters = [
+  {
+    id: 'gary',
+    name: 'Gary Goodspeed',
+  },
+  {
+    id: 'Nathael',
+    name: 'Nathael bonnal'
+  }
+]
 
 export default function Home () {
   return (
@@ -42,6 +54,35 @@ export default function Home () {
                 </div>
               ))}
             </div>
+          </div>
+
+          <div>
+            <DragDropContext>
+              <Droppable droppableId={"characters"}>
+                {(provided, snapshot) => (
+                  <ul className="characters" {...provided.droppableProps} ref={provided.innerRef}>
+                    {finalSpaceCharacters.map(({id, name}, index) => {
+                      return (
+                        <Draggable key={id} draggableId={id} index={index}>
+                          {(provided) => (
+                            <li
+                              className="p-2 border"
+                              ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
+                            >
+                              <p>
+                                { name }
+                              </p>
+                            </li>
+                          )}
+                        </Draggable>
+                      )
+                    })}
+                  </ul>
+                )}
+              </Droppable>
+
+            </DragDropContext>
+
           </div>
         </div>
       )}

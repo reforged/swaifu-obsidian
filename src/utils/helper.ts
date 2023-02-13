@@ -6,7 +6,7 @@ export function classNames(...classes: string[]) {
 }
 
 type ReactElementProps = {
-  tag: (...props: any) => JSX.Element,
+  tag: (...props: unknown[]) => JSX.Element,
   children?: ReactNode | JSX.Element
   [props: string]: any
 }
