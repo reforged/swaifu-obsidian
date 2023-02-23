@@ -18,7 +18,7 @@ export default function Paragraph (props: Props) {
   const [showToolbar, setShowToolbar] = useState(false)
   const [currentBlockMenu, setCurrentBlockMenu] = useContext(CurrentBlockContext)
   const { updateBlock } = useBlock(props.uid)
-  console.log(props)
+
   const modules = {
     toolbar: {
       container: "#toolbar"
@@ -26,6 +26,9 @@ export default function Paragraph (props: Props) {
   }
 
   function onWrite (e) {
+    if (e.code === 'Enter') {
+      console.log("create new paragraph")
+    }
     if (e.code === 'Period') {
       console.log("Afficher menu")
       setCurrentBlockMenu(props.index)

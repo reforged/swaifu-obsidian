@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {IEtiquette, IQuestion} from "@obsidian/type";
+import {IEtiquette, IQuestion} from "../../../utils";
 import {ListBulletIcon, PencilSquareIcon, PlusIcon, QueueListIcon} from "@heroicons/react/24/outline";
 import {classNames, ReactElement} from "../../../utils/helper";
 import useComponentVisible from "../../../hooks/useComponentVisible";

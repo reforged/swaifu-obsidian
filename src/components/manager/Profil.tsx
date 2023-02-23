@@ -1,13 +1,11 @@
 import React, { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { AuthenticationContext } from '../../contexts/AuthenticationContext'
-import { IUser } from '@obsidian/type'
+import { IUser } from '../../utils'
 import { classNames } from '../../utils/helper'
 import userLogout from '../../hooks/user-logout'
 
-type Props = {}
-
-export default function Profil ({ }: Props) {
+export default function Profil () {
   const { mutate: logout } = userLogout()
 
   return (

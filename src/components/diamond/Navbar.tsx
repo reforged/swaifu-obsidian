@@ -3,16 +3,18 @@ import { Link } from 'react-router-dom'
 import { Disclosure, Menu, Transition, Dialog } from '@headlessui/react'
 import {Bars3Icon, BellIcon, ChevronDownIcon, XMarkIcon} from '@heroicons/react/24/outline'
 import { classNames } from '../../utils/helper'
-import DarkMode from "../DarkMode";
+import DarkMode from '../DarkMode'
 import {AuthenticationContext} from '../../contexts/AuthenticationContext'
-import {IUser} from "@obsidian/type";
+import {IUser} from '../../utils'
+import {IPermission, IRole} from '../../utils'
+import userLogout from '../../hooks/user-logout'
 
 type Props = {
   open: boolean
   setOpen: (a: boolean) => void
 }
+
 export default function Navbar ({ }: Props) {
-  console.log(localStorage.theme)
   return (
     <Disclosure as="nav" className="">
       {({ open }) => (
@@ -76,13 +78,18 @@ export default function Navbar ({ }: Props) {
 }
 
 const Profil = ({ user }: {user: IUser}) => {
+  const { mutate: logout } = userLogout()
   const permissions: string[] = []
-  user.permissions?.forEach((permission) => permissions.push(permission.key))
-  user.roles?.forEach((role) => {
-    role.permissions.forEach((item) => {
+  user.permissions?.forEach((permission: IPermission) => permissions.push(permission.key))
+  user.roles?.forEach((role: IRole) => {
+    role.permissions.forEach((item: IPermission) => {
       if (!permissions.includes(item.key)) permissions.push(item.key)
     })
   })
+
+  function handleClick () {
+    logout()
+  }
 
   const [manager] = useState<boolean>((permissions.includes('admin') || permissions.includes('manager')))
 
@@ -156,11 +163,11 @@ const Profil = ({ user }: {user: IUser}) => {
 
           </div>
           <div className="py-1">
-            <form method="POST" action="#">
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={handleClick}
                     className={classNames(
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'block w-full px-4 py-2 text-left text-sm'
@@ -170,7 +177,6 @@ const Profil = ({ user }: {user: IUser}) => {
                   </button>
                 )}
               </Menu.Item>
-            </form>
           </div>
         </Menu.Items>
       </Transition>

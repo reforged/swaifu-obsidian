@@ -126,12 +126,6 @@ const Modal = ({ addEtiquette, etiquettes, removeEtiquette, value, setValue }: M
   const mutation = create()
   const { etiquette } = useContext(EtiquettesContext)
 
-  useEffect(() => {
-    console.log(etiquette)
-  }, [etiquettes])
-
-  console.log(listEtiquettes)
-
   const filteredItems: IEtiquette[] = listEtiquettes.filter(
     (item: IEtiquette) =>
       JSON.stringify(item)

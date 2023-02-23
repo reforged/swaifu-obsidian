@@ -17,7 +17,7 @@ export default function () {
   const [type, setType] = useState(types.find((item) => {
     if (item.value === question.type) return item
   }))
-  console.log(type)
+
   return (
     <div className="relative z-[51]">
       <Content
@@ -105,6 +105,7 @@ const Modal = ({ type, setType, toggle }: ModalProps) => {
                         setType(item)
                         setQuestion({
                           ...question,
+                          reponses: [],
                           type: item.value
                         })
                       }

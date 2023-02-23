@@ -1,4 +1,5 @@
 import {ForwardRefExoticComponent, SVGProps} from "react";
+import {BlockContextContract, BlockContract} from "../components/manager/block-editor/contexts/BlocksContext";
 
 export type IUser = {
   id?: string
@@ -48,7 +49,7 @@ export type IQuestion = {
   id?: string
   label: string
   type: string
-  enonce: string
+  enonce: BlockContract[]
   etiquettes: IEtiquette[]
   reponses: IReponse[]
 }

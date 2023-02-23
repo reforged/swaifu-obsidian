@@ -1,4 +1,4 @@
-import { tokyoNight } from '@uiw/codemirror-theme-tokyo-night'
+import { githubLight } from '@uiw/codemirror-theme-github'
 import { javascript } from '@codemirror/lang-javascript'
 import CodeMirror from '@uiw/react-codemirror'
 import SettingsContext from '../contexts/SettingsContext'
@@ -30,14 +30,14 @@ export default function Code (props: Props): JSX.Element {
     <SettingsContext.Consumer>
       {(settings) => (
         <div className="py-10">
-          <div className="text-left rounded-md px-5 py-2 bg-[#191B26]">
+          <div className="text-left rounded-md px-5 py-2 bg-gray-100">
             <div className="flex justify-between items-center">
               {(settings.mode === 'editor' || (settings.mode === 'preview' && props.fields.legend !== '')) && (
                 <ContentEditable
                   as="p"
                   value={props.fields.legend}
                   onChange={(value: string) => handleChange('legend', value)}
-                  className="text-white text-opacity-50 text-xs"
+                  className="text-gray-500 text-opacity-50 text-xs"
                 />
               )}
               <div>
@@ -55,8 +55,8 @@ export default function Code (props: Props): JSX.Element {
                 lineNumbers: props.fields.lineNumbers,
               }}
               value={props.fields.code}
-              theme={tokyoNight}
               height="auto"
+              theme={githubLight}
               extensions={[javascript({ jsx: true, typescript: true })]}
               onChange={(value) => handleChange('code', value)}
             />

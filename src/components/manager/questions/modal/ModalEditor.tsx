@@ -1,7 +1,7 @@
 import QuestionContext from '../../../../contexts/QuestionContext'
 import React, {
-  createElement,
-  useRef,
+  createElement, useContext, useEffect,
+  useRef, useState,
 } from 'react'
 import {AnimatePresence, motion} from 'framer-motion'
 import {PlusIcon} from '@heroicons/react/24/outline'
@@ -19,18 +19,31 @@ import {
   TitleBlock
 } from '../../block-editor/builders'
 import { BlockContextContract } from '../../block-editor/contexts/BlocksContext'
+import useQuestions from "../../../../hooks/use-questions";
 
 type Props = {}
 
 export default function ModalEditor ({ }: Props) {
   const { ref, isVisible, toggle } = useComponentVisible()
   const { fetch } = useEtiquettes()
+  const { create } = useQuestions()
+  const [disabled, setDisabled] = useState<boolean>(true)
   const { data: listEtiquettes} = fetch()
+  const { mutate: createQuestion} = create()
+  const [question] = useContext(QuestionContext)
 
   const structure = [
     ParagraphBlock().structure,
     TitleBlock().structure
   ]
+
+  useEffect(() => {
+    if (question.label.length > 2 && question.type && question.enonce && question.reponses.length && question.etiquettes.length) {
+      setDisabled(false)
+    } else {
+      setDisabled(true)
+    }
+  }, [question])
 
   const blocks: { [key: string]: () => BlockContextContract} = {
     title: TitleBlock,
@@ -42,6 +55,11 @@ export default function ModalEditor ({ }: Props) {
 
   function handleChange (value: any) {
     //console.log(value)
+  }
+
+  function handleClick () {
+    console.log(question)
+    createQuestion(question)
   }
 
 
@@ -77,6 +95,15 @@ export default function ModalEditor ({ }: Props) {
                       <span>{ question.label ? question.label : 'Untitled' }</span>
                     </div>
                   </div>
+                  <div className="absolute bottom-0 right-0 p-2 z-50">
+                    <button
+                      disabled={disabled}
+                      onClick={handleClick}
+                      className={classNames('border rounded-md px-2 py-1', disabled ? 'bg-gray-200' : 'bg-green-200')}
+                    >
+                      Créer question
+                    </button>
+                  </div>
                   <Header />
                   <div className="pt-20">
                     <BlockEditor
@@ -84,7 +111,7 @@ export default function ModalEditor ({ }: Props) {
                       settings={{
                         mode: 'editor'
                       }}
-                      value={structure}
+                      value={question.enonce.length ? question.enonce : structure}
                       onChange={handleChange}
                     />
                   </div>
@@ -132,7 +159,6 @@ const Header = () => {
               value={question.label}
               placeholder={"Untitled"}
               onChange={(e) => {
-                console.log(e)
                 setQuestion({
                   ...question,
                   label: e

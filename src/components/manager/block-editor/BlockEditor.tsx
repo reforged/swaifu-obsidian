@@ -21,8 +21,6 @@ export default function BlockEditor (props: Props) {
     props.onChange(structure[0])
   }, [props, structure])
 
-  console.log(props.blocks)
-
   return (
     <SettingContext.Provider value={props.settings}>
       <BlocksContext.Provider value={props.blocks}>
@@ -30,7 +28,6 @@ export default function BlockEditor (props: Props) {
           <CurrentBlockContext.Provider value={currentBlock}>
             <BlockContainer />
           </CurrentBlockContext.Provider>
-
         </StructureContext.Provider>
       </BlocksContext.Provider>
     </SettingContext.Provider>

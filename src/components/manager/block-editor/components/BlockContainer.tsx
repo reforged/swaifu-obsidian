@@ -1,4 +1,4 @@
-import { Fragment, LegacyRef, useContext, useState } from 'react'
+import {Fragment, LegacyRef, useContext, useEffect, useState} from 'react'
 import { classNames } from '../../../../utils/helper'
 import Block from './Block'
 import { useDragAndDrop } from '../utils'
@@ -8,11 +8,20 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import EditorMode from './EditorMode'
 import BlockMenu from './BlockMenu'
 import CurrentBlockContext from "../contexts/CurrentBlockContext";
+import QuestionContext from "../../../../contexts/QuestionContext";
 
 export default function BlockContainer (): JSX.Element {
   const [structure, setStructure] = useContext(StructureContext)
+  const [question, setQuestion] = useContext(QuestionContext)
   const [currentBlockMenu, setCurrentBlockMenu] = useContext(CurrentBlockContext)
   const { reorder } = useDragAndDrop()
+
+  useEffect(() => {
+    setQuestion({
+      ...question,
+      enonce: structure
+    })
+  }, [structure])
 
   function handleDragEnd (result) {
     if (!result.destination) {
