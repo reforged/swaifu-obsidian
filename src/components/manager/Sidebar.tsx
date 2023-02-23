@@ -1,9 +1,7 @@
 import React, {Fragment, useState} from 'react'
 import { NavLink, Link } from 'react-router-dom'
-import {HomeIcon, TagIcon, ChatBubbleBottomCenterTextIcon, DocumentTextIcon} from '@heroicons/react/24/solid'
+import {HomeIcon, TagIcon, ChatBubbleBottomCenterTextIcon, UserIcon, DocumentTextIcon} from '@heroicons/react/24/solid'
 import { classNames, ReactElement } from '../../utils/helper'
-import { AuthenticationContext } from '../../contexts/AuthenticationContext'
-import { Transition } from '@headlessui/react'
 import Profil from "./Profil";
 
 type LinkItem = {
@@ -24,6 +22,12 @@ export default function Sidebar ({ ...props }) {
         { label: 'Pages', href: '/manager/pages', icon: DocumentTextIcon}
       ]
     },
+    {
+      label: 'Comptes',
+      children: [
+        { label: 'Utilisateurs', href: '/manager/users', icon: UserIcon},
+      ]
+    }
   ]
 
   const [open, setOpen] = useState<boolean>(false)

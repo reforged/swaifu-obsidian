@@ -4,43 +4,44 @@ import { AnimatePresence, motion } from 'framer-motion'
 import useEtiquettes from '../../../../../hooks/use-etiquettes'
 import { ListBulletIcon, XMarkIcon, EllipsisHorizontalIcon } from '@heroicons/react/24/outline'
 import { classNames } from '../../../../../utils/helper'
-import { IEtiquette } from '@obsidian/type'
+import { IEtiquette } from '../../../../../utils'
 import {EtiquettesContext} from "../../../../../contexts/EtiquettesContext";
+import QuestionContext from "../../../../../contexts/QuestionContext";
 
 type Props = {
-  etiquettes: IEtiquette[]
-  setEtiquettes: Dispatch<SetStateAction<IEtiquette[]>>
 }
 
-export default function ModalEtiquettes ({ etiquettes, setEtiquettes}: Props) {
+export default function ModalEtiquettes ({ }: Props) {
   const [value, setValue] = useState<string>('')
-
-  useEffect(() => {
-    console.log('effect["etiquettes"]: ', etiquettes)
-  }, [etiquettes])
+  const [question, setQuestion] = useContext(QuestionContext)
 
   function addEtiquette (etiquette: IEtiquette) {
-    const id = etiquettes.map((etiquette) => etiquette.label)
+    const id = question.etiquettes.map((etiquette) => etiquette.label)
 
     if (id.includes(etiquette.label)) return
-    setEtiquettes([...etiquettes, etiquette])
+    setQuestion({
+      ...question,
+      etiquettes: [...question.etiquettes, etiquette]
+    })
   }
 
   function removeEtiquette (etiquette: IEtiquette) {
-    const id = etiquettes.map((etiquette) => etiquette.id)
+    const id = question.etiquettes.map((etiquette) => etiquette.id)
     if (!id.includes(etiquette.id)) return
 
     const index: number = id.indexOf(etiquette.id)
-    const list = etiquettes
+    const list = question.etiquettes
     list.splice(index, 1)
-
-    setEtiquettes([...list])
+    setQuestion({
+      ...question,
+      etiquettes: [...list]
+    })
   }
 
   return (
-    <div className="relative">
+    <div className="relative z-[52]">
       <Content
-        etiquettes={etiquettes}
+        etiquettes={question.etiquettes}
         addEtiquette={addEtiquette}
         removeEtiquette={removeEtiquette}
         setValue={setValue}
@@ -51,7 +52,7 @@ export default function ModalEtiquettes ({ etiquettes, setEtiquettes}: Props) {
 }
 
 type ContentProps = {
-  etiquettes: any
+  etiquettes: IEtiquette[]
   addEtiquette: (etiquette: IEtiquette) => void
   removeEtiquette: (etiquette: IEtiquette) => void
   value: string
@@ -65,7 +66,7 @@ const Content = ({ etiquettes, addEtiquette, removeEtiquette, value, setValue }:
         <ListBulletIcon className="w-6 h-6" />
         <span className="text-md">Étiquettes</span>
       </div>
-      <div className="hover:bg-gray-200 relative w-full col-span-8 xl:col-span-10 p-2 rounded-md duration-100 ease-in-out">
+      <div className="hover:bg-gray-200 relative w-full col-span-8 z-50 xl:col-span-10 p-2 rounded-md duration-100 ease-in-out">
         <div className="" onClick={toggle}>
           { etiquettes.length ?
             <div>
@@ -124,10 +125,6 @@ const Modal = ({ addEtiquette, etiquettes, removeEtiquette, value, setValue }: M
   const { data: listEtiquettes } = fetch()
   const mutation = create()
   const { etiquette } = useContext(EtiquettesContext)
-
-  useEffect(() => {
-    console.log(etiquette)
-  }, [etiquettes])
 
   const filteredItems: IEtiquette[] = listEtiquettes.filter(
     (item: IEtiquette) =>

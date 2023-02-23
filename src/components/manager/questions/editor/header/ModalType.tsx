@@ -1,10 +1,10 @@
-import React, { useState, Dispatch, SetStateAction, useEffect } from 'react'
-import SelectType from '../SelectType'
-import { IReponse, ITypeQuestion } from '@obsidian/type'
+import React, {useState, Dispatch, SetStateAction, useEffect, useContext} from 'react'
+import { ITypeQuestion } from '../../../../../utils'
 import useComponentVisible from '../../../../../hooks/useComponentVisible'
 import { ListBulletIcon, PencilSquareIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ReactElement, classNames } from '../../../../../utils/helper'
+import QuestionContext from "../../../../../contexts/QuestionContext"
 
 
 const types: ITypeQuestion[] = [
@@ -12,54 +12,43 @@ const types: ITypeQuestion[] = [
   {name: 'Réponse multiple', icon: ListBulletIcon, value: 'checkbox'},
 ]
 
-type Props = {
-  type: ITypeQuestion | null
-  setType: Dispatch<SetStateAction<ITypeQuestion | null>>
-  setReponses: Dispatch<SetStateAction<IReponse[]>>
-}
+export default function () {
+  const [question] = useContext(QuestionContext)
+  const [type, setType] = useState(types.find((item) => {
+    if (item.value === question.type) return item
+  }))
 
-
-export default function ({ type, setType, setReponses }: Props) {
-    useEffect(() => {
-        console.log(type)
-
-    }, [type])
-
-    return (
-        <div className="relative">
-            <Content
-                setType={setType}
-                type={type}
-                setReponses={setReponses}
-            />
-        </div>
-    )
+  return (
+    <div className="relative z-[51]">
+      <Content
+          setType={setType}
+          type={type}
+      />
+    </div>
+  )
 }
 
 type ContentProps = {
-    type: ITypeQuestion | null
-    setType: Dispatch<SetStateAction<ITypeQuestion | null>>
-    setReponses: Dispatch<SetStateAction<IReponse[]>>
+    type: ITypeQuestion | undefined
+    setType: Dispatch<SetStateAction<ITypeQuestion | undefined>>
 }
 
-const Content = ({ type, setType, setReponses }: ContentProps) => {
+const Content = ({ type, setType }: ContentProps) => {
   const { ref, isVisible, toggle } = useComponentVisible()
-
   return (
     <div className='grid grid-cols-12'>
       <div className="text-gray-500 flex items-center gap-2 col-span-4 xl:col-span-2">
         <QuestionMarkCircleIcon className='w-6 h-6' />
         <span className="text-md">Type</span>
       </div>
-      <div className='hover:bg-gray-200 relative w-full col-span-8 xl:col-span-10 p-2 rounded-md duration-100 ease-in-out'>
+      <div className='hover:bg-gray-200 relative w-full z-40 col-span-8 xl:col-span-10 p-2 rounded-md duration-100 ease-in-out'>
         <div className="" onClick={toggle}>
-            { type ?
-                <div className="text-sm flex items-center">
-                    <div className="bg-orange-100 rounded-md px-2">{ type.name}</div>
-                </div>
-
-                : <div className="text-gray-500">Empty</div>
-            }
+          { type ?
+            <div className="text-sm flex items-center">
+                <div className="bg-orange-100 rounded-md px-2">{ type.name}</div>
+            </div>
+            : <div className="text-gray-500">Empty</div>
+          }
         </div>
 
         <AnimatePresence>
@@ -73,8 +62,8 @@ const Content = ({ type, setType, setReponses }: ContentProps) => {
               exit={{opacity: 0}}
               initial={{opacity: 0}}
             >
-              <div ref={ref} className="absolute w-full top-0 divide-y left-0 bg-white border rounded-md z-50">
-                  <Modal type={type} setType={setType} toggle={toggle} setReponses={setReponses}/>
+              <div ref={ref} className="absolute w-full top-0 divide-y left-0 bg-white border rounded-md z-[40]">
+                  <Modal type={type} setType={setType} toggle={toggle} />
               </div>
             </motion.div>
           }
@@ -85,47 +74,58 @@ const Content = ({ type, setType, setReponses }: ContentProps) => {
 }
 
 type ModalProps = {
-  type: ITypeQuestion | null
+  type: ITypeQuestion | undefined
   toggle: () => void
-  setType: Dispatch<SetStateAction<ITypeQuestion | null>>
-  setReponses: Dispatch<SetStateAction<IReponse[]>>
+  setType: Dispatch<SetStateAction<ITypeQuestion | undefined>>
 }
-const Modal = ({ type, setType, toggle, setReponses }: ModalProps) => {
+const Modal = ({ type, setType, toggle }: ModalProps) => {
   return (
-    <div>
-      <div className="bg-gray-100 p-2">
-          { type ?
-            <div className="flex items-center gap-1 flex-wrap">
-              <div className='bg-orange-100 rounded-md px-2 flex items-center gap-1'>
-                <span>{type.name}</span>
-              </div>
-            </div>
-            : <div className='text-gray-600 text-md'>Choissisez un type de question</div>
-          }
-      </div>
-      <div className="bg-white p-2">
-        <span className="font-medium text-sm text-gray-600">Select an type</span>
-        <div className="flex flex-col">
-
-          { types.map((item: ITypeQuestion, index: number) => (
-            <div className="group hover:bg-gray-100 py-1 px-2 rounded-md relative" key={index}>
-              <button
-                onClick={() => {
-                  if (item.value !== type?.value) setReponses([])
-                  setType(item)
-                  toggle()
-                }}
-                className={"flex items-center justify-between w-full"}
-              >
-                <div className="flex items-center gap-2 text-gray-500">
-                  <ReactElement tag={item.icon} className={classNames('w-4 h-4')}/>
-                  <span className=''>{item.name}</span>
+    <QuestionContext.Consumer>
+      {([question, setQuestion]) => (
+        <div>
+          <div className="bg-gray-100 p-2">
+            { type ?
+              <div className="flex items-center gap-1 flex-wrap">
+                <div className='bg-orange-100 rounded-md px-2 flex items-center gap-1'>
+                  <span>{type.name}</span>
                 </div>
-              </button>
+              </div>
+              : <div className='text-gray-600 text-md'>Choissisez un type de question</div>
+            }
+          </div>
+          <div className="bg-white p-2">
+            <span className="font-medium text-sm text-gray-600">Select an type</span>
+            <div className="flex flex-col">
+
+              { types.map((item: ITypeQuestion, index: number) => (
+                <div className="group hover:bg-gray-100 py-1 px-2 rounded-md relative" key={index}>
+                  <button
+                    onClick={() => {
+                      if (item.value !== type?.value) {
+                        setType(item)
+                        setQuestion({
+                          ...question,
+                          reponses: [],
+                          type: item.value
+                        })
+                      }
+
+                      toggle()
+                    }}
+                    className={"flex items-center justify-between w-full"}
+                  >
+                    <div className="flex items-center gap-2 text-gray-500">
+                      <ReactElement tag={item.icon} className={classNames('w-4 h-4')}/>
+                      <span className=''>{item.name}</span>
+                    </div>
+                  </button>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </QuestionContext.Consumer>
+
   )
 }

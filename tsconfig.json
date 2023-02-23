@@ -18,6 +18,6 @@
     "rootDir": "./",
     "sourceMap": true
   },
-  "include": ["src"],
+  "include": ["./index.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

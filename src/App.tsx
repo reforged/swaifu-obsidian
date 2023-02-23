@@ -13,6 +13,9 @@ import Editeur from "./pages/manager/Editeur";
 import Index from "./pages";
 import Manager from "./layouts/manager";
 import useMe from "./hooks/useMe";
+import Auth from "./layouts/auth";
+import ProfilHome from "./pages/profil";
+import HomeUsers from "./pages/manager/users";
 
 function App() {
   const [user, setUser] = useState<IUser | null>(null)
@@ -27,12 +30,20 @@ function App() {
               <Route index element={<Index />} />
             </Route>
 
+            <Route path="/profil" element={<Auth />}>
+              <Route index element={<ProfilHome />} />
+            </Route>
+
             <Route path={"/login"} element={<Login />}/>
             <Route path={"/manager"} element={<Manager />}>
               <Route index element={<Home />} />
               <Route path={"/manager/editeur"} element={<Editeur />} />
               <Route path={"/manager/etiquettes"}>
                 <Route index element={<HomeEtiquette />} />
+              </Route>
+
+              <Route path={"/manager/users"}>
+                <Route index element={<HomeUsers />} />
               </Route>
 
               <Route path={"/manager/questions"}>

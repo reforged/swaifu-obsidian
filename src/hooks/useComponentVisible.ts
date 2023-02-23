@@ -1,7 +1,7 @@
 import {useRef, useState, MutableRefObject, useEffect} from 'react'
 
-export default () => {
-  const [isVisible, setIsVisible] = useState<boolean>(false)
+export default (visible?: boolean) => {
+  const [isVisible, setIsVisible] = useState<boolean>(visible ? visible : false)
   const ref = useRef(null) as MutableRefObject<any>
 
   const handleClickOutside = (event: any) => {

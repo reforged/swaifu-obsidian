@@ -24,7 +24,7 @@ const colorData: IColor[] = [
   {label: 'Bleu', value: 'bg-[#D3E5EF]'},
   {label: 'Violet', value: 'bg-[#E8DEEE]'},
   {label: 'Rose', value: 'bg-[#F5E0E9]'},
-  {label: 'Rouge', value: 'bg-[#FFE2DD]'},
+  {label: 'Rouge', value: 'bg-red-200'},
 ]
 
 export default function ProfilEtiquette ({ open, setOpen, etiquette, setEtiquette, etiquettes }: IProfil) {
