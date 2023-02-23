@@ -16,6 +16,7 @@
     "@markdoc/markdoc": "^0.2.1",
     "@tailwindcss/forms": "^0.5.3",
     "@types/mermaid": "^9.2.0",
+    "@uiw/codemirror-theme-github": "^4.19.9",
     "@uiw/codemirror-theme-tokyo-night": "^4.19.7",
     "@uiw/react-codemirror": "^4.19.7",
     "axios": "^1.2.3",
