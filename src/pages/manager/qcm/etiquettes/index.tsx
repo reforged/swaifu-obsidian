@@ -23,7 +23,7 @@ export default function HomeEtiquette () {
 
 
   return (
-    <div className={"relative"}>
+    <div className={"relative p-12"}>
 
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-medium">Hello Etiquettes</h1>

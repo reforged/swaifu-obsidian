@@ -22,3 +22,18 @@ export const http = axios.create({
 export const uid = () => {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
+
+export function exist<T> (item: T, list: T[]): boolean {
+  return list.includes(item)
+}
+
+export function isEmpty<T> (a: T[], b: T[]): boolean {
+  let empty: boolean = true
+  a.forEach((item) => {
+    if (!exist(item, b)) {
+      empty = false
+    }
+  })
+
+  return empty
+}

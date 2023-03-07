@@ -1,6 +1,19 @@
 import {ForwardRefExoticComponent, SVGProps} from "react";
 import {BlockContextContract, BlockContract} from "../components/manager/block-editor/contexts/BlocksContext";
 
+
+export type INavigation = {
+  label: string,
+  href: string
+}
+
+export type ISequence = {
+  id?: string
+  code?: string
+  label: string
+  questions: IQuestion[]
+}
+
 export type IUser = {
   id?: string
   firstname: string

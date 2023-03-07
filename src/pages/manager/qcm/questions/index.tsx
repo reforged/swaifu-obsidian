@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import { IQuestion } from '../../../utils'
+import {INavigation, IQuestion} from '../../../utils'
 import useQuestions from "../../../hooks/use-questions";
 import ModalEditor from "../../../components/manager/questions/modal/ModalEditor";
 import QuestionContext from "../../../contexts/QuestionContext";
@@ -7,6 +7,14 @@ import ShowQuestionContext from "../../../contexts/ShowQuestionContext";
 import ModalQuestionView from "../../../components/manager/questions/modal/Question";
 import {ChatBubbleBottomCenterTextIcon} from "@heroicons/react/24/outline";
 import {classNames} from "../../../utils/helper";
+import Hero from "../../../components/manager/Hero";
+
+const navigation: INavigation[] = [
+	{ label: 'Home', href: '/manager/qcm'},
+	{ label: 'Questions', href: '/manager/qcm/questions'},
+	{ label: 'Etiquettes', href: '/manager/qcm/etiquettes'},
+	{ label: 'Séquences', href: '/manager/qcm/sequences'},
+]
 
 export default function HomeQuestion () {
 	const { fetch } = useQuestions()
@@ -23,7 +31,8 @@ export default function HomeQuestion () {
   return (
 		<QuestionContext.Provider value={state}>
 			<ShowQuestionContext.Provider value={showQuestion}>
-				<div className="relative">
+				<Hero navigation={navigation} />
+				<div className="relative p-12">
 
 					<div className="flex items-start justify-between w-full">
 						<h1 className="text-2xl font-medium">Hello Questions</h1>

@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react'
+import React, {Fragment, useContext, useEffect, useState} from 'react'
 import { Link } from 'react-router-dom'
 import { Disclosure, Menu, Transition, Dialog } from '@headlessui/react'
 import {Bars3Icon, BellIcon, ChevronDownIcon, XMarkIcon} from '@heroicons/react/24/outline'
@@ -50,7 +50,7 @@ export default function Navbar ({ }: Props) {
                     <div>
                       { user ?
                         <div>
-                          <Profil user={user} />
+                          <Profil />
                         </div>
                         : <div>Login</div>
                       }
@@ -77,8 +77,9 @@ export default function Navbar ({ }: Props) {
   )
 }
 
-const Profil = ({ user }: {user: IUser}) => {
+const Profil = () => {
   const { mutate: logout } = userLogout()
+  const { user } = useContext(AuthenticationContext)
   const permissions: string[] = []
   user.permissions?.forEach((permission: IPermission) => permissions.push(permission.key))
   user.roles?.forEach((role: IRole) => {
@@ -91,7 +92,14 @@ const Profil = ({ user }: {user: IUser}) => {
     logout()
   }
 
-  const [manager] = useState<boolean>((permissions.includes('admin') || permissions.includes('manager')))
+  const [manager, setManager] = useState<boolean>((permissions.includes('admin') || permissions.includes('manager')))
+
+  useEffect(() => {
+    console.log(permissions, user)
+    if (permissions.includes('admin') || permissions.includes('manager')) {
+      setManager(true)
+    }
+  }, [permissions, user])
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -145,21 +153,24 @@ const Profil = ({ user }: {user: IUser}) => {
                 </a>
               )}
             </Menu.Item>
-            { manager &&
               <Menu.Item>
                 {({ active }) => (
-                  <Link
-                    to={"/manager"}
-                    className={classNames(
-                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                      'block px-4 py-2 text-sm'
-                    )}
-                  >
-                    Manager
-                  </Link>
+                  <div>
+                    { manager &&
+                      <Link
+                        to={"/manager/home"}
+                        className={classNames(
+                          active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                          'block px-4 py-2 text-sm'
+                        )}
+                      >
+                        Manager
+                      </Link>
+                    }
+                  </div>
+
                 )}
               </Menu.Item>
-            }
 
           </div>
           <div className="py-1">

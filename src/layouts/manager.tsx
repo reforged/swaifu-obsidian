@@ -22,11 +22,13 @@ export default function Manager () {
   }
 
   return (
-    <div className="hidden lg:flex lg:flex-shrink-0">
-      <Sidebar className="flex w-64 min-h-screen flex-col border-r border-gray-200" />
-      <div className="flex min-w-0 flex-1 flex-col overflow-hidden w-full">
-        <div className="px-5 max-w-7xl mx-auto w-full pt-12">
-          <Outlet />
+    <div className="hidden lg:flex lg:flex-shrink-0 min-h-screen bg-[#E2E9F3]">
+      <Sidebar />
+      <div className="flex min-w-0 min-h-screen flex-1 flex-col overflow-hidden w-full h-full">
+        <div className="mx-auto w-full p-4 h-full min-h-screen flex ">
+          <div className="bg-white w-full min-h-full rounded-md shadow-md overflow-hidden">
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>

@@ -16,7 +16,9 @@ module.exports = {
     },
     supports: {},
     colors: ({ colors }) => ({
-      theme: '#fff0e5',
+      theme: {
+        'blue': '#4E4E4E'
+      },
       oscar: '#FFFF00',
       inherit: colors.inherit,
       current: colors.current,

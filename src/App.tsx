@@ -2,20 +2,22 @@ import React, {useEffect, useState} from 'react'
 import {Route, Routes} from 'react-router'
 import Home from './pages/manager'
 import Layout from "./layouts/layout";
-import HomeEtiquette from "./pages/manager/etiquettes";
-import HomeQuestion from './pages/manager/questions';
+import HomeEtiquette from "./pages/manager/qcm/etiquettes";
+import HomeQuestion from './pages/manager/qcm/questions';
 import Login from "./pages/auth/login";
 import { AuthenticationContext} from './contexts/AuthenticationContext'
 import { EtiquettesContext } from "./contexts/EtiquettesContext";
-import {IEtiquette, IUser} from "@obsidian/type";
-import HomePage from "./pages/manager/pages";
+import {IEtiquette, IUser} from './utils'
 import Editeur from "./pages/manager/Editeur";
 import Index from "./pages";
 import Manager from "./layouts/manager";
 import useMe from "./hooks/useMe";
 import Auth from "./layouts/auth";
 import ProfilHome from "./pages/profil";
-import HomeUsers from "./pages/manager/users";
+import HomeUsers from "./pages/manager/comptes/users";
+import HomeSequence from "./pages/manager/qcm/sequences";
+import HomeQCM from "./pages/manager/qcm";
+import HomeComptes from "./pages/manager/comptes";
 
 function App() {
   const [user, setUser] = useState<IUser | null>(null)
@@ -36,21 +38,31 @@ function App() {
 
             <Route path={"/login"} element={<Login />}/>
             <Route path={"/manager"} element={<Manager />}>
-              <Route index element={<Home />} />
+              <Route path={"/manager/home"} element={<Home />} />
+
+              <Route path={"/manager/qcm"}>
+                <Route index element={<HomeQCM />} />
+
+                <Route path={'/manager/qcm/etiquettes'} element={<HomeEtiquette />}/>
+                <Route path={'/manager/qcm/questions'} element={<HomeQuestion />}/>
+                <Route path={'/manager/qcm/sequences'} element={<HomeSequence />}/>
+              </Route>
+
               <Route path={"/manager/editeur"} element={<Editeur />} />
-              <Route path={"/manager/etiquettes"}>
-                <Route index element={<HomeEtiquette />} />
+
+              <Route path={"/manager/comptes"}>
+
+                <Route index element={<HomeComptes />} />
+                <Route path={"/manager/comptes/users"}>
+                  <Route index element={<HomeUsers />} />
+                </Route>
+
               </Route>
 
-              <Route path={"/manager/users"}>
-                <Route index element={<HomeUsers />} />
-              </Route>
 
-              <Route path={"/manager/questions"}>
-                <Route index element={<HomeQuestion />} />
-              </Route>
 
-              <Route path={"/manager/pages"} element={<HomePage />} />
+
+
             </Route>
             <Route path='*' element={<NotFound />}/>
           </Routes>
@@ -82,7 +94,7 @@ function NotFound () {
                 <h1 className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Page not found</h1>
                 <p className="mt-2 text-base text-gray-500">Sorry, we couldn’t find the page you’re looking for.</p>
                 <div className="mt-6">
-                  <a href="#" className="text-base font-medium text-indigo-600 hover:text-indigo-500">
+                  <a href="/manager" className="text-base font-medium text-indigo-600 hover:text-indigo-500">
                     Go back home
                     <span aria-hidden="true"> &rarr;</span>
                   </a>

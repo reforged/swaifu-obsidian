@@ -37,6 +37,7 @@ export default () => {
     return response.data
   }, {
     onSuccess: async (data) => {
+      console.log(data.user)
       setUser(data.user)
       router('/')
     }
