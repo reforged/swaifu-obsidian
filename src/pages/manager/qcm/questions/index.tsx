@@ -1,13 +1,13 @@
 import React, {useContext, useState} from 'react'
-import {INavigation, IQuestion} from '../../../utils'
-import useQuestions from "../../../hooks/use-questions";
-import ModalEditor from "../../../components/manager/questions/modal/ModalEditor";
-import QuestionContext from "../../../contexts/QuestionContext";
-import ShowQuestionContext from "../../../contexts/ShowQuestionContext";
-import ModalQuestionView from "../../../components/manager/questions/modal/Question";
+import {INavigation, IQuestion} from '../../../../utils'
+import useQuestions from "../../../../hooks/use-questions";
+import ModalEditor from "../../../../components/manager/questions/modal/ModalEditor";
+import QuestionContext from "../../../../contexts/QuestionContext";
+import ShowQuestionContext from "../../../../contexts/ShowQuestionContext";
+import ModalQuestionView from "../../../../components/manager/questions/modal/Question";
 import {ChatBubbleBottomCenterTextIcon} from "@heroicons/react/24/outline";
-import {classNames} from "../../../utils/helper";
-import Hero from "../../../components/manager/Hero";
+import {classNames} from "../../../../utils/helper";
+import Hero from "../../../../components/manager/Hero";
 
 const navigation: INavigation[] = [
 	{ label: 'Home', href: '/manager/qcm'},

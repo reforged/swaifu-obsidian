@@ -1,17 +1,26 @@
 import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from 'react'
-import useComponentVisible from '../../../hooks/useComponentVisible'
+import useComponentVisible from '../../../../hooks/useComponentVisible'
 import { IEtiquette } from '@obsidian/type'
-import ProfilEtiquette from '../../../components/manager/etiquettes/ProfilEtiquette'
-import CreateEtiquette from '../../../components/manager/etiquettes/CreateEtiquette'
-import { classNames } from '../../../utils/helper'
-import Search from '../../../components/Search'
-import useEtiquettes from '../../../hooks/use-etiquettes'
+import ProfilEtiquette from '../../../../components/manager/etiquettes/ProfilEtiquette'
+import CreateEtiquette from '../../../../components/manager/etiquettes/CreateEtiquette'
+import { classNames } from '../../../../utils/helper'
+import Search from '../../../../components/Search'
+import useEtiquettes from '../../../../hooks/use-etiquettes'
+import {INavigation} from "../../../../utils";
+import Hero from "../../../../components/manager/Hero";
 
 type EtiquetteProps = {
   data: IEtiquette
   toggle: any
   setData: Dispatch<SetStateAction<IEtiquette | null>>
 }
+
+const navigation: INavigation[] = [
+  { label: 'Home', href: '/manager/qcm'},
+  { label: 'Questions', href: '/manager/qcm/questions'},
+  { label: 'Etiquettes', href: '/manager/qcm/etiquettes'},
+  { label: 'Séquences', href: '/manager/qcm/sequences'},
+]
 
 export default function HomeEtiquette () {
   const { ref, isVisible, toggle } = useComponentVisible()
@@ -23,22 +32,25 @@ export default function HomeEtiquette () {
 
 
   return (
-    <div className={"relative p-12"}>
-
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-medium">Hello Etiquettes</h1>
-        <Search value={value} setValue={setValue}/>
-      </div>
-      { data ?
-        <ShowEtiquette data={data} value={value} toggle={toggle} setEtiquette={setEtiquette} />
-        : <div className="grid grid-cols-4 mt-12 gap-4">
-          <CreateEtiquette />
+    <div>
+      <Hero navigation={navigation} />
+      <div className={"relative p-12"}>
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-medium">Hello Etiquettes</h1>
+          <Search value={value} setValue={setValue}/>
         </div>
-      }
-      {
-        etiquette && <ProfilEtiquette etiquettes={data} setEtiquette={setEtiquette} open={isVisible} setOpen={toggle} etiquette={etiquette}/>
-      }
+        { data ?
+          <ShowEtiquette data={data} value={value} toggle={toggle} setEtiquette={setEtiquette} />
+          : <div className="grid grid-cols-4 mt-12 gap-4">
+            <CreateEtiquette />
+          </div>
+        }
+        {
+          etiquette && <ProfilEtiquette etiquettes={data} setEtiquette={setEtiquette} open={isVisible} setOpen={toggle} etiquette={etiquette}/>
+        }
+      </div>
     </div>
+
   )
 }
 
