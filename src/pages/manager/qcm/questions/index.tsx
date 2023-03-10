@@ -8,6 +8,7 @@ import ModalQuestionView from "../../../../components/manager/questions/modal/Qu
 import {ChatBubbleBottomCenterTextIcon} from "@heroicons/react/24/outline";
 import {classNames} from "../../../../utils/helper";
 import Hero from "../../../../components/manager/Hero";
+import Manager from "../../../../layouts/manager";
 
 const navigation: INavigation[] = [
 	{ label: 'Home', href: '/manager/qcm'},
@@ -29,32 +30,35 @@ export default function HomeQuestion () {
 	})
 
   return (
-		<QuestionContext.Provider value={state}>
-			<ShowQuestionContext.Provider value={showQuestion}>
-				<Hero navigation={navigation} />
-				<div className="relative p-12">
+		<Manager>
+			<QuestionContext.Provider value={state}>
+				<ShowQuestionContext.Provider value={showQuestion}>
+					<Hero navigation={navigation} />
+					<div className="relative p-12">
 
-					<div className="flex items-start justify-between w-full">
-						<h1 className="text-2xl font-medium">Hello Questions</h1>
-						<div>
-							<ModalEditor />
-							<ModalQuestionView />
+						<div className="flex items-start justify-between w-full">
+							<h1 className="text-2xl font-medium">Hello Questions</h1>
+							<div>
+								<ModalEditor />
+								<ModalQuestionView />
+							</div>
+						</div>
+
+						<div className="mt-8">
+							{ data &&
+								<div className="grid grid-cols-3 gap-4">
+									{ data.map((question: IQuestion) => (
+										<Question key={question.id} question={question} />
+									))}
+								</div>
+							}
 						</div>
 					</div>
+				</ShowQuestionContext.Provider>
 
-					<div className="mt-8">
-						{ data &&
-							<div className="grid grid-cols-3 gap-4">
-								{ data.map((question: IQuestion) => (
-									<Question key={question.id} question={question} />
-								))}
-							</div>
-						}
-					</div>
-				</div>
-			</ShowQuestionContext.Provider>
+			</QuestionContext.Provider>
+		</Manager>
 
-		</QuestionContext.Provider>
 	)
 }
 

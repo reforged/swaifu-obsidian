@@ -1,5 +1,6 @@
 import {INavigation} from "../../../utils";
 import Hero from "../../../components/manager/Hero";
+import Manager from "../../../layouts/manager";
 
 const navigation: INavigation[] = [
   { label: 'Home', href: '/manager/qcm'},
@@ -10,9 +11,12 @@ const navigation: INavigation[] = [
 
 export default function HomeQCM () {
   return (
-    <div>
-      <Hero navigation={navigation} />
-      Hello QCM
-    </div>
+    <Manager>
+      <div>
+        <Hero navigation={navigation} />
+        Hello QCM
+      </div>
+    </Manager>
+
   )
 }

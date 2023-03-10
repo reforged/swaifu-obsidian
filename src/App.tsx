@@ -1,71 +1,89 @@
 import React, {useEffect, useState} from 'react'
 import {Route, Routes} from 'react-router'
 import Home from './pages/manager'
-import Layout from "./layouts/layout";
-import HomeEtiquette from "./pages/manager/qcm/etiquettes";
-import HomeQuestion from './pages/manager/qcm/questions';
-import Login from "./pages/auth/login";
+import Layout from './layouts/layout'
+import HomeEtiquette from './pages/manager/qcm/etiquettes'
+import HomeQuestion from './pages/manager/qcm/questions'
+import Login from './pages/auth/login'
 import { AuthenticationContext} from './contexts/AuthenticationContext'
-import { EtiquettesContext } from "./contexts/EtiquettesContext";
+import { EtiquettesContext } from './contexts/EtiquettesContext'
 import {IEtiquette, IUser} from './utils'
-import Editeur from "./pages/manager/Editeur";
-import Index from "./pages";
-import Manager from "./layouts/manager";
-import useMe from "./hooks/useMe";
-import Auth from "./layouts/auth";
-import ProfilHome from "./pages/profil";
-import HomeUsers from "./pages/manager/comptes/users";
-import HomeSequence from "./pages/manager/qcm/sequences";
-import HomeQCM from "./pages/manager/qcm";
-import HomeComptes from "./pages/manager/comptes";
+import Editeur from './pages/manager/Editeur'
+import Index from './pages'
+import Manager from './layouts/manager'
+import useMe from './hooks/useMe'
+import Auth from './layouts/auth'
+import ProfilHome from './pages/profil'
+import HomeUsers from './pages/manager/comptes/users'
+import HomeSequence from './pages/manager/qcm/sequences'
+import HomeQCM from './pages/manager/qcm'
+import HomeComptes from './pages/manager/comptes'
+import NavigationContext , {NavigationContract} from './contexts/NavigationContext'
+import {BookOpenIcon, HomeIcon, UserGroupIcon, ListBulletIcon} from '@heroicons/react/24/solid'
+import {FolderIcon} from "@heroicons/react/24/outline";
 
 function App() {
   const [user, setUser] = useState<IUser | null>(null)
   const [etiquette, setEtiquette] = useState<IEtiquette | null>(null)
+  const [navigation, setNavigation] = useState<NavigationContract[]>([
+    { label: 'Home', href: '/manager/home', icon: HomeIcon },
+    { label: 'QCM', href: '/manager/qcm', icon: ListBulletIcon},
+    {
+      label: 'Accounts',
+      icon: UserGroupIcon,
+      href: '/manager/accounts',
+      children: [
+        { label: 'Home', href: '/manager/accounts', icon: FolderIcon },
+        { label: 'Utilisateurs', href: '/manager/accounts/users', icon: FolderIcon },
+        { label: 'Roles', href: '/manager/accounts/roles', icon: FolderIcon }
+      ]
+    },
+  ])
+
+  const routes = [
+    { uid: 'home', href: '/manager/home', component: <Home />},
+
+    { uid: 'qcm', href: '/manager/qcm', component: <HomeQCM />},
+    { uid: 'qcm.etiquettes', href: '/manager/qcm/etiquettes', component: <HomeEtiquette />},
+    { uid: 'qcm.questions', href: '/manager/qcm/questions', component: <HomeQuestion />},
+    { uid: 'qcm.sequences', href: '/manager/qcm/sequences', component: <HomeSequence />},
+
+    { uid: 'comptes', href: '/manager/accounts', component: <HomeComptes />},
+    { uid: 'comptes.users.list', href: '/manager/accounts/users', component: <HomeUsers />},
+    { uid: 'comptes.roles.list', href: '/manager/accounts/roles', component: <HomeUsers />},
+    { uid: 'comptes.permissions.list', href: '/manager/accounts/permissions', component: <HomeUsers />},
+
+    { uid: 'login', href: '/authentication/login', component: <Login /> },
+
+    { uid: '404', href: '*', component: <NotFound /> }
+  ]
 
   return (
     <div>
       <AuthenticationContext.Provider value={{ user, setUser}}>
-        <EtiquettesContext.Provider value={{ etiquette, setEtiquette}} >
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Index />} />
-            </Route>
-
-            <Route path="/profil" element={<Auth />}>
-              <Route index element={<ProfilHome />} />
-            </Route>
-
-            <Route path={"/login"} element={<Login />}/>
-            <Route path={"/manager"} element={<Manager />}>
-              <Route path={"/manager/home"} element={<Home />} />
-
-              <Route path={"/manager/qcm"}>
-                <Route index element={<HomeQCM />} />
-
-                <Route path={'/manager/qcm/etiquettes'} element={<HomeEtiquette />}/>
-                <Route path={'/manager/qcm/questions'} element={<HomeQuestion />}/>
-                <Route path={'/manager/qcm/sequences'} element={<HomeSequence />}/>
+        <EtiquettesContext.Provider value={{ etiquette, setEtiquette}}>
+          <NavigationContext.Provider value={[navigation, setNavigation]}>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Index />} />
               </Route>
 
-              <Route path={"/manager/editeur"} element={<Editeur />} />
-
-              <Route path={"/manager/comptes"}>
-
-                <Route index element={<HomeComptes />} />
-                <Route path={"/manager/comptes/users"}>
-                  <Route index element={<HomeUsers />} />
-                </Route>
-
+              <Route path="/profil" element={<Auth />}>
+                <Route index element={<ProfilHome />} />
               </Route>
 
+              <Route path={"/"}>
+                {routes.map((route) => (
+                  <Route
+                    key={route.uid}
+                    path={route.href}
+                    element={route.component}
+                  />
+                ))}
+              </Route>
+            </Routes>
+          </NavigationContext.Provider>
 
-
-
-
-            </Route>
-            <Route path='*' element={<NotFound />}/>
-          </Routes>
         </EtiquettesContext.Provider>
       </AuthenticationContext.Provider>
     </div>

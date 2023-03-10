@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { IUser } from '@obsidian/type'
+import { IUser } from '../utils'
 
 export const AuthenticationContext = createContext<{ user: IUser | null, setUser: any}>({
   user: null,
