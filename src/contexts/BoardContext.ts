@@ -12,6 +12,8 @@ export type BoardContract = {
   view: View
   search: string
   structure: StructureContract[]
+  keys: string[]
+  open: boolean
 }
 
 type State = [
