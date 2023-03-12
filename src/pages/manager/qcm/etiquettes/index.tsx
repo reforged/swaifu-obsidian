@@ -6,13 +6,13 @@ import CreateEtiquette from '../../../../components/manager/etiquettes/CreateEti
 import { classNames } from '../../../../utils/helper'
 import Search from '../../../../components/Search'
 import useEtiquettes from '../../../../hooks/use-etiquettes'
-import {INavigation} from '../../../../utils'
-import Hero from '../../../../components/manager/Hero'
-import Breadcrumbs from "../../../../components/Breadcrumbs";
 import Board, {BoardData} from "../../../../components/manager/board/Board";
 import {EtiquettesContext} from "../../../../contexts/EtiquettesContext";
 import {TrashIcon} from "@heroicons/react/24/outline";
 import Manager from "../../../../layouts/manager";
+import BoardContext, {StructureContract} from "../../../../contexts/BoardContext";
+import Table from "../../../../components/manager/board/Table";
+import UserSkeleton from "../../../../skeleton/UserSkeleton";
 
 type EtiquetteProps = {
   data: IEtiquette
@@ -20,43 +20,57 @@ type EtiquetteProps = {
   setData: Dispatch<SetStateAction<IEtiquette | null>>
 }
 
-const navigation: INavigation[] = [
-  { label: 'Home', href: '/manager/qcm'},
-  { label: 'Questions', href: '/manager/qcm/questions'},
-  { label: 'Etiquettes', href: '/manager/qcm/etiquettes'},
-  { label: 'Séquences', href: '/manager/qcm/sequences'},
-]
-
 const pages = [
-  { name: 'QCM', href: '/manager/qcm', current: false},
-  { name: 'Étiquettes', href: '/manager/qcm/etiquettes', current: true},
+  { label: 'Home', href: '/manager/qcm', current: false},
+  { label: 'Questions', href: '/manager/qcm/questions', current: false},
+  { label: 'Etiquettes', href: '/manager/qcm/etiquettes', current: true},
+  { label: 'Séquences', href: '/manager/qcm/sequences', current: false},
 ]
 
 export default function HomeEtiquette () {
   const { ref, isVisible, toggle, setIsVisible } = useComponentVisible()
   const [etiquette, setEtiquette] = useState<IEtiquette | null>(null)
-  const [mode, setMode] = useState<'galerie' | 'liste'>('galerie')
   const { fetch } = useEtiquettes()
-  const { data } = fetch()
+  const { data, isLoading } = fetch()
 
-  const [value, setValue] = useState<string>('')
-
-  const boardData: BoardData = {
-    mode: [mode, setMode],
-    search: [value, setValue]
-  }
+  const columns: StructureContract[] = [
+    {label: 'Label', key: 'label', checked: true, default: true},
+    {label: 'Color', key: 'color', checked: true, default: false},
+  ]
 
   return (
-    <Manager>
+    <Manager
+      layout={{
+        label: 'Étiquettes',
+        location: [],
+        navigation: pages
+      }}
+    >
       <EtiquettesContext.Provider value={[etiquette, setEtiquette]} >
         <div>
-          <Hero navigation={navigation} />
-          <div className={"relative p-12"}>
-            <Breadcrumbs pages={pages} />
+          <div className={"relative"}>
             <div className="mt-12">
-              <h1 className="text-title">Étiquettes</h1>
+              <Board name={"Étiquette"} options={['filter', 'column', 'mode']}>
+                <BoardContext.Consumer>
+                  {([board, setBoard]) => (
+                    <>
+                      { board.view === 'liste' ?
+                        <Table<IEtiquette>
+                          columns={columns}
+                          loading={isLoading}
+                          data={data}
+                          keys={['label', 'id']}
+                          skeleton={<UserSkeleton />}
+                        />
+                        : <div>Galerie</div>
+                      }
+                    </>
+                  )}
+                </BoardContext.Consumer>
 
-              <Board name='Étiquette' data={boardData} options={['filter', 'column', 'mode',]} >
+              </Board>
+              {/*}
+              <Board name='Étiquette' options={['filter', 'column', 'mode',]} >
                 { data
                   ? <>
                     <ShowEtiquette
@@ -76,6 +90,7 @@ export default function HomeEtiquette () {
                 }
 
               </Board>
+              */}
             </div>
 
           </div>
@@ -176,7 +191,7 @@ type PropsEtiquettes = {
   setIsVisible: Dispatch<SetStateAction<boolean>>
 }
 
-const ShowEtiquette = ({ data, toggle, value, mode, setIsVisible }: PropsEtiquettes) => {
+const ShowEtiquette = ({ data, toggle, value, setIsVisible }: PropsEtiquettes) => {
   const filteredItems = data.filter(
     (item: IEtiquette) => {
       const label = item.label
@@ -184,12 +199,14 @@ const ShowEtiquette = ({ data, toggle, value, mode, setIsVisible }: PropsEtiquet
     }
   )
 
+  const [board, setBoard] = useContext(BoardContext)
+
   return (
     <div>
       {
         data ?
           <div className="p-4">
-            { mode === 'galerie'
+            { board.view === 'galerie'
               ? <GalerieEtiquettes etiquettes={filteredItems} toggle={toggle} setIsVisible={setIsVisible} />
               : <ListeEtiquettes etiquettes={filteredItems} toggle={toggle} setIsVisible={setIsVisible} />
             }

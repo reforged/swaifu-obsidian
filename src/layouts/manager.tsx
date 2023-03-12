@@ -1,4 +1,4 @@
-import React, {ReactNode, useContext, useState} from "react";
+import React, {ReactNode, useContext, useEffect, useState} from "react";
 import { AuthenticationContext} from '../contexts/AuthenticationContext'
 import {Outlet, useNavigate} from 'react-router'
 import useMe from '../hooks/useMe'
@@ -25,7 +25,6 @@ export default function Manager ({ children, layout }: Props) {
   const [navigation, setNavigation] = useContext(NavigationContext)
   const [select, setSelected] = useState<NavigationContract>(selectItemNavigation())
   const router = useNavigate()
-  const [open, setOpen] = useState(false)
 
   function getPath (data: NavigationContract) {
     const list: string[] = [data.href]
@@ -47,14 +46,11 @@ export default function Manager ({ children, layout }: Props) {
 
   const { data} = useMe()
 
+
   if (!user) {
     router('/authentication/login')
-    return (
-      <div>
-        pas connecté
-      </div>
-    )
   }
+
 
   return (
     <div className="hidden lg:flex lg:flex-shrink-0 min-h-screen bg-[#E2E9F3]">
@@ -67,7 +63,7 @@ export default function Manager ({ children, layout }: Props) {
             <div className="p-12">
 
               <div className="py-8 flex items-center justify-between">
-                <span className="text-title">{layout.label}</span>
+                <span className="font-title text-3xl font-bold">{layout.label}</span>
               </div>
               <div className="">
                 {children}

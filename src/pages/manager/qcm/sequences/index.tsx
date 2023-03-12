@@ -26,7 +26,6 @@ import {
 import Search from "../../../../components/Search";
 import DragIcon from "../../../../components/icons/DragIcon";
 import SequenceContext from "../../../../contexts/SequenceContext";
-import Breadcrumbs from "../../../../components/Breadcrumbs";
 import Manager from "../../../../layouts/manager";
 
 
@@ -36,16 +35,11 @@ type ReponsesPreviewProps = {
 
 type View = 'galerie' | 'liste'
 
-const navigation: INavigation[] = [
-  { label: 'Home', href: '/manager/qcm'},
-  { label: 'Questions', href: '/manager/qcm/questions'},
-  { label: 'Etiquettes', href: '/manager/qcm/etiquettes'},
-  { label: 'Séquences', href: '/manager/qcm/sequences'},
-]
-
 const pages = [
-  { name: 'QCM', href: '/manager/qcm', current: false},
-  { name: 'Séquences', href: '/manager/qcm/sequences', current: true},
+  { label: 'Home', href: '/manager/qcm', current: false},
+  { label: 'Questions', href: '/manager/qcm/questions', current: false},
+  { label: 'Etiquettes', href: '/manager/qcm/etiquettes', current: false},
+  { label: 'Séquences', href: '/manager/qcm/sequences', current: true},
 ]
 
 export default function HomeSequence () {
@@ -61,13 +55,17 @@ export default function HomeSequence () {
   const [view, setView] = useState<View>('liste')
 
   return (
-    <Manager>
+    <Manager
+      layout={{
+        label: 'Séquences',
+        location: [],
+        navigation: pages
+      }}
+    >
       <div className="h-full">
         <SequenceContext.Provider value={[ sequence, setSequence ]}>
           <div className="relative min-h-full">
-            <Hero navigation={navigation} />
             <div className="p-12">
-              <Breadcrumbs pages={pages} />
               <div className="mt-12">
                 <h1 className="text-title">Séquences</h1>
 

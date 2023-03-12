@@ -8,10 +8,7 @@ import Login from './pages/auth/login'
 import { AuthenticationContext} from './contexts/AuthenticationContext'
 import { EtiquettesContext } from './contexts/EtiquettesContext'
 import {IEtiquette, IUser} from './utils'
-import Editeur from './pages/manager/Editeur'
 import Index from './pages'
-import Manager from './layouts/manager'
-import useMe from './hooks/useMe'
 import Auth from './layouts/auth'
 import ProfilHome from './pages/profil'
 import HomeUsers from './pages/manager/comptes/users'
@@ -27,7 +24,17 @@ function App() {
   const [etiquette, setEtiquette] = useState<IEtiquette | null>(null)
   const [navigation, setNavigation] = useState<NavigationContract[]>([
     { label: 'Home', href: '/manager/home', icon: HomeIcon },
-    { label: 'QCM', href: '/manager/qcm', icon: ListBulletIcon},
+    {
+      label: 'QCM',
+      href: '/manager/qcm',
+      icon: ListBulletIcon,
+      children: [
+        { label: 'Home', href: '/manager/qcm', icon: FolderIcon },
+        { label: 'Questions', href: '/manager/qcm/questions', icon: FolderIcon },
+        { label: 'Etiquettes', href: '/manager/qcm/etiquettes', icon: FolderIcon },
+        { label: 'Séquences', href: '/manager/qcm/sequences', icon: FolderIcon },
+      ]
+    },
     {
       label: 'Accounts',
       icon: UserGroupIcon,

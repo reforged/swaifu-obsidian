@@ -9,13 +9,16 @@ import {ChatBubbleBottomCenterTextIcon} from "@heroicons/react/24/outline";
 import {classNames} from "../../../../utils/helper";
 import Hero from "../../../../components/manager/Hero";
 import Manager from "../../../../layouts/manager";
+import Board from "../../../../components/manager/board/Board";
+import BoardContext from "../../../../contexts/BoardContext";
 
-const navigation: INavigation[] = [
-	{ label: 'Home', href: '/manager/qcm'},
-	{ label: 'Questions', href: '/manager/qcm/questions'},
-	{ label: 'Etiquettes', href: '/manager/qcm/etiquettes'},
-	{ label: 'Séquences', href: '/manager/qcm/sequences'},
+const pages = [
+	{ label: 'Home', href: '/manager/qcm', current: false},
+	{ label: 'Questions', href: '/manager/qcm/questions', current: true},
+	{ label: 'Etiquettes', href: '/manager/qcm/etiquettes', current: false},
+	{ label: 'Séquences', href: '/manager/qcm/sequences', current: false},
 ]
+
 
 export default function HomeQuestion () {
 	const { fetch } = useQuestions()
@@ -30,21 +33,24 @@ export default function HomeQuestion () {
 	})
 
   return (
-		<Manager>
+		<Manager
+			layout={{
+				label: 'Questions',
+				location: [],
+				navigation: pages
+			}}
+		>
 			<QuestionContext.Provider value={state}>
 				<ShowQuestionContext.Provider value={showQuestion}>
-					<Hero navigation={navigation} />
-					<div className="relative p-12">
-
+					<div className="relative">
 						<div className="flex items-start justify-between w-full">
-							<h1 className="text-2xl font-medium">Hello Questions</h1>
 							<div>
 								<ModalEditor />
 								<ModalQuestionView />
 							</div>
 						</div>
 
-						<div className="mt-8">
+						{/*<div className="mt-8">
 							{ data &&
 								<div className="grid grid-cols-3 gap-4">
 									{ data.map((question: IQuestion) => (
@@ -52,7 +58,20 @@ export default function HomeQuestion () {
 									))}
 								</div>
 							}
-						</div>
+						</div>*/}
+						<Board name={"Question"} options={["filter", "column", "mode"]}>
+							<BoardContext.Consumer>
+								{([board, setBoard]) => (
+									<>
+										{ board.view === 'liste'
+											? <div>Liste</div>
+											: <div>Galerie</div>
+
+										}
+									</>
+								)}
+							</BoardContext.Consumer>
+						</Board>
 					</div>
 				</ShowQuestionContext.Provider>
 
