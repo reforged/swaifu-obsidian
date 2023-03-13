@@ -32,12 +32,17 @@ export default function Table<T> ({ data, skeleton, keys, columns, loading }: Pr
   }, [data, board.search])
 
   useEffect(() => {
+    console.log(loading);
+  }, [loading])
+
+  useEffect(() => {
     setBoard({
       ...board,
       structure: columns,
       keys: keys as string[]
     })
-  }, [])
+  }, [columns, keys])
+
 
   return (
     <div>
@@ -60,9 +65,9 @@ export default function Table<T> ({ data, skeleton, keys, columns, loading }: Pr
           </tr>
         </thead>
         <tbody>
-        { loading
-          ? <DataSkeleton skeleton={skeleton} />
-          : <ShowData<T> data={filtered} />
+        { filtered
+          ? <ShowData<T> data={filtered} />
+          : <DataSkeleton skeleton={skeleton} />
         }
         </tbody>
       </table>
@@ -72,6 +77,7 @@ export default function Table<T> ({ data, skeleton, keys, columns, loading }: Pr
 
 function ShowData<T> ({ data }: { data: T[] }) {
   const [board, setBoard] = useContext(BoardContext)
+  console.log("ShowData", data, board);
 
   function selectValue (item: T): string {
     let value: string = ''
