@@ -59,7 +59,7 @@ export default function HomeEtiquette () {
                           columns={columns}
                           loading={isLoading}
                           data={data}
-                          keys={['label', 'id']}
+                          keys={['label']}
                           skeleton={<UserSkeleton />}
                         />
                         : <div>Galerie</div>

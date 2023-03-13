@@ -33,7 +33,7 @@ const navigation: INavigation[] = [
 
 export default function HomeUsers () {
   const { index } = useUsers()
-  const { data, isLoading } = index()
+  const { data , isLoading } = index()
 
   const columns: StructureContract[] = [
     {label: 'Username', key: 'username', checked: true, default: true},
@@ -51,16 +51,17 @@ export default function HomeUsers () {
         navigation: navigation
       }}
     >
-      <Board name={'Utilisateur'} options={['filter', 'column']} action={<Action />}>
-        <Table<IUser>
-          columns={columns}
-          loading={isLoading}
-          data={data}
-          keys={['firstname', 'lastname']}
-          skeleton={<UserSkeleton />}
-        />
-        <CreateUser />
-      </Board>
+        <Board name={'Utilisateur'} options={['filter', 'column']} action={<Action />}>
+          <Table<IUser>
+            columns={columns}
+            loading={isLoading}
+            data={data as IUser[]}
+            keys={['firstname', 'lastname']}
+            skeleton={<UserSkeleton />}
+          />
+          <CreateUser />
+        </Board>
+
 
 
     </Manager>
