@@ -17,8 +17,9 @@ export type ISequence = {
 export type IUser = {
   id?: string
   firstname: string
+  numero?: string
   lastname: string
-  email: string
+  email?: string
   permissions: IPermission[]
   roles: IRole[]
 }
