@@ -88,7 +88,7 @@ export default function CreateUser () {
                                 Panel 1
                               </Tab.Panel>
                               <Tab.Panel>
-                                <ImportCsv />
+                                <ImportCsv toggle={toggle} />
                               </Tab.Panel>
                             </div>
 
