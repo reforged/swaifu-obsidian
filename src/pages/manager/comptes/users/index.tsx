@@ -38,7 +38,7 @@ export default function HomeUsers () {
   const columns: StructureContract[] = [
     {label: 'Username', key: 'username', checked: true, default: true},
     {label: 'Email', key: 'email', checked: true, default: false},
-    {label: 'Code INE', key: 'ine', checked: true, default: false},
+    {label: 'Numéro étudiant', key: 'numero', checked: true, default: false},
     {label: 'Roles', key: 'roles', checked: true, default: false},
     {label: 'Permissions', key: 'permissions', checked: true, default: false}
   ]

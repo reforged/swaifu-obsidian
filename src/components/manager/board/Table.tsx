@@ -31,9 +31,6 @@ export default function Table<T> ({ data, skeleton, keys, columns, loading }: Pr
     }
   }, [data, board.search])
 
-  useEffect(() => {
-    console.log(loading);
-  }, [loading])
 
   useEffect(() => {
     setBoard({
@@ -77,7 +74,6 @@ export default function Table<T> ({ data, skeleton, keys, columns, loading }: Pr
 
 function ShowData<T> ({ data }: { data: T[] }) {
   const [board, setBoard] = useContext(BoardContext)
-  console.log("ShowData", data, board);
 
   function selectValue (item: T): string {
     let value: string = ''
@@ -103,7 +99,7 @@ function ShowData<T> ({ data }: { data: T[] }) {
               )
               return (
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500" key={index}>
-                  {item[key]?.toString()}
+                  {item[key] ? item[key].toString() as string : '-'}
                 </td>
               )
             }

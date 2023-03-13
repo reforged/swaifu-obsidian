@@ -33,7 +33,7 @@ const useQuestions = () => {
           "Authorization": cookie.token
         }
       })
-      console.log(response.data)
+
       return response.data
     }, { staleTime: Infinity })
   }

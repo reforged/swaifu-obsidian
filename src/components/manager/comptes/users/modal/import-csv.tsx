@@ -7,26 +7,86 @@ import useUsers from "../../../../../hooks/use-users";
 type RowCsv = [
   firstname: string,
   lastname: string,
-  ine: string
+  numero: string
 ]
 
-export default function ImportCsv () {
+type Props = {
+  toggle: () => void
+}
+export default function ImportCsv ({ toggle }: Props) {
   const [csvFile, setCsvFile] = useState(null)
   const [csvArray, setCsvArray] = useState<any>([])
-  const [ine, setIne] = useState<string[]>([])
-  const { index } = useUsers()
+  const [numero, setNumero] = useState<string[]>([])
+  const { index, createMany } = useUsers()
+  const { mutate: createUsers} = createMany()
   const { data, isLoading } = index()
-  const [disabled, setDisabled] = useState<boolean>(false)
+  const [disabled, setDisabled] = useState<boolean>(true)
 
   useEffect(() => {
-    setIne(data.map((item) => item.ine))
+    if (csvArray.length) {
+      const list = csvArray.map((item, index) => exist(item, index))
+      if (list.includes(false)) setDisabled(false)
+      else setDisabled(true)
+    }
+    else {
+      setDisabled(true)
+      setCsvFile(null)
+    }
+  }, [csvArray.length])
+
+  useEffect(() => {
+    console.log(data)
+    if (data) {
+      const filtered = data.filter((item) => !!item.numero)
+      const list: string[] = filtered.map((item) => item.numero) as string[]
+      setNumero(list)
+    }
+    console.log(numero)
   }, [data])
+
+  function reset () {
+    setCsvFile(null)
+    setCsvArray([])
+  }
+
+  function exist (user, index): boolean {
+    if (numero.includes(user[2])) return true
+    for (let i = 0; i < index ; i++) {
+      if (csvArray[i][2] === user[2]) return true
+    }
+
+    return false
+  }
+
+  function handle () {
+    const filtered = () => {
+      const list = csvArray.filter((item, index) => {
+        if (!exist(item, index)) return item
+      })
+      return list
+    }
+
+    const list = filtered()
+    const array = list.map((item) => {
+      return {
+        firstname: item[0],
+        lastname: item[1],
+        numero: item[2],
+        password: item[2]
+      }
+    })
+    createUsers({
+      users: array
+    })
+    toggle()
+
+  }
 
   function processCsv (str: string) {
     let rows: any = str.split("\n")
     rows = rows.map((row: any) => {
       return row.replace(/;/g, " ").split(' ');
-    }).filter((item) => !ine.includes(item[2]))
+    })
     setCsvArray(rows)
   }
 
@@ -54,18 +114,19 @@ export default function ImportCsv () {
         <h3 className="font-title text-2xl font-medium">Importer des utilisateurs</h3>
         <div>
           {
-            !csvFile ? <div className="pt-4">
+            !csvFile && <div className="pt-4">
               <label className="block text-sm font-medium leading-6 text-gray-900">Utilisateurs</label>
               <UploadCsv setCsvFile={setCsvFile} />
             </div>
-              : <div>{ csvFile.name}</div>
+
           }
 
         </div>
 
         <div>
           {csvArray.length ?
-            <div className="flex flex-col">
+            <div className="flex flex-col ">
+
               { csvArray.map((item: RowCsv, key: number) => (
                 <div key={key}>
                   <ViewUser
@@ -73,19 +134,35 @@ export default function ImportCsv () {
                     csvArray={csvArray}
                     setCsvArray={setCsvArray}
                     index={key}
+                    numero={numero}
                   />
                 </div>
-
               ))}
+
+              <div>
+
+              </div>
+
             </div>
-            : <div>Pas importé le csv</div>
+            : <div></div>
           }
+
         </div>
       </div>
       <div className="absolute bottom-0 right-0 p-12">
-        <div>
+        <div className="flex items-center gap-2">
+          { csvFile
+           &&  <button
+              onClick={reset}
+              className="rounded-md px-3 py-2 border bg-red-200 text-red-500"
+            >
+              Reset
+            </button>
+          }
+
           <button
             disabled={disabled}
+            onClick={handle}
             className={classNames(
               'rounded-md px-3 py-2 border',
               disabled ? 'text-gray-400 bg-gray-50' : 'bg-indigo-500 text-white'
@@ -170,20 +247,36 @@ function UploadCsv ({ setCsvFile }: any) {
 
 
 type UserProps = {
-  user: RowCsv
+  user: any
   setCsvArray: Dispatch<any>
   csvArray: []
   index: number
+  numero: number[]
 }
-function ViewUser ({ user, setCsvArray, csvArray, index }: UserProps) {
+function ViewUser ({ user, setCsvArray, csvArray, index, numero }: UserProps) {
 
   function removeUser () {
     const list = csvArray
     csvArray.splice(index, 1)
     setCsvArray([...list])
   }
+
+
+
+  function exist (): boolean {
+    if (numero.includes(user[2])) return true
+    for (let i = 0; i < index ; i++) {
+      if (csvArray[i][2] === user[2]) return true
+    }
+
+    return false
+  }
+
   return (
-    <div className="flex items-center relative justify-between group hover:bg-gray-100 p-3 pr-12 rounded-md">
+    <div className={classNames(
+      'flex items-center relative justify-between group hover:bg-gray-100 p-3 pr-12 rounded-md',
+      exist() ? '!bg-red-100' : ''
+    )}>
       <div
         className={classNames(
           'flex items-center gap-1',
