@@ -1,18 +1,27 @@
 import {INavigation} from "../../../utils";
 import Hero from "../../../components/manager/Hero";
+import Manager from "../../../layouts/manager";
 
-const navigation: INavigation[] = [
-  { label: 'Home', href: '/manager/qcm'},
-  { label: 'Questions', href: '/manager/qcm/questions'},
-  { label: 'Etiquettes', href: '/manager/qcm/etiquettes'},
-  { label: 'Séquences', href: '/manager/qcm/sequences'},
+const pages = [
+  { label: 'Home', href: '/qcm', current: true},
+  { label: 'Questions', href: '/qcm/questions', current: false},
+  { label: 'Etiquettes', href: '/qcm/etiquettes', current: false},
+  { label: 'Séquences', href: '/qcm/sequences', current: false},
 ]
 
 export default function HomeQCM () {
   return (
-    <div>
-      <Hero navigation={navigation} />
-      Hello QCM
-    </div>
+    <Manager
+      layout={{
+        label: 'QCM',
+        location: [],
+        navigation: pages
+      }}
+    >
+      <div>
+        Hello QCM
+      </div>
+    </Manager>
+
   )
 }

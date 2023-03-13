@@ -8,7 +8,6 @@ import { IEtiquette } from '../utils'
 const useEtiquettes = () => {
   const [cookie, setCookie] = useCookies(['token'])
   const queryClient = useQueryClient()
-  const {etiquette, setEtiquette} = useContext(EtiquettesContext)
 
   function create () {
     return useMutation(async (data: any) => {
@@ -24,9 +23,6 @@ const useEtiquettes = () => {
       return response.data
     }, {
       onSuccess: async (data: IEtiquette) => {
-        console.log("query: ", data)
-        setEtiquette(data)
-        console.log(etiquette)
         await queryClient.invalidateQueries(['etiquettes'])
       }
     })

@@ -2,13 +2,14 @@ import { useCookies } from 'react-cookie'
 import ApiRequestBuilder from "./ApiRequestBuilder";
 import {useQuery, useQueryClient} from "react-query";
 import {http} from "../utils/helper";
+import {IUser} from "../utils";
 
 export default function useUsers () {
   const [cookie, setCookie] = useCookies(['token'])
   const queryClient = useQueryClient()
 
   function index () {
-    return useQuery('users', async () => {
+    return useQuery('users', async (): Promise<IUser[]> => {
       const response = await http.get('/users', {
         headers: {
           'Content-Type': 'application/json',
