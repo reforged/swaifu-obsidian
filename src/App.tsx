@@ -43,6 +43,8 @@ function App() {
         { label: 'Home', href: '/manager/accounts', icon: FolderIcon },
         { label: 'Utilisateurs', href: '/manager/accounts/users', icon: FolderIcon },
         { label: 'Roles', href: '/manager/accounts/roles', icon: FolderIcon }
+        { label: 'Permissions', href: '/manager/accounts/permissions', icon: FolderIcon }
+
       ]
     },
   ])
@@ -57,8 +59,8 @@ function App() {
 
     { uid: 'comptes', href: '/manager/accounts', component: <HomeComptes />},
     { uid: 'comptes.users.list', href: '/manager/accounts/users', component: <HomeUsers />},
-    { uid: 'comptes.roles.list', href: '/manager/accounts/roles', component: <HomeUsers />},
-    { uid: 'comptes.permissions.list', href: '/manager/accounts/permissions', component: <HomeUsers />},
+    { uid: 'comptes.roles.list', href: '/manager/accounts/roles', component: <HomeRoles />},
+    { uid: 'comptes.permissions.list', href: '/manager/accounts/permissions', component: <HomePermissions />},
 
     { uid: 'login', href: '/authentication/login', component: <Login /> },
 
