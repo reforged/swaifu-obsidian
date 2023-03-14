@@ -23,6 +23,7 @@ import UserSkeleton from "../../../../skeleton/UserSkeleton";
 import Table from "../../../../components/manager/board/Table";
 import ImportCsv from "../../../../components/manager/comptes/users/modal/import-csv";
 import CreateUser from "../../../../components/manager/comptes/users/modal/create-user";
+import {Options} from "../../../../components/manager/board/types";
 
 const navigation: INavigation[] = [
   { label: 'Home', href: '/manager/comptes'},
@@ -37,10 +38,19 @@ export default function HomePermissions () {
 
   const columns: StructureContract[] = [
     {label: 'Label', key: 'label', checked: true, default: true},
-    {label: 'Key', key: 'key', checked: true, default: true},
+    {label: 'Key', key: 'key', checked: true, default: false},
     {label: 'Utilisateurs', key: 'users', checked: true, default: false},
-    {label: 'Roles', key: 'roles', checked: true, default false}
+    {label: 'Roles', key: 'roles', checked: true, default: false}
   ]
+
+  const options: Options<IPermission> = {
+    view: 'liste',
+    search: '',
+    structure: columns,
+    keys: ['label'],
+    open: false,
+    option: ['filter', 'column']
+  }
 
   return (
     <Manager
@@ -50,7 +60,7 @@ export default function HomePermissions () {
         navigation: navigation
       }}
     >
-        <Board name={'Permission'} options={['filter', 'column']}>
+        <Board name={'Permission'} options={options}>
           <Table<IPermission>
             columns={columns}
             loading={isLoading}

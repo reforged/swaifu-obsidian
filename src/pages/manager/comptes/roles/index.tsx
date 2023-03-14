@@ -2,7 +2,6 @@ import {INavigation, IRole} from "../../../../utils";
 import Hero from "../../../../components/manager/Hero";
 import {HomeIcon, ChevronRightIcon} from "@heroicons/react/20/solid";
 import {Link} from "react-router-dom";
-import useRoles from "../../../../hooks/use-users";
 import {
   CloudArrowDownIcon,
   EllipsisVerticalIcon,
@@ -11,11 +10,6 @@ import {
   ViewColumnsIcon
 } from "@heroicons/react/24/outline";
 import {Fragment, useContext, useEffect, useState} from "react";
-import Search from "../../../../components/Search";
-import { Menu, Transition } from "@headlessui/react";
-import DragIcon from "../../../../components/icons/DragIcon";
-import {classNames} from "../../../../utils/helper";
-import {InboxArrowDownIcon} from "@heroicons/react/24/solid";
 import Board from "../../../../components/manager/board/Board";
 import Manager from "../../../../layouts/manager";
 import BoardContext, {StructureContract} from "../../../../contexts/BoardContext";
@@ -23,6 +17,8 @@ import UserSkeleton from "../../../../skeleton/UserSkeleton";
 import Table from "../../../../components/manager/board/Table";
 import ImportCsv from "../../../../components/manager/comptes/users/modal/import-csv";
 import CreateRole from "../../../../components/manager/comptes/roles/modal/create-role";
+import useRoles from "../../../../hooks/use-roles";
+import {Options} from "../../../../components/manager/board/types";
 
 const navigation: INavigation[] = [
   { label: 'Home', href: '/manager/comptes'},
@@ -43,6 +39,15 @@ export default function HomeRoles () {
     {label: 'Permissions', key: 'permissions', checked: true, default: false}
   ]
 
+  const options: Options<IRole> = {
+    view: 'liste',
+    search: '',
+    structure: columns,
+    keys: ['label'],
+    open: false,
+    option: ['filter', 'column']
+  }
+
   return (
     <Manager
       layout={{
@@ -51,7 +56,7 @@ export default function HomeRoles () {
         navigation: navigation
       }}
     >
-        <Board name={'Role'} options={['filter', 'column']} action={<Action />}>
+        <Board name={'Role'} options={options} action={<Action />}>
           <Table<IRole>
             columns={columns}
             loading={isLoading}

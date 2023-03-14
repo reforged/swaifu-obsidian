@@ -1,5 +1,5 @@
 import {Dispatch, SetStateAction, createContext} from 'react'
-import {View} from '../components/manager/board/types'
+import {Options, View} from '../components/manager/board/types'
 
 export type StructureContract = {
   label: string
@@ -8,18 +8,12 @@ export type StructureContract = {
   default: boolean
 }
 
-export type BoardContract = {
-  view: View
-  search: string
-  structure: StructureContract[]
-  keys: string[]
-  open: boolean
-}
+export type BoardContract<T> = Options<T>
 
-type State = [
-  board: BoardContract,
-  setBoard: Dispatch<SetStateAction<BoardContract>>
+type State<T> = [
+  board: BoardContract<T>,
+  setBoard: Dispatch<SetStateAction<BoardContract<T>>>
 ]
 
-export default createContext<State>(null)
 
+export default createContext<State<any>>(null as any)

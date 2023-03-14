@@ -1,5 +1,5 @@
 import {Dispatch, ReactNode, SetStateAction, useState} from "react";
-import {Column, Option, View} from "./types";
+import {Column, Option, Options, View} from "./types";
 import BoardContext, {BoardContract} from "../../../contexts/BoardContext";
 import Search from "./Search";
 import FilterView from "./options/Filter";
@@ -10,28 +10,25 @@ type State<T> = [
   setState: Dispatch<SetStateAction<T>>
 ]
 
+
+
 export type BoardData = {
   mode: State<View>
   search: State<string>
   column?: State<Column[]>
 }
 
-type Props = {
+type Props<T> = {
   name: string
-  options: Option[]
-  action: ReactNode
+  options: Options<T>
+  action?: ReactNode
   children: ReactNode
 }
 
-export default function Board ({ name, options, children, action }: Props) {
-  const [board, setBoard] = useState<BoardContract>({
-    view: 'liste',
-    search: '',
-    structure: [],
-    keys: [],
-    open: false
-  })
+export default function Board<T> ({ name, options, children, action }: Props<T>) {
+  const [board, setBoard] = useState<BoardContract<T>>(options)
 
+  console.log(board)
   return (
     <BoardContext.Provider value={[board, setBoard]}>
       <div className="w-full bg-[#F7F9FC] rounded-md border mt-8">
@@ -42,7 +39,7 @@ export default function Board ({ name, options, children, action }: Props) {
           <div className="flex items-center gap-4 w-full">
             <Search />
             {
-              options.map((option) => {
+              board.option.map((option) => {
                 switch (option) {
                   case "column":
                     return board.view === 'liste' ? <ColumnView /> : <></>

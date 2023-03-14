@@ -18,6 +18,8 @@ import HomeComptes from './pages/manager/comptes'
 import NavigationContext , {NavigationContract} from './contexts/NavigationContext'
 import {BookOpenIcon, HomeIcon, UserGroupIcon, ListBulletIcon} from '@heroicons/react/24/solid'
 import {FolderIcon} from "@heroicons/react/24/outline";
+import HomeRoles from "./pages/manager/comptes/roles";
+import HomePermissions from "./pages/manager/comptes/permissions";
 
 function App() {
   const [user, setUser] = useState<IUser | null>(null)
@@ -42,7 +44,7 @@ function App() {
       children: [
         { label: 'Home', href: '/manager/accounts', icon: FolderIcon },
         { label: 'Utilisateurs', href: '/manager/accounts/users', icon: FolderIcon },
-        { label: 'Roles', href: '/manager/accounts/roles', icon: FolderIcon }
+        { label: 'Roles', href: '/manager/accounts/roles', icon: FolderIcon },
         { label: 'Permissions', href: '/manager/accounts/permissions', icon: FolderIcon }
 
       ]

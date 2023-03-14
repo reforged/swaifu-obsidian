@@ -23,6 +23,7 @@ import UserSkeleton from "../../../../skeleton/UserSkeleton";
 import Table from "../../../../components/manager/board/Table";
 import ImportCsv from "../../../../components/manager/comptes/users/modal/import-csv";
 import CreateUser from "../../../../components/manager/comptes/users/modal/create-user";
+import {Options} from "../../../../components/manager/board/types";
 
 const navigation: INavigation[] = [
   { label: 'Home', href: '/manager/comptes'},
@@ -43,6 +44,15 @@ export default function HomeUsers () {
     {label: 'Permissions', key: 'permissions', checked: true, default: false}
   ]
 
+  const options: Options<IUser> = {
+    view: 'liste',
+    search: '',
+    structure: columns,
+    keys: ['firstname', 'lastname'],
+    open: false,
+    option: ['filter', 'column']
+  }
+
   return (
     <Manager
       layout={{
@@ -51,7 +61,7 @@ export default function HomeUsers () {
         navigation: navigation
       }}
     >
-        <Board name={'Utilisateur'} options={['filter', 'column']} action={<Action />}>
+        <Board name={'Utilisateur'} options={options} action={<Action />}>
           <Table<IUser>
             columns={columns}
             loading={isLoading}
@@ -61,9 +71,6 @@ export default function HomeUsers () {
           />
           <CreateUser />
         </Board>
-
-
-
     </Manager>
   )
 }

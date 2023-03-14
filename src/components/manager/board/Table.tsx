@@ -2,7 +2,6 @@ import {Fragment, ReactNode, useContext, useEffect, useState} from "react";
 import BoardContext, {StructureContract} from '../../../contexts/BoardContext'
 import {classNames} from '../../../utils/helper'
 import {tr} from '@markdoc/markdoc/dist/src/schema'
-import UserSkeleton from '../../../skeleton/UserSkeleton'
 import DragIcon from '../../icons/DragIcon'
 import { Menu, Transition } from '@headlessui/react'
 
@@ -38,7 +37,7 @@ export default function Table<T> ({ data, skeleton, keys, columns, loading }: Pr
       structure: columns,
       keys: keys as string[]
     })
-  }, [columns, keys])
+  }, [])
 
 
   return (

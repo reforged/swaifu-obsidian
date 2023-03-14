@@ -13,6 +13,7 @@ import Manager from "../../../../layouts/manager";
 import BoardContext, {StructureContract} from "../../../../contexts/BoardContext";
 import Table from "../../../../components/manager/board/Table";
 import UserSkeleton from "../../../../skeleton/UserSkeleton";
+import {Options} from "../../../../components/manager/board/types";
 
 type EtiquetteProps = {
   data: IEtiquette
@@ -38,6 +39,15 @@ export default function HomeEtiquette () {
     {label: 'Color', key: 'color', checked: true, default: false},
   ]
 
+  const options: Options<IEtiquette> = {
+    view: 'liste',
+    search: '',
+    structure: columns,
+    keys: ['label'],
+    open: false,
+    option: ['filter', 'column', 'mode']
+  }
+
   return (
     <Manager
       layout={{
@@ -50,7 +60,7 @@ export default function HomeEtiquette () {
         <div>
           <div className={"relative"}>
             <div className="mt-12">
-              <Board name={"Étiquette"} options={['filter', 'column', 'mode']}>
+              <Board<IEtiquette> name={"Étiquette"} options={options}>
                 <BoardContext.Consumer>
                   {([board, setBoard]) => (
                     <>
@@ -62,35 +72,15 @@ export default function HomeEtiquette () {
                           keys={['label']}
                           skeleton={<UserSkeleton />}
                         />
-                        : <div>Galerie</div>
+                        : <div>
+                          <GalerieEtiquettes etiquettes={data} toggle={toggle} setIsVisible={setIsVisible} />
+                        </div>
                       }
                     </>
                   )}
                 </BoardContext.Consumer>
 
               </Board>
-              {/*}
-              <Board name='Étiquette' options={['filter', 'column', 'mode',]} >
-                { data
-                  ? <>
-                    <ShowEtiquette
-                      data={data} value={value}
-                      toggle={toggle}
-                      mode={mode}
-                      setIsVisible={setIsVisible}
-                    />
-                  </>
-
-                  : <div className="grid grid-cols-4 mt-12 gap-4">
-                    <CreateEtiquette />
-                  </div>
-                }
-                {
-                  etiquette && <ProfilEtiquette etiquettes={data} setEtiquette={setEtiquette} open={isVisible} setOpen={toggle} etiquette={etiquette}/>
-                }
-
-              </Board>
-              */}
             </div>
 
           </div>

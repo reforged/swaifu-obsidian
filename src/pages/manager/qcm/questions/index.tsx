@@ -11,6 +11,7 @@ import Hero from "../../../../components/manager/Hero";
 import Manager from "../../../../layouts/manager";
 import Board from "../../../../components/manager/board/Board";
 import BoardContext from "../../../../contexts/BoardContext";
+import {Options} from "../../../../components/manager/board/types";
 
 const pages = [
 	{ label: 'Home', href: '/manager/qcm', current: false},
@@ -31,6 +32,15 @@ export default function HomeQuestion () {
 		reponses: [],
 		enonce: []
 	})
+
+	const options: Options<IQuestion> = {
+		view: 'galerie',
+		search: '',
+		structure: [],
+		keys: ['label'],
+		open: false,
+		option: ['filter', "mode"]
+	}
 
   return (
 		<Manager
@@ -59,7 +69,7 @@ export default function HomeQuestion () {
 								</div>
 							}
 						</div>*/}
-						<Board name={"Question"} options={["filter", "column", "mode"]}>
+						<Board<IQuestion> name={"Question"} options={options}>
 							<BoardContext.Consumer>
 								{([board, setBoard]) => (
 									<>
