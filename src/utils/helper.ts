@@ -37,3 +37,12 @@ export function isEmpty<T> (a: T[], b: T[]): boolean {
 
   return empty
 }
+
+export function filteredData<T> (data: any[], keys: (keyof T)[], search: string) {
+  return data.filter(
+    (item: T) => {
+      const value = keys.map((key) => item[key]).join(' ')
+      return value.toLowerCase().indexOf(search.toLowerCase()) !== -1
+    }
+  )
+}

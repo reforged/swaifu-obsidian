@@ -45,6 +45,7 @@ export default function HomeUsers () {
   ]
 
   const options: Options<IUser> = {
+    label: 'Utilisateurs',
     view: 'liste',
     search: '',
     structure: columns,
@@ -66,8 +67,9 @@ export default function HomeUsers () {
             columns={columns}
             loading={isLoading}
             data={data as IUser[]}
-            keys={['firstname', 'lastname']}
+            keys={options.keys}
             skeleton={<UserSkeleton />}
+            onDelete={() => console.log('dazda')}
           />
           <CreateUser />
         </Board>

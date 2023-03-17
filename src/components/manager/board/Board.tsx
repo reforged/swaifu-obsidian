@@ -1,16 +1,15 @@
-import {Dispatch, ReactNode, SetStateAction, useState} from "react";
-import {Column, Option, Options, View} from "./types";
-import BoardContext, {BoardContract} from "../../../contexts/BoardContext";
-import Search from "./Search";
-import FilterView from "./options/Filter";
+import {Dispatch, ReactNode, SetStateAction, useEffect, useState} from 'react'
+import {Column, Option, Options, View} from './types'
+import BoardContext, {BoardContract} from '../../../contexts/BoardContext'
+import Search from './Search'
+import FilterView from './options/Filter'
 import ColumnView from './options/Column'
-import Mode from "./options/Mode";
+import Mode from './options/Mode'
+
 type State<T> = [
   state: T,
   setState: Dispatch<SetStateAction<T>>
 ]
-
-
 
 export type BoardData = {
   mode: State<View>
@@ -28,7 +27,6 @@ type Props<T> = {
 export default function Board<T> ({ name, options, children, action }: Props<T>) {
   const [board, setBoard] = useState<BoardContract<T>>(options)
 
-  console.log(board)
   return (
     <BoardContext.Provider value={[board, setBoard]}>
       <div className="w-full bg-[#F7F9FC] rounded-md border mt-8">

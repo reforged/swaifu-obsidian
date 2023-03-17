@@ -49,7 +49,25 @@ const useQuestions = () => {
       return response.data
     })
   }
-  function destroy () {}
+
+  function destroy () {
+    return useMutation(async (id: string) => {
+      const response = await http.delete(`/questions/${id}`, {
+        method: 'POST',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': cookie.token
+        }
+      })
+
+      return response.data
+    }, {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(['questions'])
+      }
+    })
+  }
 
   return {
     create,

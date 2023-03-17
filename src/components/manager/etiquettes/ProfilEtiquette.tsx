@@ -1,15 +1,14 @@
-import React, {Dispatch, Fragment, SetStateAction, useEffect, useState} from 'react'
-import { IColor, IEtiquette } from '@obsidian/type'
+import React, {Dispatch, Fragment, SetStateAction, useContext, useEffect, useState} from 'react'
+import { IColor, IEtiquette } from '../../../utils'
 import { Dialog, Transition, Menu } from '@headlessui/react'
 import {XMarkIcon, TrashIcon} from '@heroicons/react/24/outline'
 import {classNames} from '../../../utils/helper'
 import useEtiquettes from "../../../hooks/use-etiquettes";
 import SelectMenu from '../SelectMenu'
+import {EtiquettesContext} from "../../../contexts/EtiquettesContext";
 
 type IProfil = {
-  etiquette: IEtiquette
   etiquettes: IEtiquette[]
-  setEtiquette: Dispatch<SetStateAction<IEtiquette | null>>
   open: boolean
   setOpen: any
 }
@@ -27,11 +26,12 @@ const colorData: IColor[] = [
   {label: 'Rouge', value: 'bg-red-200'},
 ]
 
-export default function ProfilEtiquette ({ open, setOpen, etiquette, setEtiquette, etiquettes }: IProfil) {
+export default function ProfilEtiquette ({ open, setOpen, etiquettes }: IProfil) {
   const { destroy, update } = useEtiquettes()
   const { mutate: DestroyEtiquette } = destroy()
   const { mutate: UpdateEtiquette } = update()
   const [disabled, setDisabled] = useState<boolean>(true)
+  const [etiquette, setEtiquette] = useContext(EtiquettesContext)
 
   const [label, setLabel] = useState<string>(etiquette.label)
   const [color, setColor] = useState<IColor>(colorData[0])

@@ -63,8 +63,8 @@ const useEtiquettes = () => {
   }
 
   function destroy () {
-    return useMutation(async (id: any) => {
-      const response = await http.delete(`/etiquettes/${id}`, {
+    return useMutation(async (data: any) => {
+      const response = await http.delete(`/etiquettes/${data.id}`, {
         method: 'POST',
         withCredentials: true,
         headers: {
@@ -76,7 +76,6 @@ const useEtiquettes = () => {
       return response.data
     }, {
       onSuccess: async (data) => {
-        console.log(data)
         await queryClient.invalidateQueries(['etiquettes'])
       }
     })

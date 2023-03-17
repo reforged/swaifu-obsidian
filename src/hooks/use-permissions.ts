@@ -9,7 +9,7 @@ export default function usePermissions () {
   const queryClient = useQueryClient()
 
   function index () {
-    return useQuery('Permissions', async () => {
+    return useQuery('permissions', async () => {
       const response = await http.get('/permissions', {
         headers: {
           'Content-Type': 'application/json',

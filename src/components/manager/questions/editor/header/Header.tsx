@@ -15,32 +15,10 @@ type Props = {
   setReponses: Dispatch<SetStateAction<IReponse[]>>
 }
 
-export default function Header (
-  {
-    label, setLabel,
-    setType, type,
-    setEtiquettes, etiquettes,
-    setReponses
-  }: Props) {
+export default function Header () {
   return (
-    <div className="relative w-full border-b pb-8">
-      <div>
-        <input
-          type="text"
-          maxLength={40}
-          defaultValue={label}
-          placeholder={"Untitled"}
-          onChange={(e) => setLabel(e.currentTarget.value)}
-          className={classNames(
-            'block w-full py-1 focus:outline-none focus:border-none border-none font-bold text-3xl'
-          )}
-        />
-      </div>
-      <div className="pt-8 flex flex-col">
-        <ModalEtiquettes etiquettes={etiquettes} setEtiquettes={setEtiquettes} />
-        <ModalType setType={setType} type={type} setReponses={setReponses} />
-        <ModalReponses />
-      </div>
+    <div>
+
     </div>
   )
 }

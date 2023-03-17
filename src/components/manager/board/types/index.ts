@@ -13,10 +13,12 @@ export type Column = {
 type key<T> = keyof T
 
 export type Options<T> = {
+  label: string
   view: 'liste' | 'galerie'
   search: string
   option: Option[]
   structure: StructureContract[]
   keys: key<T>[]
   open: boolean
+  rowAction?: (item: T) => void
 }

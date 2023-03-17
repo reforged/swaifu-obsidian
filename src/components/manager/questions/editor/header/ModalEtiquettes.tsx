@@ -7,33 +7,35 @@ import { classNames } from '../../../../../utils/helper'
 import { IEtiquette } from '../../../../../utils'
 import {EtiquettesContext} from "../../../../../contexts/EtiquettesContext";
 import QuestionContext from "../../../../../contexts/QuestionContext";
+import ShowQuestionContext from "../../../../../contexts/ShowQuestionContext";
 
 type Props = {
+  context: typeof ShowQuestionContext | typeof QuestionContext
 }
 
-export default function ModalEtiquettes ({ }: Props) {
+export default function ModalEtiquettes ({ context }: Props) {
   const [value, setValue] = useState<string>('')
-  const [question, setQuestion] = useContext(QuestionContext)
+  const [question, setQuestion] = useContext(context)
 
   function addEtiquette (etiquette: IEtiquette) {
-    const id = question.etiquettes.map((etiquette) => etiquette.label)
+    const id = question!.etiquettes.map((etiquette) => etiquette.label)
 
     if (id.includes(etiquette.label)) return
     setQuestion({
-      ...question,
-      etiquettes: [...question.etiquettes, etiquette]
+      ...question!,
+      etiquettes: [...question!.etiquettes, etiquette]
     })
   }
 
   function removeEtiquette (etiquette: IEtiquette) {
-    const id = question.etiquettes.map((etiquette) => etiquette.id)
+    const id = question!.etiquettes.map((etiquette) => etiquette.id)
     if (!id.includes(etiquette.id)) return
 
     const index: number = id.indexOf(etiquette.id)
-    const list = question.etiquettes
+    const list = question!.etiquettes
     list.splice(index, 1)
     setQuestion({
-      ...question,
+      ...question!,
       etiquettes: [...list]
     })
   }
@@ -41,7 +43,7 @@ export default function ModalEtiquettes ({ }: Props) {
   return (
     <div className="relative z-[52]">
       <Content
-        etiquettes={question.etiquettes}
+        etiquettes={question!.etiquettes}
         addEtiquette={addEtiquette}
         removeEtiquette={removeEtiquette}
         setValue={setValue}
@@ -124,7 +126,7 @@ const Modal = ({ addEtiquette, etiquettes, removeEtiquette, value, setValue }: M
   const { fetch, create } = useEtiquettes()
   const { data: listEtiquettes } = fetch()
   const mutation = create()
-  const { etiquette } = useContext(EtiquettesContext)
+
 
   const filteredItems: IEtiquette[] = listEtiquettes.filter(
     (item: IEtiquette) =>

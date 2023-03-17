@@ -33,7 +33,7 @@ export default function Sidebar (): JSX.Element {
   const [links, setLinks] = useContext(NavigationContext)
 
   return (
-    <div>
+    <div className="sticky h-screen top-0">
       <div className="flex flex-col justify-between h-full bg-white">
         <Link to={"/"} className="inline-flex border">
           <div className="absolute inset-y-0 left-0 md:static md:flex-shrink-0">

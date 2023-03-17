@@ -5,6 +5,7 @@ import SelectMenu from '../SelectMenu'
 import { classNames } from '../../../utils/helper'
 import { IColor, IEtiquette } from '@obsidian/type'
 import useEtiquettes from "../../../hooks/use-etiquettes";
+import {PlusIcon} from "@heroicons/react/24/outline";
 
 type Props = {
   data: IEtiquette[]
@@ -22,7 +23,7 @@ const colorData: IColor[] = [
   {label: 'Rose', value: 'bg-[#F5E0E9]'},
   {label: 'Rouge', value: 'bg-[#FFE2DD]'},
 ]
-export default function CreateEtiquette ({ } ) {
+export default function CreateEtiquette ({ }) {
   const { ref, isVisible, toggle } = useComponentVisible()
   const [name, setName] = useState<string>('')
 
@@ -51,11 +52,12 @@ export default function CreateEtiquette ({ } ) {
   return (
     <div className={"col-span-1 h-full"}>
       <button
-        type="button"
-        onClick={() => toggle()}
-        className="relative block w-full h-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        type={"button"}
+        onClick={toggle}
+        className={"flex items-center gap-2 border rounded-md px-2 py-2 text-gray-800 "}
       >
-        <span className="mt-2 block text-sm font-medium text-gray-900">Créer une étiquette</span>
+        <PlusIcon className="mx-auto h-6 w-6" />
+        <span>Créer étiquette</span>
       </button>
       <AnimatePresence>
         { isVisible &&

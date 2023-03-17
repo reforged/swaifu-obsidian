@@ -10,9 +10,14 @@ import Fence from "../../../Fence";
 import {classNames} from "../../../../../utils/helper";
 import {CheckIcon, TrashIcon, XMarkIcon} from "@heroicons/react/24/outline";
 import Toggle from "../../../Toggle";
+import ShowQuestionContext from "../../../../../contexts/ShowQuestionContext";
 
-export default function ModalCheckbox () {
-  const [question, setQuestion] = useContext(QuestionContext)
+type Props = {
+  context: typeof ShowQuestionContext | typeof QuestionContext
+}
+
+export default function ModalCheckbox ({ context }: Props) {
+  const [question, setQuestion] = useContext(context)
   const [data, setData] = useState<string>('')
   const [valide, setValide] = useState<boolean>(false)
   const [disabled, setDisabled] = useState<boolean>(true)
@@ -34,15 +39,14 @@ export default function ModalCheckbox () {
     setSelected(null)
 
     setQuestion({
-      ...question,
-      reponses: [...question.reponses, objet]
+      ...question!,
+      reponses: [...question!.reponses, objet]
     })
 
     console.log(objet)
   }
   return (
-    <QuestionContext.Consumer>
-      {([question]) => (
+    <div>
         <div>
           <div className="bg-[#F2F1EE] p-2">
             <span className="text-gray-700 text-md">Créer tes réponses</span>
@@ -51,9 +55,9 @@ export default function ModalCheckbox () {
             <div className="p-2">
               <span className="text-gray-600 text-sm">Réponses</span>
               <div>
-                { question.reponses.length >= 1
+                { question!.reponses.length >= 1
                   && <div>
-                    <TodoReponses setSelected={setSelected}/>
+                    <TodoReponses setSelected={setSelected} context={context}/>
                   </div>
                 }
                 <div>
@@ -166,8 +170,7 @@ export default function ModalCheckbox () {
             </div>
           </div>
         </div>
-      )}
-    </QuestionContext.Consumer>
+    </div>
   )
 }
 
@@ -196,13 +199,14 @@ const ShowReponse = ({ reponse }: ShowType) => {
 
 type TodoReponsesProps = {
   setSelected: Dispatch<SetStateAction<IReponse | null>>
+  context: typeof ShowQuestionContext | typeof QuestionContext
 }
-const TodoReponses = ({ setSelected }: TodoReponsesProps) => {
+const TodoReponses = ({ setSelected, context }: TodoReponsesProps) => {
   return (
-    <QuestionContext.Consumer>
+    <context.Consumer>
       {([question, setQuestion]) => (
         <div className="pt-4">
-          { question.reponses.map((reponse: IReponse, index: number) => (
+          { question!.reponses.map((reponse: IReponse, index: number) => (
             <div>
               <button
                 key={index}
@@ -228,11 +232,11 @@ const TodoReponses = ({ setSelected }: TodoReponsesProps) => {
                       type="button"
                       onClick={() => {
                         console.log("delete réponse")
-                        const list = question.reponses
+                        const list = question!.reponses
                         list.splice(index, 1)
                         console.log(list)
                         setQuestion({
-                          ...question,
+                          ...question!,
                           reponses: [...list]
                         })
                         setSelected(null)
@@ -250,7 +254,7 @@ const TodoReponses = ({ setSelected }: TodoReponsesProps) => {
           ))}
         </div>
       )}
-    </QuestionContext.Consumer>
+    </context.Consumer>
   )
 }
 

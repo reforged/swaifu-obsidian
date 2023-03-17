@@ -5,17 +5,21 @@ import { ListBulletIcon, PencilSquareIcon, QuestionMarkCircleIcon } from '@heroi
 import { AnimatePresence, motion } from 'framer-motion'
 import { ReactElement, classNames } from '../../../../../utils/helper'
 import QuestionContext from "../../../../../contexts/QuestionContext"
+import ShowQuestionContext from "../../../../../contexts/ShowQuestionContext";
 
+type Props = {
+  context: typeof ShowQuestionContext | typeof QuestionContext
+}
 
 const types: ITypeQuestion[] = [
   {name: 'Réponse libre', icon: PencilSquareIcon, value: 'input'},
   {name: 'Réponse multiple', icon: ListBulletIcon, value: 'checkbox'},
 ]
 
-export default function () {
-  const [question] = useContext(QuestionContext)
+export default function ({ context }: Props) {
+  const [question] = useContext(context)
   const [type, setType] = useState(types.find((item) => {
-    if (item.value === question.type) return item
+    if (item.value === question!.type) return item
   }))
 
   return (

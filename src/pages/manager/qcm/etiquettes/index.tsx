@@ -3,7 +3,7 @@ import useComponentVisible from '../../../../hooks/useComponentVisible'
 import { IEtiquette } from '../../../../utils'
 import ProfilEtiquette from '../../../../components/manager/etiquettes/ProfilEtiquette'
 import CreateEtiquette from '../../../../components/manager/etiquettes/CreateEtiquette'
-import { classNames } from '../../../../utils/helper'
+import {classNames, filteredData} from '../../../../utils/helper'
 import Search from '../../../../components/Search'
 import useEtiquettes from '../../../../hooks/use-etiquettes'
 import Board, {BoardData} from "../../../../components/manager/board/Board";
@@ -31,22 +31,33 @@ const pages = [
 export default function HomeEtiquette () {
   const { ref, isVisible, toggle, setIsVisible } = useComponentVisible()
   const [etiquette, setEtiquette] = useState<IEtiquette | null>(null)
-  const { fetch } = useEtiquettes()
+  const { fetch, destroy } = useEtiquettes()
   const { data, isLoading } = fetch()
+  const { mutate: deleteEtiquette } = destroy()
 
   const columns: StructureContract[] = [
     {label: 'Label', key: 'label', checked: true, default: true},
     {label: 'Color', key: 'color', checked: true, default: false},
   ]
 
+  function onClick (item: IEtiquette) {
+    setEtiquette(item)
+    toggle()
+  }
+
+
   const options: Options<IEtiquette> = {
+    label: 'Étiquette',
     view: 'liste',
     search: '',
     structure: columns,
     keys: ['label'],
     open: false,
-    option: ['filter', 'column', 'mode']
+    option: ['filter', 'column', 'mode'],
+    rowAction: onClick
   }
+
+
 
   return (
     <Manager
@@ -60,7 +71,7 @@ export default function HomeEtiquette () {
         <div>
           <div className={"relative"}>
             <div className="mt-12">
-              <Board<IEtiquette> name={"Étiquette"} options={options}>
+              <Board<IEtiquette> name={"Étiquette"} options={options} action={<CreateEtiquette />}>
                 <BoardContext.Consumer>
                   {([board, setBoard]) => (
                     <>
@@ -71,6 +82,7 @@ export default function HomeEtiquette () {
                           data={data}
                           keys={['label']}
                           skeleton={<UserSkeleton />}
+                          onDelete={deleteEtiquette}
                         />
                         : <div>
                           <GalerieEtiquettes etiquettes={data} toggle={toggle} setIsVisible={setIsVisible} />
@@ -79,8 +91,12 @@ export default function HomeEtiquette () {
                     </>
                   )}
                 </BoardContext.Consumer>
-
               </Board>
+              {
+                etiquette && <ProfilEtiquette etiquettes={data} open={isVisible} setOpen={setIsVisible} />
+              }
+
+
             </div>
 
           </div>
@@ -98,15 +114,16 @@ type ViewProps = {
 }
 function GalerieEtiquettes ({ etiquettes, toggle, setIsVisible }: ViewProps) {
   const [etiquette, setEtiquette] = useContext(EtiquettesContext)
-
+  const [board, setBoard] = useContext(BoardContext)
   return (
-    <div className="grid grid-cols-4  gap-4">
-      { etiquettes.map((etiquette) => (
+    <div className="grid grid-cols-4 p-4 gap-4">
+      { filteredData<IEtiquette>(etiquettes, ['label'], board.search).map((etiquette) => (
         <button
           className="" key={etiquette.id}
           onClick={() => {
-            toggle()
+
             setEtiquette(etiquette)
+            toggle()
           }}
         >
           <div className="col-span-1 overflow-hidden border h-full border-gray-200 rounded-md shadow hover:shadow-xl  duration-200 ease-in-out">
@@ -169,40 +186,6 @@ function ListeEtiquettes ({ etiquettes, toggle, setIsVisible }: ViewProps) {
 
       ))}
       <CreateEtiquette />
-    </div>
-  )
-}
-
-type PropsEtiquettes = {
-  mode: 'galerie' | 'liste'
-  data: any
-  value: string
-  toggle: any
-  setIsVisible: Dispatch<SetStateAction<boolean>>
-}
-
-const ShowEtiquette = ({ data, toggle, value, setIsVisible }: PropsEtiquettes) => {
-  const filteredItems = data.filter(
-    (item: IEtiquette) => {
-      const label = item.label
-      return label.toLowerCase().indexOf(value.toLowerCase()) !== -1
-    }
-  )
-
-  const [board, setBoard] = useContext(BoardContext)
-
-  return (
-    <div>
-      {
-        data ?
-          <div className="p-4">
-            { board.view === 'galerie'
-              ? <GalerieEtiquettes etiquettes={filteredItems} toggle={toggle} setIsVisible={setIsVisible} />
-              : <ListeEtiquettes etiquettes={filteredItems} toggle={toggle} setIsVisible={setIsVisible} />
-            }
-          </div>
-          : <CreateEtiquette />
-      }
     </div>
   )
 }

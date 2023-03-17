@@ -4,7 +4,7 @@ import React, {
   useRef, useState,
 } from 'react'
 import {AnimatePresence, motion} from 'framer-motion'
-import {PlusIcon} from '@heroicons/react/24/outline'
+import {PlusIcon, TrashIcon, XMarkIcon} from '@heroicons/react/24/outline'
 import useComponentVisible from '../../../../hooks/useComponentVisible'
 import {classNames} from '../../../../utils/helper'
 import ModalEtiquettes from '../editor/header/ModalEtiquettes'
@@ -20,17 +20,21 @@ import {
 } from '../../block-editor/builders'
 import { BlockContextContract } from '../../block-editor/contexts/BlocksContext'
 import useQuestions from "../../../../hooks/use-questions";
+import {Title} from "../editor/header/Title";
+import {IQuestion} from "../../../../utils";
 
-type Props = {}
+type Props = {
+  data: IQuestion[]
+}
 
-export default function ModalEditor ({ }: Props) {
+export default function ModalEditor ({ data }: Props) {
   const { ref, isVisible, toggle } = useComponentVisible()
   const { fetch } = useEtiquettes()
   const { create } = useQuestions()
   const [disabled, setDisabled] = useState<boolean>(true)
   const { data: listEtiquettes} = fetch()
   const { mutate: createQuestion} = create()
-  const [question] = useContext(QuestionContext)
+  const [question, setQuestion] = useContext(QuestionContext)
 
   const structure = [
     ParagraphBlock().structure,
@@ -38,11 +42,14 @@ export default function ModalEditor ({ }: Props) {
   ]
 
   useEffect(() => {
-    if (question.label.length > 2 && question.type && question.enonce && question.reponses.length && question.etiquettes.length) {
-      setDisabled(false)
-    } else {
-      setDisabled(true)
+    if (data) {
+      if (verifData()) {
+        setDisabled(false)
+      } else {
+        setDisabled(true)
+      }
     }
+
   }, [question])
 
   const blocks: { [key: string]: () => BlockContextContract} = {
@@ -53,13 +60,54 @@ export default function ModalEditor ({ }: Props) {
     code: CodeBlock,
   }
 
+  function verifData () {
+    if (data
+      .map((item) => item.label.toLowerCase())
+      .includes(question.label.toLowerCase())
+    ) return false
+
+    if (
+      !question.etiquettes.length
+      || !question.label
+      || !question.enonce.length
+      || !question.type
+    ) return false
+
+    if (question.type === 'input' && !question.reponses.length) return false
+    if (question.type === 'checkbox') {
+      const responses = question.reponses.map((item) => item.valide)
+      if (!responses.includes(true) || question.reponses.length < 2) return false
+    }
+
+
+    return true
+  }
+
   function handleChange (value: any) {
     //console.log(value)
   }
 
   function handleClick () {
-    console.log(question)
     createQuestion(question)
+    toggle()
+    setQuestion({
+      type: '',
+      label: 'Untitled',
+      etiquettes: [],
+      reponses: [],
+      enonce: []
+    })
+  }
+
+  function close () {
+    toggle()
+    setQuestion({
+      type: '',
+      label: 'Untitled',
+      etiquettes: [],
+      reponses: [],
+      enonce: []
+    })
   }
 
 
@@ -95,11 +143,22 @@ export default function ModalEditor ({ }: Props) {
                       <span>{ question.label ? question.label : 'Untitled' }</span>
                     </div>
                   </div>
+                  <div className="absolute top-2 right-4 z-10">
+                    <div className="relative w-6 h-6">
+                      <button onClick={close} className="hover:bg-gray-100 p-1 rounded-md">
+                        <XMarkIcon className="w-6 text-gray-600" />
+                      </button>
+                    </div>
+
+                  </div>
                   <div className="absolute bottom-0 right-0 p-2 z-50">
                     <button
                       disabled={disabled}
                       onClick={handleClick}
-                      className={classNames('border rounded-md px-2 py-1', disabled ? 'bg-gray-200' : 'bg-green-200')}
+                      className={classNames(
+                        'rounded-md px-3 py-2 border',
+                        disabled ? 'text-gray-400 bg-gray-50' : 'bg-indigo-500 text-white'
+                      )}
                     >
                       Créer question
                     </button>
@@ -128,26 +187,6 @@ export default function ModalEditor ({ }: Props) {
   )
 }
 
-type TitleProps = {
-  onChange: (value: string) => void
-  className?: string
-  value: string
-  placeholder: string
-  id?: string
-}
-function Title ({ onChange, className, value, placeholder, id }: TitleProps) {
-  const textRef = useRef(value)
-  const defaultProps = {
-    id: id,
-    className: classNames(className ? className : '', 'focus:outline-none'),
-    contentEditable: true,
-    suppressContentEditableWarning: true,
-    placeholder: placeholder,
-    onInput: (event: any) => onChange(event.target.innerText)
-  }
-
-  return createElement('h1', defaultProps as never, textRef.current ? textRef.current : 'Untitled')
-}
 
 const Header = () => {
   return (
@@ -170,9 +209,9 @@ const Header = () => {
             />
           </div>
           <div className="pt-8 flex flex-col">
-            <ModalEtiquettes  />
-            <ModalType />
-            <ModalReponses />
+            <ModalEtiquettes context={QuestionContext}  />
+            <ModalType context={QuestionContext} />
+            <ModalReponses context={QuestionContext} />
           </div>
         </div>
       )}

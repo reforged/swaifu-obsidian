@@ -17,9 +17,12 @@ import {IQuestion} from "../../../utils";
 import AddQuestion from "./AddQuestion";
 import {useDragAndDrop} from "../block-editor/utils";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
+import {AnimatePresence, motion} from "framer-motion";
+import useComponentVisible from "../../../hooks/useComponentVisible";
+import useSequences from "../../../hooks/use-sequences";
 
 type Props = {
-  toggle: () => void
+
 }
 type TitleProps = {
   value: string
@@ -39,8 +42,9 @@ function Title ({ value, className, onChange }: TitleProps) {
   return createElement('p', defaultProps as never, textRef.current ? textRef.current : 'Titre')
 }
 
-export default function CreateSequence ({ toggle }: Props) {
+export default function CreateSequence ({ }: Props) {
   const [sequence, setSequence] = useContext(SequenceContext)
+  const { ref, isVisible, toggle } = useComponentVisible()
   const [search, setSearch] = useState<string>('')
   const { fetch } = useQuestions()
   const { data: questions } = fetch()
@@ -48,6 +52,63 @@ export default function CreateSequence ({ toggle }: Props) {
 
   useEffect(() => {
     console.log(sequence)
+  }, [sequence])
+
+
+
+  return (
+    <div className="col-span-1 h-full">
+      <button
+        type={"button"}
+        onClick={toggle}
+        className={"flex items-center gap-2 border rounded-md px-2 py-2 text-gray-800 "}
+      >
+        <PlusIcon className="mx-auto h-6 w-6" />
+        <span>Créer séquence</span>
+      </button>
+      <AnimatePresence>
+        { isVisible &&
+          <motion.div
+            className="fixed z-[99] inset-0 bg-black bg-opacity-25"
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 0.2,
+              ease: [0.5, 0.71, 1, 1.5],
+            }}
+            exit={{ opacity: 0}}
+            initial={{ opacity: 0}}
+          >
+            <div className="absolute left-1/2 top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-full h-full p-8 ">
+              <div ref={ref} className="bg-white border border-gray-200 rounded-lg shadow-2xl">
+                <Modal toggle={toggle} />
+              </div>
+
+            </div>
+          </motion.div>
+        }
+      </AnimatePresence>
+    </div>
+  )
+}
+
+function Modal ({ toggle }) {
+  const [sequence, setSequence] = useContext(SequenceContext)
+  const [disabled, setDisabled] = useState<boolean>(true)
+  const { reorder } = useDragAndDrop()
+  const { store } = useSequences()
+  const { mutate: create } = store()
+
+  function onCreate () {
+    create({
+      label: sequence.label,
+      questions: sequence.questions.map((question) => question.id)
+    })
+    toggle()
+  }
+
+  useEffect(() => {
+    if (sequence.label && sequence.questions.length > 1) setDisabled(false)
+    else setDisabled(true)
   }, [sequence])
 
   function handleDragEnd (result) {
@@ -60,7 +121,7 @@ export default function CreateSequence ({ toggle }: Props) {
   }
 
   return (
-    <div className="absolute top-0 left-0 h-full w-full p-4 z-50">
+    <div className="relative">
       <div className="relative border border-gray-200 rounded-lg shadow-xl z-50 h-full bg-gray-50 h-full">
         <div className="w-full bg-gray-100 flex justify-between items-center p-4 relative">
           <div className="text-center w-full">
@@ -97,25 +158,44 @@ export default function CreateSequence ({ toggle }: Props) {
           </div>
           <div className="col-span-8 p-8">
             { sequence.questions.length
-              ? <Fragment>
-                <DragDropContext onDragEnd={handleDragEnd}>
-                  <Droppable droppableId="body">
-                    {( provided ) => (
-                      <div {...provided.droppableProps} ref={provided.innerRef as LegacyRef<HTMLDivElement>} className="relative">
-                        <div className="flex flex-col">
-                          {sequence.questions.map((question: IQuestion, index) => (
-                            <Question question={question} key={question.id} index={index} />
-                          ))}
+              ?
+              <div className="overflow-y-scroll h-72 py-8">
+                <Fragment>
+                  <DragDropContext onDragEnd={handleDragEnd}>
+                    <Droppable droppableId="body">
+                      {( provided ) => (
+                        <div {...provided.droppableProps} ref={provided.innerRef as LegacyRef<HTMLDivElement>} className="relative">
+                          <div className="flex flex-col">
+                            {sequence.questions.map((question: IQuestion, index) => (
+                              <Question question={question} key={question.id} index={index} />
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </Droppable>
-                </DragDropContext>
-              </Fragment>
-              : <></>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
+                </Fragment>
+              </div>
+
+              : <div className="h-72">
+                <span>pas de questions sélectionnés</span>
+              </div>
             }
             <div className="pt-8">
               <AddQuestion />
+            </div>
+
+            <div>
+              <button
+                disabled={disabled}
+                onClick={onCreate}
+                className={classNames(
+                  'rounded-md px-3 py-2 border',
+                  disabled ? 'text-gray-400 bg-gray-50' : 'bg-indigo-500 text-white'
+                )}
+              >
+                Save
+              </button>
             </div>
 
 

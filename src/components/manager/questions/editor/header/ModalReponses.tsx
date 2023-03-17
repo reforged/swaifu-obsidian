@@ -4,26 +4,28 @@ import QuestionContext from "../../../../../contexts/QuestionContext";
 import {AnimatePresence, motion} from "framer-motion";
 import ModalCheckbox from "../../modal/reponses/ModalCheckbox";
 import ModalText from "../../modal/reponses/ModalText";
-type Props = {
+import ShowQuestionContext from "../../../../../contexts/ShowQuestionContext";
+import {useContext} from "react";
 
+type Props = {
+  context: typeof ShowQuestionContext | typeof QuestionContext
 }
 
-export default function ModalReponses ({}: Props) {
+export default function ModalReponses ({ context }: Props) {
 
   return (
     <div className="relative z-50">
-      <Content />
+      <Content context={context} />
     </div>
   )
 }
 
 
-const Content = () => {
+const Content = ({ context }: Props) => {
   const { ref, isVisible, toggle, setIsVisible } = useComponentVisible()
-
+  const [question, setQuestion] = useContext(context)
   return (
-    <QuestionContext.Consumer>
-      {([question]) => (
+    <div>
         <div className="grid grid-cols-12">
           <div className="text-gray-500 flex items-center gap-2 col-span-4 xl:col-span-2">
             <InboxStackIcon className="w-6 h-6" />
@@ -31,10 +33,10 @@ const Content = () => {
           </div>
           <div className="hover:bg-gray-200 relative w-full col-span-8 xl:col-span-10 p-2 rounded-md duration-100 ease-in-out">
             <div onClick={toggle}>
-              { question.reponses.length
+              { question!.reponses.length
                 ? <div className="flex items-center gap-2">
-                  <span className="px-2 bg-gray-100 rounded-sm flex">{question.reponses.length}</span>
-                  <span>réponse{ question.reponses.length > 1 && "s"}</span>
+                  <span className="px-2 bg-gray-100 rounded-sm flex">{question!.reponses.length}</span>
+                  <span>réponse{ question!.reponses.length > 1 && "s"}</span>
                 </div>
                 : <span className="text-gray-500">Empty</span>
               }
@@ -52,10 +54,10 @@ const Content = () => {
                   initial={{opacity: 0}}
                 >
                   <div ref={ref} className="absolute w-full top-0 divide-y left-0 bg-white border rounded-md z-[100]">
-                    { question.type
+                    { question!.type
                       ? <div>
-                        { question.type === 'checkbox' && <ModalCheckbox /> }
-                        { question.type === 'input' && <ModalText /> }
+                        { question!.type === 'checkbox' && <ModalCheckbox context={context} /> }
+                        { question!.type === 'input' && <ModalText /> }
                       </div>
                       : <div className="p-2">
                         <span className="text-gray-500">Veuillez sélectionner un type de question</span>
@@ -68,8 +70,7 @@ const Content = () => {
             </AnimatePresence>
           </div>
         </div>
-      )}
-    </QuestionContext.Consumer>
+    </div>
 
   )
 }

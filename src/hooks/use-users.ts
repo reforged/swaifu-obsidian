@@ -42,5 +42,19 @@ export default function useUsers () {
     }})
   }
 
+  function store () {
+    return useMutation(async (data) => {
+      const response = await http.post('/users', data, {
+        headers: {
+          'Authorization': cookie.token
+        }
+      })
+
+      return response.data
+    }, { onSuccess: async () => {
+      await queryClient.invalidateQueries(['users'])
+    }})
+  }
+
   return { index, createMany }
 }
