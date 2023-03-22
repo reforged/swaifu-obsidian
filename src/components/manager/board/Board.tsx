@@ -27,6 +27,7 @@ type Props<T> = {
 export default function Board<T> ({ name, options, children, action }: Props<T>) {
   const [board, setBoard] = useState<BoardContract<T>>(options)
 
+
   return (
     <BoardContext.Provider value={[board, setBoard]}>
       <div className="w-full bg-[#F7F9FC] rounded-md border mt-8">
@@ -41,7 +42,8 @@ export default function Board<T> ({ name, options, children, action }: Props<T>)
                 switch (option) {
                   case "column":
                     return board.view === 'liste' ? <ColumnView /> : <></>
-                  case "filter": return <FilterView />
+                  case "filter":
+                    return board.structure.length ? <FilterView /> : <></>
                   case "mode": return <Mode />
                 }
               })

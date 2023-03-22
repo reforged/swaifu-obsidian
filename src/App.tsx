@@ -20,8 +20,9 @@ import {BookOpenIcon, HomeIcon, UserGroupIcon, ListBulletIcon} from '@heroicons/
 import {FolderIcon} from "@heroicons/react/24/outline";
 import HomeRoles from "./pages/manager/comptes/roles";
 import HomePermissions from "./pages/manager/comptes/permissions";
-import StatPage from "./components/manager/sequences/StatPage";
-import ShowQuestionStat from "./components/manager/sequences/ShowQuestionStat";
+import HomeSessions from "./pages/manager/qcm/sessions";
+import Room from "./pages/room";
+
 
 function App() {
   const [user, setUser] = useState<IUser | null>(null)
@@ -37,6 +38,7 @@ function App() {
         { label: 'Questions', href: '/manager/qcm/questions', icon: FolderIcon },
         { label: 'Etiquettes', href: '/manager/qcm/etiquettes', icon: FolderIcon },
         { label: 'Séquences', href: '/manager/qcm/sequences', icon: FolderIcon },
+        { label: 'Sessions', href: '/manager/qcm/sessions', icon: FolderIcon },
       ]
     },
     {
@@ -60,6 +62,7 @@ function App() {
     { uid: 'qcm.etiquettes', href: '/manager/qcm/etiquettes', component: <HomeEtiquette />},
     { uid: 'qcm.questions', href: '/manager/qcm/questions', component: <HomeQuestion />},
     { uid: 'qcm.sequences', href: '/manager/qcm/sequences', component: <HomeSequence />},
+    { uid: 'qcm.sessions', href: '/manager/qcm/sessions', component: <HomeSessions />},
 
     { uid: 'comptes', href: '/manager/accounts', component: <HomeComptes />},
     { uid: 'comptes.users.list', href: '/manager/accounts/users', component: <HomeUsers />},
@@ -69,8 +72,6 @@ function App() {
     { uid: 'login', href: '/authentication/login', component: <Login /> },
 
     { uid: '404', href: '*', component: <NotFound /> },
-    { uid: 'StatPage', href: '/StatPage', component: <StatPage /> },
-    { uid: 'StatQuestion', href: '/StatQuestion', component: <ShowQuestionStat /> }
   ]
 
   return (
@@ -81,7 +82,10 @@ function App() {
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route index element={<Index />} />
+                <Route path={"/room/*"} element={<Room />} />
               </Route>
+
+
 
               <Route path="/profil" element={<Auth />}>
                 <Route index element={<ProfilHome />} />

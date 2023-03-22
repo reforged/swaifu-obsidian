@@ -17,6 +17,7 @@ const pages = [
 	{ label: 'Questions', href: '/manager/qcm/questions', current: true},
 	{ label: 'Etiquettes', href: '/manager/qcm/etiquettes', current: false},
 	{ label: 'Séquences', href: '/manager/qcm/sequences', current: false},
+	{ label: 'Sessions', href: '/manager/qcm/sessions', current: false},
 ]
 
 

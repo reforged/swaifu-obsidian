@@ -18,6 +18,7 @@ import ModalReponses from "../editor/header/ModalReponses";
 import {IQuestion} from "../../../../utils";
 import useQuestions from "../../../../hooks/use-questions";
 
+
 export default function ModalQuestionView ({ questions }) {
   const { ref, isVisible, toggle , setIsVisible} = useComponentVisible()
   const [showQuestion, setShowQuestion] = useContext(ShowQuestionContext)

@@ -9,7 +9,7 @@ export default function useSequences () {
 
   function fetch () {
     return useQuery('sequences', async () => {
-      const response = await http.ge('/sequences', {
+      const response = await http.get('/sequences', {
         headers: {
           "Authorization": cookie.token
         }
@@ -38,6 +38,25 @@ export default function useSequences () {
     })
   }
 
+  function destroy () {
+    return useMutation(async (id: string) => {
+      const response = await http.delete(`/sequences/${id}`, {
+        method: 'POST',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': cookie.token
+        }
+      })
 
-  return { store, fetch }
+      return response.data
+    }, {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(['sequences'])
+      }
+    })
+  }
+
+
+  return { store, fetch, destroy }
 }

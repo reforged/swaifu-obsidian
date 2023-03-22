@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/20/solid";
 import {IQuestion, IReponse, ISequence} from "../../../../utils";
 import MarkDownRender from "../../../../components/manager/questions/editor/MarkDownRender";
-import {classNames} from "../../../../utils/helper";
+import {classNames, uid} from "../../../../utils/helper";
 import useQuestions from "../../../../hooks/use-questions";
 import useSequences from "../../../../hooks/use-sequences";
 import {useQuery} from "react-query";
@@ -29,6 +29,8 @@ import SequenceContext from "../../../../contexts/SequenceContext";
 import Manager from "../../../../layouts/manager";
 import Board from "../../../../components/manager/board/Board";
 import {Options} from "../../../../components/manager/board/types";
+import SequenceStories from "../../../../components/manager/sequences/sequence-stories";
+import {CoupleConditionContract} from "../../../../components/manager/board/filter/types";
 
 
 type ReponsesPreviewProps = {
@@ -42,6 +44,7 @@ const pages = [
   { label: 'Questions', href: '/manager/qcm/questions', current: false},
   { label: 'Etiquettes', href: '/manager/qcm/etiquettes', current: false},
   { label: 'Séquences', href: '/manager/qcm/sequences', current: true},
+  { label: 'Sessions', href: '/manager/qcm/sessions', current: false},
 ]
 
 export default function HomeSequence () {
@@ -56,11 +59,17 @@ export default function HomeSequence () {
 
   const options: Options<ISequence> = {
     label: 'Séquence',
-    view: 'liste',
+    view: 'galerie',
+    data: data,
+    filter: {
+      uid: uid(),
+      conjunction: 'and',
+      conditions: []
+    },
     search: '',
     structure: [],
     keys: ['label'],
-    option: ['filter', 'column'],
+    option: ['filter', 'mode'],
     open: false
   }
 
@@ -77,7 +86,9 @@ export default function HomeSequence () {
            <div className="relative">
              <div className="mt-12">
                <Board name={"Séquence"} options={options} action={<CreateSequence toggle={toggle} />}>
-                 { data ? data.length : 'pas de données'}
+                 { data ? <div>
+                   <SequenceStories sequences={data} />
+                 </div>: 'pas de données'}
                </Board>
              </div>
            </div>

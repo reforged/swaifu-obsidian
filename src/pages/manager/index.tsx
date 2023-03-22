@@ -4,22 +4,14 @@ import { NavLink } from 'react-router-dom'
 import { AuthenticationContext } from '../../contexts/AuthenticationContext'
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import Manager from "../../layouts/manager";
+import { io } from "socket.io-client";
 
-const finalSpaceCharacters = [
-  {
-    id: 'gary',
-    name: 'Gary Goodspeed',
-  },
-  {
-    id: 'Nathael',
-    name: 'Nathael bonnal'
-  }
-]
 const pages = [
   { name: 'Accounts', href: '/manager/comptes/users', current: false},
   { name: 'Utilisateurs', href: '/manager/comptes/users', current: true},
 ]
 export default function Home () {
+  //const socket = io("ws://localhost:3333");
   return (
     <Manager
       layout={{
@@ -67,34 +59,6 @@ export default function Home () {
               </div>
             </div>
 
-            <div>
-              <DragDropContext>
-                <Droppable droppableId={"characters"}>
-                  {(provided, snapshot) => (
-                    <ul className="characters" {...provided.droppableProps} ref={provided.innerRef}>
-                      {finalSpaceCharacters.map(({id, name}, index) => {
-                        return (
-                          <Draggable key={id} draggableId={id} index={index}>
-                            {(provided) => (
-                              <li
-                                className="p-2 border"
-                                ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
-                              >
-                                <p>
-                                  { name }
-                                </p>
-                              </li>
-                            )}
-                          </Draggable>
-                        )
-                      })}
-                    </ul>
-                  )}
-                </Droppable>
-
-              </DragDropContext>
-
-            </div>
           </div>
         )}
 

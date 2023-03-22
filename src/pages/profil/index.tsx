@@ -8,6 +8,7 @@ export default function ProfilHome () {
           { user &&
             <div>
               { user.email}
+              { user.numero }
             </div>
           }
         </div>

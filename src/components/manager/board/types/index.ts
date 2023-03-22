@@ -1,4 +1,5 @@
 import {StructureContract} from "../../../../contexts/BoardContext";
+import {ConditionContract, ConditionGroupContract} from "../filter/types";
 
 export type Option = 'filter' | 'column' | 'mode'
 export type View = 'galerie' | 'liste'
@@ -17,8 +18,10 @@ export type Options<T> = {
   view: 'liste' | 'galerie'
   search: string
   option: Option[]
+  filter: ConditionGroupContract
   structure: StructureContract[]
   keys: key<T>[]
   open: boolean
+  data: any
   rowAction?: (item: T) => void
 }

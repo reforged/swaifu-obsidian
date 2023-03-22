@@ -4,6 +4,7 @@ import {Options, View} from '../components/manager/board/types'
 export type StructureContract = {
   label: string
   key: string
+  input: 'text' | 'select'
   checked: boolean
   default: boolean
 }

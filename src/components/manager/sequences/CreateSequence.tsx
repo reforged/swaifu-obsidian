@@ -20,6 +20,7 @@ import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import {AnimatePresence, motion} from "framer-motion";
 import useComponentVisible from "../../../hooks/useComponentVisible";
 import useSequences from "../../../hooks/use-sequences";
+import {Option} from "../board/types";
 
 type Props = {
 
@@ -35,11 +36,11 @@ function Title ({ value, className, onChange }: TitleProps) {
     className: classNames(className ? className : '', 'focus:outline-none'),
     contentEditable: true,
     suppressContentEditableWarning: true,
-    placeholder: 'Titre',
+    placeholder: 'Untitled',
     onInput: (event: any) => onChange(event.target.innerText)
   }
 
-  return createElement('p', defaultProps as never, textRef.current ? textRef.current : 'Titre')
+  return createElement('p', defaultProps as never, textRef.current ? textRef.current : 'Untitled')
 }
 
 export default function CreateSequence ({ }: Props) {
@@ -54,8 +55,6 @@ export default function CreateSequence ({ }: Props) {
     console.log(sequence)
   }, [sequence])
 
-
-
   return (
     <div className="col-span-1 h-full">
       <button
@@ -69,7 +68,7 @@ export default function CreateSequence ({ }: Props) {
       <AnimatePresence>
         { isVisible &&
           <motion.div
-            className="fixed z-[99] inset-0 bg-black bg-opacity-25"
+            className="fixed z-[99] inset-0 bg-black bg-opacity-[30%] backdrop-blur-[2px] backdrop-brightness-100"
             animate={{ opacity: 1 }}
             transition={{
               duration: 0.2,
@@ -78,10 +77,13 @@ export default function CreateSequence ({ }: Props) {
             exit={{ opacity: 0}}
             initial={{ opacity: 0}}
           >
-            <div className="absolute left-1/2 top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-full h-full p-8 ">
-              <div ref={ref} className="bg-white border border-gray-200 rounded-lg shadow-2xl">
-                <Modal toggle={toggle} />
+            <div className="absolute left-1/2 relative top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-full h-full p-8 ">
+              <div className="relative h-full overflow-hidden">
+                <div ref={ref} className=" border border-gray-200 h-full bg-blue-500 rounded-lg shadow-2xl">
+                  <Modal toggle={toggle} />
+                </div>
               </div>
+
 
             </div>
           </motion.div>
@@ -121,8 +123,8 @@ function Modal ({ toggle }) {
   }
 
   return (
-    <div className="relative">
-      <div className="relative border border-gray-200 rounded-lg shadow-xl z-50 h-full bg-gray-50 h-full">
+    <div className="relative h-full">
+      <div className="relative border border-gray-200 rounded-lg shadow-xl z-50 h-full h-full">
         <div className="w-full bg-gray-100 flex justify-between items-center p-4 relative">
           <div className="text-center w-full">
             <span className="font-title uppercase">Créer séquence</span>
@@ -137,7 +139,7 @@ function Modal ({ toggle }) {
         </div>
 
         <div className="grid grid-cols-12 h-full">
-          <div className="col-span-4 border-r h-full">
+          <div className="col-span-3 border-r h-full p-4 bg-white bg-opacity-75 backdrop-blur-xl">
             <div>
               <span>Nom de la séquence</span>
               <div>
@@ -155,37 +157,42 @@ function Modal ({ toggle }) {
                 />
               </div>
             </div>
-          </div>
-          <div className="col-span-8 p-8">
-            { sequence.questions.length
-              ?
-              <div className="overflow-y-scroll h-72 py-8">
-                <Fragment>
-                  <DragDropContext onDragEnd={handleDragEnd}>
-                    <Droppable droppableId="body">
-                      {( provided ) => (
-                        <div {...provided.droppableProps} ref={provided.innerRef as LegacyRef<HTMLDivElement>} className="relative">
-                          <div className="flex flex-col">
-                            {sequence.questions.map((question: IQuestion, index) => (
-                              <Question question={question} key={question.id} index={index} />
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </Droppable>
-                  </DragDropContext>
-                </Fragment>
-              </div>
 
-              : <div className="h-72">
-                <span>pas de questions sélectionnés</span>
-              </div>
-            }
+            <div className="bg-gray-100 border border-gray-300 rounded-md p-4 overflow-y-scroll h-72 py-8">
+              <Fragment>
+                <DragDropContext onDragEnd={handleDragEnd}>
+                  <Droppable droppableId="questions">
+                    {( provided ) => (
+                        <div className="flex flex-col relative"
+                             ref={provided.innerRef}
+                             {...provided.droppableProps}
+                        >
+                          {sequence.questions.map((question: IQuestion, index) => (
+                              <Question question={question} index={index} key={index} />
+                          ))}
+                          {provided.placeholder}
+                        </div>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+              </Fragment>
+            </div>
+          </div>
+          <div className="col-span-9 p-8 bg-white">
+            <div>
+
+            </div>
             <div className="pt-8">
               <AddQuestion />
             </div>
 
-            <div>
+            <div className="flex justify-end pt-8 items-center gap-2">
+              <button
+                onClick={close}
+                className="rounded-md px-3 py-2 border bg-red-200 text-red-500"
+              >
+                Cancel
+              </button>
               <button
                 disabled={disabled}
                 onClick={onCreate}
@@ -223,14 +230,16 @@ function Question ({ question, index }: QuestionProps) {
   }
 
   return (
-    <Draggable draggableId={question.id!} index={index}>
+    <Draggable key={question.id} draggableId={question.id!} index={index}>
       {( provided, snapshot ) => (
         <div
-          className="group hover:bg-gray-100 relative p-4 flex justify-between items-center"
-          ref={provided.innerRef as LegacyRef<HTMLDivElement>} {...provided.draggableProps} {...provided.dragHandleProps}
+          className="group bg-red-500 hover:bg-gray-100 relative p-4 flex justify-between items-center"
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
         >
           <div className="flex items-center gap-2">
-            <div className="" {...provided.dragHandleProps}>
+            <div className="">
                <div className="dnd-button" />
             </div>
             <span>{question.label}</span>

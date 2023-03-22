@@ -1,12 +1,9 @@
 import { BlockContextContract } from './contexts/BlocksContext'
 import Title from './blocks/Title'
 import Paragraph from './blocks/Paragraph'
-import Hero from './blocks/Hero'
 import Divide from './blocks/Divide'
 import Blockquote from './blocks/Blockquote'
-import Image from './blocks/Image'
 import Code from './blocks/Code'
-import Cards from './blocks/Cards'
 
 export function TitleBlock (): BlockContextContract {
   return {
