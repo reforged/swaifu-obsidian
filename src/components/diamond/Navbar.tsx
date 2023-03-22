@@ -30,7 +30,7 @@ export default function Navbar ({ }: Props) {
                   />
                   <img
                     className="hidden h-8 w-8 lg:block object-cover rounded-md"
-                    src="https://cdn.discordapp.com/attachments/1052152529682710558/1064960787426324531/dzadazdazda.png"
+                    src="../../public/favicon.ico"
                     alt="Your Company"
                   />
 
@@ -52,7 +52,7 @@ export default function Navbar ({ }: Props) {
                         <div>
                           <Profil />
                         </div>
-                        : <div>Login</div>
+                        : <Link to={'/authentication/login'} className="px-3 py-2 border rounded-md bg-gray-800 border-gray-700 text-gray-300">Login</Link>
                       }
                     </div>
                   )}

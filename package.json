@@ -39,7 +39,8 @@
     "react-router-dom": "^6.6.2",
     "rehype-katex": "^6.0.2",
     "remark-math": "^5.1.1",
-    "sass": "^1.57.1"
+    "sass": "^1.57.1",
+    "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

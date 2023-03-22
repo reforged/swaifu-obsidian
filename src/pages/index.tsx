@@ -1,10 +1,28 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import DarkMode from "../components/DarkMode";
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import Navbar from "../components/diamond/Navbar";
+import {io} from "socket.io-client";
+import {AuthenticationContext} from "../contexts/AuthenticationContext";
+import {useNavigate} from "react-router";
 
 export default function Index () {
   const [open, setOpen] = useState<boolean>(false)
+  const {user } = useContext(AuthenticationContext)
+  const [code, setCode] = useState<string>('')
+  const socket = io("ws://localhost:3333")
+  const router = useNavigate()
+
+  function joinSession () {
+    if (user && code) {
+      router(`/room/${code}`)
+      socket.emit('session_connexion', {
+        user,
+        code: code
+      })
+    }
+  }
+
   return (
     <div>
       <div className="relative isolate overflow-hidden bg-white dark:bg-gray-900">
@@ -78,12 +96,25 @@ export default function Index () {
               fugiat veniam occaecat fugiat aliqua.
             </p>
             <div className="mt-10 flex items-center gap-x-6">
-              <a
-                href="#"
+              <div className="">
+                <input
+                  type="text"
+                  name="code"
+                  id="code"
+                  value={code}
+                  onChange={(e) => {
+                    setCode(e.currentTarget.value)
+                  }}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200 sm:text-sm sm:leading-6"
+                  placeholder="Saisit le code de la session"
+                />
+              </div>
+              <button
                 className="rounded-md bg-indigo-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                onClick={joinSession}
               >
                 Get started
-              </a>
+              </button>
               <a href="#" className="text-base font-semibold leading-7 text-gray-900">
                 Learn more <span aria-hidden="true">→</span>
               </a>

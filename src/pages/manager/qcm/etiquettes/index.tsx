@@ -3,7 +3,7 @@ import useComponentVisible from '../../../../hooks/useComponentVisible'
 import { IEtiquette } from '../../../../utils'
 import ProfilEtiquette from '../../../../components/manager/etiquettes/ProfilEtiquette'
 import CreateEtiquette from '../../../../components/manager/etiquettes/CreateEtiquette'
-import {classNames, filteredData} from '../../../../utils/helper'
+import {classNames, filteredData, uid} from '../../../../utils/helper'
 import Search from '../../../../components/Search'
 import useEtiquettes from '../../../../hooks/use-etiquettes'
 import Board, {BoardData} from "../../../../components/manager/board/Board";
@@ -26,6 +26,7 @@ const pages = [
   { label: 'Questions', href: '/manager/qcm/questions', current: false},
   { label: 'Etiquettes', href: '/manager/qcm/etiquettes', current: true},
   { label: 'Séquences', href: '/manager/qcm/sequences', current: false},
+  { label: 'Sessions', href: '/manager/qcm/sessions', current: false},
 ]
 
 export default function HomeEtiquette () {
@@ -51,6 +52,11 @@ export default function HomeEtiquette () {
     view: 'liste',
     search: '',
     structure: columns,
+    filter: {
+      uid: uid(),
+      conjunction: 'and',
+      conditions: []
+    },
     keys: ['label'],
     open: false,
     option: ['filter', 'column', 'mode'],

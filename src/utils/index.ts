@@ -73,3 +73,14 @@ export type IBlock = {
   html: string
   tag: string
 }
+
+export type ISession = {
+  id?: string
+  sequence_id: string
+  code: string
+  status: 'wait' | 'starting' | 'finish'
+  users: IUser[]
+  reponses: IReponse[]
+  sequence: ISequence
+  question?: IQuestion
+}

@@ -7,6 +7,7 @@ const pages = [
   { label: 'Questions', href: '/qcm/questions', current: false},
   { label: 'Etiquettes', href: '/qcm/etiquettes', current: false},
   { label: 'Séquences', href: '/qcm/sequences', current: false},
+  { label: 'Sessions', href: '/qcm/sessions', current: false}
 ]
 
 export default function HomeQCM () {

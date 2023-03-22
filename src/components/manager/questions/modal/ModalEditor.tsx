@@ -61,6 +61,7 @@ export default function ModalEditor ({ data }: Props) {
   }
 
   function verifData () {
+    console.log(question)
     if (data
       .map((item) => item.label.toLowerCase())
       .includes(question.label.toLowerCase())
@@ -88,7 +89,11 @@ export default function ModalEditor ({ data }: Props) {
   }
 
   function handleClick () {
-    createQuestion(question)
+    const objet = {
+      ...question,
+      etiquettes: question.etiquettes.map((etiquette) => etiquette.id)
+    }
+    createQuestion(objet)
     toggle()
     setQuestion({
       type: '',
@@ -97,6 +102,7 @@ export default function ModalEditor ({ data }: Props) {
       reponses: [],
       enonce: []
     })
+
   }
 
   function close () {

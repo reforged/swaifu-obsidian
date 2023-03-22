@@ -8,7 +8,6 @@ type Props = {
   children: any
 }
 export default function Fence ({ children }: Props) {
-  console.log(children)
   const language = children.className?.split('-')[1]
 
   if (language === 'mermaid') {

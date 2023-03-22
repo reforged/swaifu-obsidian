@@ -29,11 +29,14 @@ export default function DarkMode () {
 
   function toggle () {
     const theme = localStorage.theme
+    console.log(theme)
     if (theme === 'dark') {
       toLight()
     }
     if (theme === 'light') {
       toDark()
+    } else {
+      toLight()
     }
   }
 
