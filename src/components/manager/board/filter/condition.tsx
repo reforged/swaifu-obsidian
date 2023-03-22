@@ -1,7 +1,4 @@
 import {Fragment, useContext, useEffect, useState} from 'react'
-import { Listbox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import {classNames} from "../../../../utils/helper";
 import DeleteRow from "./buttons/delete-row";
 import SelectOperator from "./select-menus/select-operator";
 import ValueRow from "./value";

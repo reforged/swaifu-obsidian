@@ -1,20 +1,17 @@
-import {ConditionContract, SelectTypeContract, TypeInputContract} from "./types";
-import {Fragment, useContext, useEffect, useState} from "react";
-import BoardContext from "../../../../contexts/BoardContext";
-import SelectOperator from "./select-menus/select-operator";
-import {UpdateRow} from "./utils";
-import {Listbox, Transition} from "@headlessui/react";
-import useEtiquettes from "../../../../hooks/use-etiquettes";
-import {IEtiquette, IPermission, IRole} from "../../../../utils";
-import {CheckIcon, ChevronUpDownIcon} from "@heroicons/react/20/solid";
-import {classNames} from "../../../../utils/helper";
+import { ConditionContract, SelectTypeContract, TypeInputContract } from './types'
+import { Fragment, useContext, useEffect, useState } from 'react'
+import BoardContext from '../../../../contexts/BoardContext'
+import { UpdateRow } from './utils'
+import { Listbox, Transition } from '@headlessui/react'
+import { IEtiquette, IPermission, IRole } from '../../../../utils'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import { classNames } from '../../../../utils/helper'
 
 type Props = {
   condition: ConditionContract
 }
 
 export default function ValueRow ({ condition }: Props) {
-  console.log(condition)
   const [board, setBoard] = useContext(BoardContext)
   const [value, setValue] = useState('')
   const [type, setType] = useState<TypeInputContract>(
@@ -22,14 +19,6 @@ export default function ValueRow ({ condition }: Props) {
       if (item.key === condition.field) return item
     })!.input
   )
-  const { fetch: fetchEtiquettes } = useEtiquettes()
-  const { data: etiquettes } = fetchEtiquettes()
-  const [etiquette, setEtiquette] = useState<IEtiquette>(
-    type === 'select' ? condition.value
-      ? condition.value : etiquettes[0]
-      : etiquettes[0]
-  )
-
   const [select, setSelect] = useState<IEtiquette | IRole | IPermission>()
 
 
@@ -37,6 +26,7 @@ export default function ValueRow ({ condition }: Props) {
     const typeData = board.structure.find((item) => {
       if (item.key === condition.field) return item
     })
+
     if (typeData && typeData.input !== type) {
       setType(typeData.input)
       const data: ConditionContract = {
@@ -56,9 +46,6 @@ export default function ValueRow ({ condition }: Props) {
         }
       })
     }
-
-
-
   }, [condition])
 
   useEffect(() => {
@@ -80,7 +67,7 @@ export default function ValueRow ({ condition }: Props) {
         }
       })
     }
-  }, [value, etiquette])
+  }, [value, select])
 
 
   return (
@@ -105,7 +92,7 @@ export default function ValueRow ({ condition }: Props) {
                   board.data && board.data[condition.field as SelectTypeContract] && select &&
                   <div className="relative">
                     <Listbox.Button className="relative w-full cursor-default bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-smsm:text-sm sm:leading-6">
-                      <span className="block truncate">{etiquette.label}</span>
+                      <span className="block truncate">{select.label}</span>
                       <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                         <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true"/>
                       </span>

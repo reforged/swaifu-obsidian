@@ -4,7 +4,7 @@ import {IEtiquette, IPermission, IRole} from "../../../../utils";
 
 export type Option = 'filter' | 'column' | 'mode'
 export type View = 'galerie' | 'liste'
-
+export type DataFilterContract = IEtiquette[] | IRole[] | IPermission[]
 export type Column = {
   label: string
   key: string

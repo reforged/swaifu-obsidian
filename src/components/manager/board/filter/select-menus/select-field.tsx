@@ -1,9 +1,9 @@
-import {Fragment, useContext, useEffect, useState} from "react";
-import BoardContext, {StructureContract} from "../../../../../contexts/BoardContext";
-import {ConditionContract, ConditionGroupContract, CoupleConditionContract} from "../types";
-import {Listbox, Transition} from "@headlessui/react";
-import {CheckIcon, ChevronUpDownIcon} from "@heroicons/react/20/solid";
-import {classNames, uid} from "../../../../../utils/helper";
+import {Fragment, useContext, useEffect, useState} from 'react'
+import BoardContext, {StructureContract} from '../../../../../contexts/BoardContext'
+import {ConditionContract, ConditionGroupContract, CoupleConditionContract} from '../types'
+import {Listbox, Transition} from '@headlessui/react'
+import {CheckIcon, ChevronUpDownIcon} from '@heroicons/react/20/solid'
+import {classNames, uid} from '../../../../../utils/helper'
 
 type Props = {
   condition: ConditionContract,
