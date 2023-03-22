@@ -1,6 +1,7 @@
 import {io} from "socket.io-client";
 import {useContext} from "react";
 import RoomContext from "../../../../contexts/RoomContext";
+import LockButton from "./actions/lock-button";
 
 export default function ActionBar () {
   const [room, setRoom] = useContext(RoomContext)
@@ -10,7 +11,7 @@ export default function ActionBar () {
       <button className="px-6 py-4 border rounded-md hover:bg-gray-100">
         Affichage réponses en direct
       </button>
-      <LockQuestion />
+      <LockButton />
       <button className="px-6 py-4 border rounded-md">
         Affichage réponses
       </button>
@@ -18,30 +19,5 @@ export default function ActionBar () {
         Quitter
       </button>
     </div>
-  )
-}
-
-function LockQuestion () {
-  const [room, setRoom] = useContext(RoomContext)
-  const socket = io("ws://localhost:3333")
-
-  function handleLock () {
-    setRoom({
-      ...room,
-      locked: !room.locked
-    })
-    socket.emit('lock_answer', {
-      locked: !room.locked,
-      session: room.session
-    })
-  }
-
-  return (
-    <>
-      {room.locked
-        ? <button onClick={handleLock}>Lock</button>
-        : <button onClick={handleLock}>Libre</button>
-      }
-    </>
   )
 }
