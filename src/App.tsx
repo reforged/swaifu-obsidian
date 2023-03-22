@@ -23,6 +23,7 @@ import HomePermissions from "./pages/manager/comptes/permissions";
 import HomeSessions from "./pages/manager/qcm/sessions";
 import Room from "./pages/room";
 
+
 function App() {
   const [user, setUser] = useState<IUser | null>(null)
   const [etiquette, setEtiquette] = useState<IEtiquette | null>(null)
@@ -70,7 +71,7 @@ function App() {
 
     { uid: 'login', href: '/authentication/login', component: <Login /> },
 
-    { uid: '404', href: '*', component: <NotFound /> }
+    { uid: '404', href: '*', component: <NotFound /> },
   ]
 
   return (

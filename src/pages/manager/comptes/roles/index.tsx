@@ -1,21 +1,12 @@
 import {INavigation, IRole} from "../../../../utils";
-import Hero from "../../../../components/manager/Hero";
-import {HomeIcon, ChevronRightIcon} from "@heroicons/react/20/solid";
-import {Link} from "react-router-dom";
-import {
-  CloudArrowDownIcon,
-  EllipsisVerticalIcon,
-  PlusIcon,
-  SwatchIcon,
-  ViewColumnsIcon
-} from "@heroicons/react/24/outline";
-import {Fragment, useContext, useEffect, useState} from "react";
+
+import { PlusIcon } from "@heroicons/react/24/outline";
+import {useContext} from "react";
 import Board from "../../../../components/manager/board/Board";
 import Manager from "../../../../layouts/manager";
 import BoardContext, {StructureContract} from "../../../../contexts/BoardContext";
 import UserSkeleton from "../../../../skeleton/UserSkeleton";
 import Table from "../../../../components/manager/board/Table";
-import ImportCsv from "../../../../components/manager/comptes/users/modal/import-csv";
 import CreateRole from "../../../../components/manager/comptes/roles/modal/create-role";
 import useRoles from "../../../../hooks/use-roles";
 import {Options} from "../../../../components/manager/board/types";
