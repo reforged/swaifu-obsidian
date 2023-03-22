@@ -1,5 +1,6 @@
 import {StructureContract} from "../../../../contexts/BoardContext";
 import {ConditionContract, ConditionGroupContract} from "../filter/types";
+import {IEtiquette, IPermission, IRole} from "../../../../utils";
 
 export type Option = 'filter' | 'column' | 'mode'
 export type View = 'galerie' | 'liste'
@@ -22,6 +23,10 @@ export type Options<T> = {
   structure: StructureContract[]
   keys: key<T>[]
   open: boolean
-  data: any
+  data?: {
+    permissions: IPermission[],
+    roles: IRole[],
+    etiquettes: IEtiquette[]
+  },
   rowAction?: (item: T) => void
 }

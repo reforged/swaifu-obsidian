@@ -14,7 +14,6 @@ export function UpdateConjunction (condition: ConditionGroupContract, id: string
     uid: condition.uid,
     conjunction: condition.uid === id ? value : condition.conjunction,
     conditions: condition.uid === id ? condition.conditions : condition.conditions.map((item) => {
-      console.log("TEST", item.uid, id)
       if (item.uid === id) {
         return {
           uid: item.uid,

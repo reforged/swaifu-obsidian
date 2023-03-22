@@ -61,7 +61,6 @@ export default function ModalEditor ({ data }: Props) {
   }
 
   function verifData () {
-    console.log(question)
     if (data
       .map((item) => item.label.toLowerCase())
       .includes(question.label.toLowerCase())

@@ -46,7 +46,6 @@ export default function SelectMenu({ data, color, setColor }: Props<IColor>) {
                 {data.map((item, index) =>  (
                   <Listbox.Option
                     key={index}
-                    onClick={(e: any) => console.log(e.target.value)}
                     className={({ active }) =>
                       classNames(
                         active ? 'bg-indigo-500 text-white' : 'text-gray-900',

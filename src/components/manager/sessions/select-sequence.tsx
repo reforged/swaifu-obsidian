@@ -30,7 +30,6 @@ export default function SelectSequence () {
 
   function onCreate () {
     if (selected) {
-      console.log(selected.id)
       mutate(selected.id!)
     }
   }

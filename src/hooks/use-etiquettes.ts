@@ -42,8 +42,7 @@ const useEtiquettes = () => {
       return response.data
     }, {
       onSuccess: async (data, variables, context) => {
-        console.log(data);
-        
+
         await queryClient.invalidateQueries(['etiquettes'])
       },
     })

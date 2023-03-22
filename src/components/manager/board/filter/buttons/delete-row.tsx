@@ -54,7 +54,6 @@ export default function DeleteRow ({ condition }: Props) {
 
     })*/
 
-    console.log(li)
 
     setBoard({
       ...board,

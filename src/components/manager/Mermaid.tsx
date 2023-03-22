@@ -17,7 +17,6 @@ export const Mermaid = ({ text }: MermaidProps) => {
   })
 
   useEffect(() => {
-    console.log(text)
     if (ref.current && text) {
       try {
         mermaid.mermaidAPI.render("preview", text, result => {

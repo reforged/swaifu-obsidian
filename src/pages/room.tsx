@@ -26,7 +26,6 @@ export default function Room () {
   const socket = io("ws://localhost:3333")
 
   useEffect(() => {
-
     if (code && user) {
       socket.emit('session_connexion', {
         user,
@@ -60,6 +59,10 @@ export default function Room () {
       })
     }
   }, [code, user])
+
+  socket.on('session_deleted', () => {
+    router('/')
+  })
 
   socket.on('start_session', async (data: StartEvent) => {
     if (data.session.code === code) {

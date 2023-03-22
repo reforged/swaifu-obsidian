@@ -43,7 +43,6 @@ export default function ModalCheckbox ({ context }: Props) {
       reponses: [...question!.reponses, objet]
     })
 
-    console.log(objet)
   }
   return (
     <div>
@@ -231,10 +230,8 @@ const TodoReponses = ({ setSelected, context }: TodoReponsesProps) => {
                     <button
                       type="button"
                       onClick={() => {
-                        console.log("delete réponse")
                         const list = question!.reponses
                         list.splice(index, 1)
-                        console.log(list)
                         setQuestion({
                           ...question!,
                           reponses: [...list]

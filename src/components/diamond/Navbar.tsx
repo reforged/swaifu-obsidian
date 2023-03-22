@@ -95,7 +95,6 @@ const Profil = () => {
   const [manager, setManager] = useState<boolean>((permissions.includes('admin') || permissions.includes('manager')))
 
   useEffect(() => {
-    console.log(permissions, user)
     if (permissions.includes('admin') || permissions.includes('manager')) {
       setManager(true)
     }
@@ -199,7 +198,6 @@ type MobileProps = {
   open: boolean
 }
 function MobileNavbar ({ open }: MobileProps) {
-  console.log(open)
   return (
     <Fragment>
       <Transition

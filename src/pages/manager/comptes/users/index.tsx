@@ -1,29 +1,17 @@
 import {INavigation, IUser} from "../../../../utils";
-import Hero from "../../../../components/manager/Hero";
-import {HomeIcon, ChevronRightIcon} from "@heroicons/react/20/solid";
-import {Link} from "react-router-dom";
 import useUsers from "../../../../hooks/use-users";
 import {
-  CloudArrowDownIcon,
-  EllipsisVerticalIcon,
   PlusIcon,
-  SwatchIcon,
-  ViewColumnsIcon
 } from "@heroicons/react/24/outline";
 import {Fragment, useContext, useEffect, useState} from "react";
-import Search from "../../../../components/Search";
-import { Menu, Transition } from "@headlessui/react";
-import DragIcon from "../../../../components/icons/DragIcon";
-import {classNames} from "../../../../utils/helper";
-import {InboxArrowDownIcon} from "@heroicons/react/24/solid";
 import Board from "../../../../components/manager/board/Board";
 import Manager from "../../../../layouts/manager";
 import BoardContext, {StructureContract} from "../../../../contexts/BoardContext";
 import UserSkeleton from "../../../../skeleton/UserSkeleton";
 import Table from "../../../../components/manager/board/Table";
-import ImportCsv from "../../../../components/manager/comptes/users/modal/import-csv";
 import CreateUser from "../../../../components/manager/comptes/users/modal/create-user";
 import {Options} from "../../../../components/manager/board/types";
+import {uid} from "../../../../utils/helper";
 
 const navigation: INavigation[] = [
   { label: 'Home', href: '/manager/comptes'},
@@ -37,17 +25,22 @@ export default function HomeUsers () {
   const { data , isLoading } = index()
 
   const columns: StructureContract[] = [
-    {label: 'Username', key: 'username', checked: true, default: true},
-    {label: 'Email', key: 'email', checked: true, default: false},
-    {label: 'Numéro étudiant', key: 'numero', checked: true, default: false},
-    {label: 'Roles', key: 'roles', checked: true, default: false},
-    {label: 'Permissions', key: 'permissions', checked: true, default: false}
+    {label: 'Username', key: 'username', input: 'text', checked: true, default: true},
+    {label: 'Email', key: 'email', input: 'text' ,checked: true, default: false},
+    {label: 'Numéro étudiant', key: 'numero', input: 'text', checked: true, default: false},
+    {label: 'Roles', key: 'roles', input: 'select', checked: true, default: false},
+    {label: 'Permissions', key: 'permissions', input: 'select', checked: true, default: false}
   ]
 
   const options: Options<IUser> = {
     label: 'Utilisateurs',
     view: 'liste',
     search: '',
+    filter: {
+      uid: uid(),
+      conjunction: 'and',
+      conditions: []
+    },
     structure: columns,
     keys: ['firstname', 'lastname'],
     open: false,

@@ -35,13 +35,11 @@ export default function ImportCsv ({ toggle }: Props) {
   }, [csvArray.length])
 
   useEffect(() => {
-    console.log(data)
     if (data) {
       const filtered = data.filter((item) => !!item.numero)
       const list: string[] = filtered.map((item) => item.numero) as string[]
       setNumero(list)
     }
-    console.log(numero)
   }, [data])
 
   function reset () {

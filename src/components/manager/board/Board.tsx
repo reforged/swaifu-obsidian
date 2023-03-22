@@ -5,6 +5,9 @@ import Search from './Search'
 import FilterView from './options/Filter'
 import ColumnView from './options/Column'
 import Mode from './options/Mode'
+import useEtiquettes from "../../../hooks/use-etiquettes";
+import useRoles from "../../../hooks/use-roles";
+import usePermissions from "../../../hooks/use-permissions";
 
 type State<T> = [
   state: T,
@@ -26,6 +29,28 @@ type Props<T> = {
 
 export default function Board<T> ({ name, options, children, action }: Props<T>) {
   const [board, setBoard] = useState<BoardContract<T>>(options)
+  const { fetch: fetchEtiquettes } = useEtiquettes()
+  const { index: fetchRoles } = useRoles()
+  const { index: fetchPerms } = usePermissions()
+  const { data: etiquettes} = fetchEtiquettes()
+  const { data: roles } = fetchRoles()
+  const { data: permissions } = fetchPerms()
+
+  useEffect(() => {
+    console.log("test")
+    setBoard({
+      ...board,
+      data: {
+        permissions,
+        etiquettes,
+        roles
+      }
+    })
+  }, [etiquettes, roles, permissions])
+
+  useEffect(() => {
+    console.log(board)
+  }, [board])
 
 
   return (

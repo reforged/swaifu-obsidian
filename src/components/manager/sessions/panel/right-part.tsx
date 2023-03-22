@@ -12,10 +12,6 @@ export default function RightPart () {
   const [room, setRoom] = useContext(RoomContext)
   const socket = io("ws://localhost:3333")
 
-  useEffect(() => {
-    console.log("selectionné", room.session.question)
-  }, [room])
-
   function nextQuestion () {
     let index = 0
     room.session!.sequence.questions.forEach((item, key) => {

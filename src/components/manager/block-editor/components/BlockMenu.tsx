@@ -70,7 +70,6 @@ function CardBlock (props): JSX.Element {
     props.close()
   }
 
-  console.log(props)
   return (
     <div
       onClick={() => handleAddBlock(props.block)}
