@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {INavigation, IQuestion} from '../../../../utils'
+import {IQuestion} from '../../../../utils'
 import useQuestions from "../../../../hooks/use-questions";
 import ModalEditor from "../../../../components/manager/questions/modal/ModalEditor";
 import QuestionContext from "../../../../contexts/QuestionContext";
@@ -7,7 +7,6 @@ import ShowQuestionContext from "../../../../contexts/ShowQuestionContext";
 import ModalQuestionView from "../../../../components/manager/questions/modal/Question";
 import {ChatBubbleBottomCenterTextIcon, TrashIcon} from "@heroicons/react/24/outline";
 import {classNames, filteredData} from "../../../../utils/helper";
-import Hero from "../../../../components/manager/Hero";
 import Manager from "../../../../layouts/manager";
 import Board from "../../../../components/manager/board/Board";
 import BoardContext from "../../../../contexts/BoardContext";

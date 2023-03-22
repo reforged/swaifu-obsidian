@@ -1,10 +1,10 @@
 import QuestionContext from '../../../../contexts/QuestionContext'
 import React, {
-  createElement, useContext, useEffect,
-  useRef, useState,
+   useContext, useEffect,
+   useState,
 } from 'react'
 import {AnimatePresence, motion} from 'framer-motion'
-import {PlusIcon, TrashIcon, XMarkIcon} from '@heroicons/react/24/outline'
+import {PlusIcon, XMarkIcon} from '@heroicons/react/24/outline'
 import useComponentVisible from '../../../../hooks/useComponentVisible'
 import {classNames} from '../../../../utils/helper'
 import ModalEtiquettes from '../editor/header/ModalEtiquettes'

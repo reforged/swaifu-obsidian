@@ -20,6 +20,8 @@ import {BookOpenIcon, HomeIcon, UserGroupIcon, ListBulletIcon} from '@heroicons/
 import {FolderIcon} from "@heroicons/react/24/outline";
 import HomeRoles from "./pages/manager/comptes/roles";
 import HomePermissions from "./pages/manager/comptes/permissions";
+import StatPage from "./components/manager/sequences/StatPage";
+import ShowQuestionStat from "./components/manager/sequences/ShowQuestionStat";
 
 function App() {
   const [user, setUser] = useState<IUser | null>(null)
@@ -66,7 +68,9 @@ function App() {
 
     { uid: 'login', href: '/authentication/login', component: <Login /> },
 
-    { uid: '404', href: '*', component: <NotFound /> }
+    { uid: '404', href: '*', component: <NotFound /> },
+    { uid: 'StatPage', href: '/StatPage', component: <StatPage /> },
+    { uid: 'StatQuestion', href: '/StatQuestion', component: <ShowQuestionStat /> }
   ]
 
   return (

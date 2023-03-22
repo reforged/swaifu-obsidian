@@ -7,7 +7,6 @@ import {AnimatePresence, motion} from "framer-motion";
 import {ArrowDownRightIcon, XMarkIcon} from "@heroicons/react/20/solid";
 import Markdoc from "@markdoc/markdoc";
 import Fence from "../Fence";
-import {Prose} from "../Prose";
 import Markdown from "../Markdown";
 
 type Props = {

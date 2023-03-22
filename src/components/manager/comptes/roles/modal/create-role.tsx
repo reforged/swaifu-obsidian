@@ -1,19 +1,16 @@
 import useComponentVisible from "../../../../../hooks/useComponentVisible";
-import { Tab } from "@headlessui/react";
 import {AnimatePresence, motion} from "framer-motion";
-import {LegacyRef, useContext, useEffect, useRef, useState} from "react";
+import {useContext, useEffect} from "react";
 import BoardContext from "../../../../../contexts/BoardContext";
 import {XMarkIcon} from "@heroicons/react/20/solid";
-import {CircleStackIcon, InboxArrowDownIcon, UserPlusIcon} from "@heroicons/react/24/outline";
-import useRoles from "../../../../../hooks/use-roles";
-import {classNames} from "../../../../../utils/helper";
+import {UserPlusIcon} from "@heroicons/react/24/outline";
+
 
 export default function CreateRole () {
   const { ref, isVisible, toggle, setIsVisible } = useComponentVisible()
 
   const [board, setBoard] = useContext(BoardContext)
-  const [csvFile, setCsvFile] = useState(null)
-  const [csvArray, setCsvArray] = useState<any>([])
+
 
   useEffect(() => {
     if (board.open) setIsVisible(true)

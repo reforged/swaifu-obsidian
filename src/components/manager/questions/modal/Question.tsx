@@ -1,5 +1,5 @@
 import useComponentVisible from "../../../../hooks/useComponentVisible";
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect,useState} from "react";
 import ShowQuestionContext from "../../../../contexts/ShowQuestionContext";
 import {AnimatePresence, motion} from "framer-motion";
 import {classNames} from "../../../../utils/helper";
@@ -15,7 +15,7 @@ import {Title} from "../editor/header/Title";
 import ModalEtiquettes from "../editor/header/ModalEtiquettes";
 import ModalType from "../editor/header/ModalType";
 import ModalReponses from "../editor/header/ModalReponses";
-import {IEtiquette, IQuestion} from "../../../../utils";
+import {IQuestion} from "../../../../utils";
 import useQuestions from "../../../../hooks/use-questions";
 
 export default function ModalQuestionView ({ questions }) {
