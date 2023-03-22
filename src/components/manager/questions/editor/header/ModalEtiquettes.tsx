@@ -213,7 +213,7 @@ const Modal = ({ addEtiquette, etiquettes, removeEtiquette, value, setValue }: M
 
 
               </button>
-              <div className={"invisible group-hover:visible absolute top-0 right-2  top-[2px]  z-50"} onClick={() => console.log("Params")}>
+              <div className={"invisible group-hover:visible absolute top-0 right-2  top-[2px]  z-50"}>
                 <div className="p-1 hover:bg-gray-200 rounded-md">
                   <EllipsisHorizontalIcon className="w-5 h-5" />
                 </div>

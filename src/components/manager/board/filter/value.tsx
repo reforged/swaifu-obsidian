@@ -1,11 +1,11 @@
-import {ConditionContract, TypeInputContract} from "./types";
+import {ConditionContract, SelectTypeContract, TypeInputContract} from "./types";
 import {Fragment, useContext, useEffect, useState} from "react";
 import BoardContext from "../../../../contexts/BoardContext";
 import SelectOperator from "./select-menus/select-operator";
 import {UpdateRow} from "./utils";
 import {Listbox, Transition} from "@headlessui/react";
 import useEtiquettes from "../../../../hooks/use-etiquettes";
-import {IEtiquette} from "../../../../utils";
+import {IEtiquette, IPermission, IRole} from "../../../../utils";
 import {CheckIcon, ChevronUpDownIcon} from "@heroicons/react/20/solid";
 import {classNames} from "../../../../utils/helper";
 
@@ -14,6 +14,7 @@ type Props = {
 }
 
 export default function ValueRow ({ condition }: Props) {
+  console.log(condition)
   const [board, setBoard] = useContext(BoardContext)
   const [value, setValue] = useState('')
   const [type, setType] = useState<TypeInputContract>(
@@ -28,6 +29,8 @@ export default function ValueRow ({ condition }: Props) {
       ? condition.value : etiquettes[0]
       : etiquettes[0]
   )
+
+  const [select, setSelect] = useState<IEtiquette | IRole | IPermission>()
 
 
   useEffect(() => {
@@ -61,7 +64,7 @@ export default function ValueRow ({ condition }: Props) {
   useEffect(() => {
     const data: ConditionContract = {
       uid: condition.uid,
-      value: type === 'text' ? value : etiquette,
+      value: type === 'text' ? value : select,
       operator: condition.operator,
       field: condition.field
     }
@@ -95,11 +98,11 @@ export default function ValueRow ({ condition }: Props) {
         />
 
         : <div>
-          <Listbox value={etiquette} onChange={setEtiquette}>
+          <Listbox value={select} onChange={setSelect}>
             {({ open}) => (
               <>
                 {
-                  etiquettes && etiquette &&
+                  board.data && board.data[condition.field as SelectTypeContract] && select &&
                   <div className="relative">
                     <Listbox.Button className="relative w-full cursor-default bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-smsm:text-sm sm:leading-6">
                       <span className="block truncate">{etiquette.label}</span>
@@ -116,7 +119,7 @@ export default function ValueRow ({ condition }: Props) {
                     >
                       <Listbox.Options
                         className="absolute z-[99] mt-1 max-h-60 w-auto overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                        {etiquettes.map((item: IEtiquette) => (
+                        {board.data[condition.field as SelectTypeContract].map((item) => (
                           <Listbox.Option
                             key={item.id}
                             className={({active}) =>

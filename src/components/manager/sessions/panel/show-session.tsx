@@ -9,7 +9,6 @@ import RoomContext from "../../../../contexts/RoomContext";
 
 export default function ShowSession ({ reference, toggle }) {
   const [session, setSession] = useContext(SessionContext)
-  console.log(session)
   const [room, setRoom] = useState<IRoom>({
     session: session,
     locked: false,
@@ -18,17 +17,25 @@ export default function ShowSession ({ reference, toggle }) {
   const socket = io('ws://localhost:3333')
 
   socket.on('new_user', async (data) => {
-    console.log(data)
-    setSession(data.session)
+    setRoom({
+      ...room,
+      session: data.session
+    })
   })
 
   useEffect(() => {
-    console.log(session)
     setRoom({
       ...room,
       session
     })
   }, [session])
+
+  socket.on('update_answers', (data) => {
+    setRoom({
+      ...room,
+      session: data.session
+    })
+  })
   function closeLive () {}
 
   return (

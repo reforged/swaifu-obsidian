@@ -28,7 +28,6 @@ export default function ShowEnonce ({ question }: Props) {
 
   useEffect(() => {
     setState(question)
-    console.log(question)
   }, [question])
 
   return (

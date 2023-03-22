@@ -10,6 +10,8 @@ export type ConditionContract = {
   value: any
 }
 
+export type SelectTypeContract = 'etiquettes' | 'roles' | 'permissions'
+
 export type ConditionGroupContract = {
   uid: string
   conjunction: ConjuctionContract

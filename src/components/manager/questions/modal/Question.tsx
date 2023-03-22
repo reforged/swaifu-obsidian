@@ -35,8 +35,6 @@ export default function ModalQuestionView ({ questions }) {
       .map((item) => item.label.toLowerCase())
       .includes(question.label.toLowerCase())
     ) return false
-    console.log(!!question.etiquettes.length)
-    console.log(!!question.label)
     if (
       !question.etiquettes.length
       || !question.label

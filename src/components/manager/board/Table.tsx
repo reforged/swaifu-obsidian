@@ -77,7 +77,6 @@ export default function Table<T> ({ data, skeleton, keys, columns, loading, onDe
 function ShowData<T> ({ data, onDelete }: { data: T[], onDelete: any  }) {
   const [board, setBoard] = useContext(BoardContext)
   const [activeDeleteModal, setActiveDeleteModal] = useState<unknown>(null)
-  console.log(data);
   function selectValue (item: T): string {
     let value: string = ''
     board.keys.forEach((key) => {

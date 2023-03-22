@@ -1,20 +1,21 @@
-import SessionContext from '../../../../contexts/SessionContext'
-import React from "react";
+import React, {useContext} from "react";
 import StartRoom from "./start-room";
+import RoomContext from "../../../../contexts/RoomContext";
 
 export default function LeftPart () {
+  const [room, setRoom] = useContext(RoomContext)
   return (
-    <SessionContext.Consumer>
-      {([session, setSession]) => (
+    <RoomContext.Consumer>
+      {([room, setRoom]) => (
         <>
-          { session &&
+          { room.session &&
             <div className="col-span-4 border-r h-full p-4">
               <div className="flex flex-col">
-                <h1>{session.sequence.label}</h1>
+                <h1>{room.session.sequence.label}</h1>
                 <div className="grid grid-cols-2 gap-6 pt-4">
                   <div className="flex flex-col p-3 bg-gray-100 rounded-md">
                     <span className="text-gray-900 text-sm">Code de la session</span>
-                    <span className="text-gray-500">{session!.code}</span>
+                    <span className="text-gray-500">{room.session!.code}</span>
                   </div>
                   <div>
                     <StartRoom />
@@ -33,20 +34,14 @@ export default function LeftPart () {
                 <div className="grid grid-cols-2 gap-6">
                   <div className="flex flex-col p-3 gap-3 bg-gray-100 rounded-md aspect-video">
                     <span className="text-gray-900">Nombre de questions</span>
-                    <span className="text-gray-800 text-7xl">{session!.sequence.questions.length}</span>
+                    <span className="text-gray-800 text-7xl">{room.session!.sequence.questions.length}</span>
                   </div>
-                  <div className="flex flex-col p-3 gap-3 bg-gray-100 rounded-md aspect-video">
-                    <span className="text-gray-900 text-sm">Nombre de participants</span>
-                    <span className="text-gray-800 text-7xl">{session!.users.length}</span>
-                  </div>
-                  <div className="flex flex-col p-3 bg-gray-100 rounded-md aspect-video">
-                    <span className="text-gray-900 text-sm">Nombre de questions</span>
-                    <span className="text-gray-500">{session!.sequence.questions.length}</span>
-                  </div>
-                  <div className="flex flex-col p-3 bg-gray-100 rounded-md aspect-video">
-                    <span className="text-gray-900 text-sm">Nombre de questions</span>
-                    <span className="text-gray-500">{session!.sequence.questions.length}</span>
-                  </div>
+                  {room.session.users &&
+                    <div className="flex flex-col p-3 gap-3 bg-gray-100 rounded-md aspect-video">
+                      <span className="text-gray-900 text-sm">Nombre de participants</span>
+                      <span className="text-gray-800 text-7xl">{room.session!.users.length}</span>
+                    </div>
+                  }
                 </div>
               </div>
             </div>
@@ -54,6 +49,6 @@ export default function LeftPart () {
         </>
 
       )}
-    </SessionContext.Consumer>
+    </RoomContext.Consumer>
   )
 }

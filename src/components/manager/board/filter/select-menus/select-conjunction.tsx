@@ -23,7 +23,6 @@ export default function SelectConjunction ({ condition }: Props) {
 
 
   useEffect(() => {
-    console.log(condition)
     const li = UpdateConjunction(board.filter, condition.uid, selected.key as ConjuctionContract)
     setBoard({
       ...board,

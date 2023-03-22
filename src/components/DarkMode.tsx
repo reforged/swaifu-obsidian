@@ -8,7 +8,6 @@ export default function DarkMode () {
   const [theme, setTheme] = useState(localStorage.theme)
 
   useEffect(() => {
-    console.log(theme)
     if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark')
     } else {
@@ -29,7 +28,6 @@ export default function DarkMode () {
 
   function toggle () {
     const theme = localStorage.theme
-    console.log(theme)
     if (theme === 'dark') {
       toLight()
     }

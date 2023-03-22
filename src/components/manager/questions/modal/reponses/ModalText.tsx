@@ -7,7 +7,6 @@ import QuestionContext from "../../../../../contexts/QuestionContext";
 
 export default function ModalText () {
   const [question, setQuestion] = useContext(QuestionContext)
-  console.log(question)
   const [text, setText] = useState<string>(question.reponses.length ? question.reponses[0].body : '')
 
 

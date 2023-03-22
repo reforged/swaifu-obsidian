@@ -83,7 +83,6 @@ export default function BlockContainer (): JSX.Element {
                                               <button
                                                 onClick={() => {
                                                   setCurrentBlockMenu(index)
-                                                  console.log(currentBlockMenu)
                                                 }}
                                                 className="h-8 w-8 hover:bg-gray-100 text-gray-500 flex items-center justify-center p-1 rounded-md"
                                               >

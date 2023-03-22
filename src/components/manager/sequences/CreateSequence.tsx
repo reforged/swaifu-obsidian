@@ -51,10 +51,6 @@ export default function CreateSequence ({ }: Props) {
   const { data: questions } = fetch()
   const { reorder } = useDragAndDrop()
 
-  useEffect(() => {
-    console.log(sequence)
-  }, [sequence])
-
   return (
     <div className="col-span-1 h-full">
       <button

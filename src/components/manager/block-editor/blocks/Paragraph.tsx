@@ -27,10 +27,8 @@ export default function Paragraph (props: Props) {
 
   function onWrite (e) {
     if (e.code === 'Enter') {
-      console.log("create new paragraph")
     }
     if (e.code === 'Period') {
-      console.log("Afficher menu")
       setCurrentBlockMenu(props.index)
     } else {
       setCurrentBlockMenu(null)

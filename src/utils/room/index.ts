@@ -3,7 +3,7 @@ import {IQuestion, IReponse, ISession} from "../index";
 export type IRoom = {
   session: ISession | null
   question?: IQuestion
-  reponse?: IReponse
+  reponses?: IReponse[]
   locked: boolean
   wainting: boolean
 }

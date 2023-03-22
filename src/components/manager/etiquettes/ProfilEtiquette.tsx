@@ -66,8 +66,6 @@ export default function ProfilEtiquette ({ open, setOpen, etiquettes }: IProfil)
   }
 
   useEffect(() => {
-    console.log(label, etiquette.label);
-    
     if (verif() && etiquette.label.length && (etiquette.label != label || etiquette.color != color.value)) {
       setDisabled(false)
     } else {

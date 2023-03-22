@@ -15,7 +15,6 @@ export default function StartRoom () {
   }
 
   socket.on('start_session', (data) => {
-    console.log(data)
     setRoom({
       ...room,
       question: data.question,
