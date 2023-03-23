@@ -1,5 +1,4 @@
-import {ConditionContract, ConjuctionContract} from "../filter/types";
-import {DataFilterContract} from "../types";
+import { ConditionContract } from '../filter/types'
 
 /**
  * @obsidian/logic
@@ -16,24 +15,15 @@ export default abstract class Logic<T> {
   protected constructor(condition: ConditionContract, data: T) {
     this.condition = condition
     this.data = data
+
   }
 
-  abstract evaluate(
-    conjunction: ConjuctionContract,
-    exp1: ConditionContract,
-    exp2: ConditionContract
-  ): boolean
+  abstract evaluate (): boolean
 
-  /**
-   * return condition
-   */
-  public getCondition (): ConditionContract {
+  public getCondition(): ConditionContract {
     return this.condition
   }
 
-  /**
-   * return value of data
-   */
   public getData (): T {
     return this.data
   }
