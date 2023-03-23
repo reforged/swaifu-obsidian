@@ -1,29 +1,25 @@
-import Logic from "./logic";
-import {ConditionContract, SelectTypeContract} from "../filter/types";
+import Logic from './logic'
+import { ConditionContract } from '../filter/types'
 
-export default class Select<T> extends Logic<T> {
-  private value: T
+export default class SelectLogic<T> extends Logic<T> {
+  private value: T[]
 
-  constructor(condition: ConditionContract, data: T, value: T) {
+  constructor(condition: ConditionContract, data: T, value: T[]) {
     super(condition, data)
     this.value = value
   }
 
-  public containsAtLeast (): boolean {
+  public contains () {
     const value: T[] = this.getCondition().value
+    const liId = this.getData()[this.getCondition().field].map((item) => item.id)
     const list = value.map((item) => {
-      return !!(this.getData() as T[]).includes(item)
+      return !!liId.includes(item)
     })
     return !!list.includes(true)
   }
 
-  public contains (): boolean {
-    const value: T[] = this.getCondition().value
-    const list = value.map((item) => {
-      return !!(this.getData() as T[]).includes(item)
-    })
-
-    return !!list.includes(false)
+  public notContains () {
+    return !this.contains()
   }
 
   evaluate(): boolean {
@@ -31,8 +27,8 @@ export default class Select<T> extends Logic<T> {
     switch (condition.operator) {
       case "contains":
         return this.contains()
-      case "contains at least":
-        return this.containsAtLeast()
+      case "not contains":
+        return this.notContains()
       default: return false
     }
   }
