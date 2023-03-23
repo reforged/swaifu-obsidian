@@ -1,11 +1,10 @@
 import React, {Fragment, useContext, useEffect, useState} from 'react'
 import { Link } from 'react-router-dom'
 import { Disclosure, Menu, Transition, Dialog } from '@headlessui/react'
-import {Bars3Icon, BellIcon, ChevronDownIcon, XMarkIcon} from '@heroicons/react/24/outline'
+import {Bars3Icon, ChevronDownIcon, XMarkIcon} from '@heroicons/react/24/outline'
 import { classNames } from '../../utils/helper'
 import DarkMode from '../DarkMode'
 import {AuthenticationContext} from '../../contexts/AuthenticationContext'
-import {IUser} from '../../utils'
 import {IPermission, IRole} from '../../utils'
 import userLogout from '../../hooks/user-logout'
 
