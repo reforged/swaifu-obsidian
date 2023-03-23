@@ -4,7 +4,6 @@ import { IEtiquette } from '../../../../utils'
 import ProfilEtiquette from '../../../../components/manager/etiquettes/ProfilEtiquette'
 import CreateEtiquette from '../../../../components/manager/etiquettes/CreateEtiquette'
 import {classNames, filteredData, uid} from '../../../../utils/helper'
-import Search from '../../../../components/Search'
 import useEtiquettes from '../../../../hooks/use-etiquettes'
 import Board, {BoardData} from "../../../../components/manager/board/Board";
 import {EtiquettesContext} from "../../../../contexts/EtiquettesContext";
@@ -37,8 +36,8 @@ export default function HomeEtiquette () {
   const { mutate: deleteEtiquette } = destroy()
 
   const columns: StructureContract[] = [
-    {label: 'Label', key: 'label', checked: true, default: true},
-    {label: 'Color', key: 'color', checked: true, default: false},
+    {label: 'Label', key: 'label', checked: true, default: true, filter: true},
+    {label: 'Color', key: 'color', checked: true, default: false, filter: false},
   ]
 
   function onClick (item: IEtiquette) {
@@ -59,10 +58,9 @@ export default function HomeEtiquette () {
     },
     keys: ['label'],
     open: false,
-    option: ['filter', 'column', 'mode'],
+    option: ['column', 'mode'],
     rowAction: onClick
   }
-
 
 
   return (
@@ -101,10 +99,7 @@ export default function HomeEtiquette () {
               {
                 etiquette && <ProfilEtiquette etiquettes={data} open={isVisible} setOpen={setIsVisible} />
               }
-
-
             </div>
-
           </div>
         </div>
       </EtiquettesContext.Provider>

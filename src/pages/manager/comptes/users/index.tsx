@@ -25,13 +25,14 @@ const navigation: INavigation[] = [
 ]
 
 export default function HomeUsers () {
-  const { index } = useUsers()
+  const { index, destroy } = useUsers()
   const { index: fetchRoles  } = useRoles()
   const { index: fetchPermissions } = usePermissions()
 
   const { data: permissions } = fetchPermissions()
   const { data: roles } = fetchRoles()
   const { data , isLoading } = index()
+  const { mutate: deleteUser } = destroy()
 
   const [options, setOptions] = useState<Options<IUser>>()
 
@@ -85,7 +86,7 @@ export default function HomeUsers () {
             data={data as IUser[]}
             keys={options.keys}
             skeleton={<UserSkeleton />}
-            onDelete={() => console.log('dazda')}
+            onDelete={deleteUser}
           />
           <CreateUser />
         </Board>
