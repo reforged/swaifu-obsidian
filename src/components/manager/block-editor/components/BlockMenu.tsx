@@ -1,9 +1,7 @@
-import {Fragment, useContext, useEffect} from 'react'
+import { useContext, useEffect} from 'react'
 import BlocksContext, { BlockContextContract } from '../contexts/BlocksContext'
-import { Transition, Dialog } from '@headlessui/react'
 import StructureContext from '../contexts/StructureContext'
 import useComponentVisible from "../../../../hooks/useComponentVisible";
-import {logger} from "react-query/types/react/logger";
 import {AnimatePresence, motion} from "framer-motion";
 
 type Props = {
