@@ -12,6 +12,18 @@ export type ConditionContract = {
 
 export type SelectTypeContract = 'etiquettes' | 'roles' | 'permissions'
 
+
+export type OperatorContract = {
+  id: number
+  name: ListeOperator
+  input: TypeInputContract[]
+}
+export type ListeOperator =
+  'contains'
+  | 'not contains'
+  | 'is'
+  | 'is not'
+
 export type ConditionGroupContract = {
   uid: string
   conjunction: ConjuctionContract
