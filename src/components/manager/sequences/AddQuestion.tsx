@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react'
-import React, {Fragment, useContext} from "react";
+import React, {Fragment, useContext, useEffect, useState} from "react";
 import {IQuestion, ISequence} from "../../../utils";
 import {exist, isEmpty, uid} from "../../../utils/helper";
 import useQuestions from "../../../hooks/use-questions";
@@ -8,6 +8,8 @@ import {PlusIcon} from "@heroicons/react/24/outline";
 import Board from "../board/Board";
 import {Option, Options} from "../board/types";
 import useEtiquettes from "../../../hooks/use-etiquettes";
+import BoardContext from "../../../contexts/BoardContext";
+import LogicWrapper from "../board/logic/logic-wrapper";
 
 type Props = {}
 
@@ -16,52 +18,76 @@ export default function AddQuestion ({}: Props) {
   const { fetch: fetchEtiquettes } = useEtiquettes()
   const { data: etiquettes } = fetchEtiquettes()
   const { data: questions } = fetch()
-
+  const [wrapper, setWrapper] = useState()
+  const [options, setOptions] = useState<Options<IQuestion>>()
   const [sequence, setSequence] = useContext(SequenceContext)
-  const options: Options<IQuestion> = {
-    view: 'liste',
-    label: 'Questions',
-    data: {
-      questions: questions,
-      etiquettes: etiquettes ? etiquettes : []
-    },
-    search: '',
-    filter: {
-      uid: uid(),
-      conjunction: 'and',
-      conditions: [],
-    },
-    option: ['filter'],
-    open: false,
-    structure: [
-      {label: 'Label', key: 'label', input: 'text', default: true, checked: true},
-      {label: 'Etiquettes', key: 'etiquettes', input: 'select', default: false, checked: true}
-    ],
-    keys: []
-  }
+
+  useEffect(() => {
+    if (questions && !options) {
+      setOptions({
+        view: 'liste',
+        label: 'Questions',
+        selectData: {
+          permissions: [],
+          roles: [],
+          etiquettes: etiquettes ? etiquettes : []
+        },
+        data: questions,
+        search: '',
+        filter: {
+          uid: uid(),
+          conjunction: 'and',
+          conditions: [],
+        },
+        option: ['filter'],
+        open: false,
+        structure: [
+          {label: 'Label', key: 'label', input: 'text', default: true, checked: true, filter: true},
+          {label: 'Etiquettes', key: 'etiquettes', input: 'select', default: false, checked: true, filter: true},
+        ],
+        keys: ['label']
+      })
+    }
+  }, [questions])
+
+
 
 
   return (
     <div className="relative">
-      <Board name={'Questions'} options={options}>
-        { questions
-          && <>
-            { isEmpty(questions, sequence.questions)
-              ? <div>Plus de questions</div>
-              : <>
-                {questions.map((question: IQuestion) => {
-                  if (!exist(question, sequence.questions)) {
-                    return (
-                      <Question question={question} key={question.id}/>
-                    )
-                  }
-                })}
-              </>
-            }
+      { options &&
+        <Board name={'Questions'} options={options}>
+          <BoardContext.Consumer>
+            {([board]) => {
+              const wrapper = new LogicWrapper(board.filter, questions)
+              const filtered: IQuestion[] = wrapper.filteredData() as IQuestion[]
+              if (!filtered.length) return (
+                <div>Pas de données</div>
+              )
 
-          </>
-        }
-      </Board>
+              return (
+                 <>
+                  { isEmpty(questions, sequence.questions)
+                    ? <div>Plus de questions</div>
+                    : <>
+                      {filtered.map((question: IQuestion) => {
+                        if (!exist(question, sequence.questions)) {
+                          return (
+                            <Question question={question as IQuestion} key={question.id}/>
+                          )
+                        }
+                      })}
+                    </>
+                  }
+
+                </>
+              )
+            }}
+          </BoardContext.Consumer>
+
+        </Board>
+      }
+
     </div>
   )
 }
