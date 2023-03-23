@@ -1,5 +1,5 @@
 import {Dispatch, SetStateAction, createContext} from 'react'
-import {Options, View} from '../components/manager/board/types'
+import {Options} from '../components/manager/board/types'
 
 export type StructureContract = {
   label: string
