@@ -1,5 +1,5 @@
 import {PlusIcon} from "@heroicons/react/24/outline";
-import {useContext, useEffect} from "react";
+import {useContext} from "react";
 import BoardContext from "../../../../../../contexts/BoardContext";
 import {ConditionContract, ConditionGroupContract, CoupleConditionContract} from "../../types";
 import {uid} from "../../../../../../utils/helper";
