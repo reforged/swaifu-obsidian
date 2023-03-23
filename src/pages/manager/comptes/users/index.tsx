@@ -12,6 +12,10 @@ import Table from "../../../../components/manager/board/Table";
 import CreateUser from "../../../../components/manager/comptes/users/modal/create-user";
 import {Options} from "../../../../components/manager/board/types";
 import {uid} from "../../../../utils/helper";
+import useQuestions from "../../../../hooks/use-questions";
+import useEtiquettes from "../../../../hooks/use-etiquettes";
+import useRoles from "../../../../hooks/use-roles";
+import usePermissions from "../../../../hooks/use-permissions";
 
 const navigation: INavigation[] = [
   { label: 'Home', href: '/manager/comptes'},
@@ -22,30 +26,48 @@ const navigation: INavigation[] = [
 
 export default function HomeUsers () {
   const { index } = useUsers()
+  const { index: fetchRoles  } = useRoles()
+  const { index: fetchPermissions } = usePermissions()
+
+  const { data: permissions } = fetchPermissions()
+  const { data: roles } = fetchRoles()
   const { data , isLoading } = index()
 
+  const [options, setOptions] = useState<Options<IUser>>()
+
   const columns: StructureContract[] = [
-    {label: 'Username', key: 'username', input: 'text', checked: true, default: true},
-    {label: 'Email', key: 'email', input: 'text' ,checked: true, default: false},
-    {label: 'Numéro étudiant', key: 'numero', input: 'text', checked: true, default: false},
-    {label: 'Roles', key: 'roles', input: 'select', checked: true, default: false},
-    {label: 'Permissions', key: 'permissions', input: 'select', checked: true, default: false}
+    {label: 'Firstname', key: 'firstname', input: 'text', checked: true, default: true, filter: true},
+    {label: 'Lastname', key: 'lastname', input: 'text', checked: true, default: true, filter: true},
+    {label: 'Email', key: 'email', input: 'text' ,checked: true, default: false, filter: true},
+    {label: 'Numéro étudiant', key: 'numero', input: 'text', checked: true, default: false, filter: true},
+    {label: 'Roles', key: 'roles', input: 'select', checked: true, default: false, filter: true},
+    {label: 'Permissions', key: 'permissions', input: 'select', checked: true, default: false, filter: true}
   ]
 
-  const options: Options<IUser> = {
-    label: 'Utilisateurs',
-    view: 'liste',
-    search: '',
-    filter: {
-      uid: uid(),
-      conjunction: 'and',
-      conditions: []
-    },
-    structure: columns,
-    keys: ['firstname', 'lastname'],
-    open: false,
-    option: ['filter', 'column']
-  }
+  useEffect(() => {
+    if (data && !options && roles && permissions) {
+      setOptions({
+        label: 'Utilisateurs',
+        view: 'liste',
+        search: '',
+        filter: {
+          uid: uid(),
+          conjunction: 'and',
+          conditions: []
+        },
+        structure: columns,
+        data: data,
+        selectData: {
+          roles,
+          permissions,
+          etiquettes: []
+        },
+        keys: ['firstname', 'lastname'],
+        open: false,
+        option: ['filter', 'column']
+      })
+    }
+  }, [data])
 
   return (
     <Manager
@@ -55,6 +77,7 @@ export default function HomeUsers () {
         navigation: navigation
       }}
     >
+      { options &&
         <Board name={'Utilisateur'} options={options} action={<Action />}>
           <Table<IUser>
             columns={columns}
@@ -66,6 +89,7 @@ export default function HomeUsers () {
           />
           <CreateUser />
         </Board>
+      }
     </Manager>
   )
 }
