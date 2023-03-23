@@ -56,5 +56,24 @@ export default function useUsers () {
     }})
   }
 
-  return { index, createMany }
+  function destroy () {
+    return useMutation(async (data: any) => {
+      const response = await http.delete(`/users/${data.id}`, {
+        method: 'POST',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': cookie.token
+        }
+      })
+
+      return response.data
+    }, {
+      onSuccess: async (data) => {
+        await queryClient.invalidateQueries(['users'])
+      }
+    })
+  }
+
+  return { index, createMany, destroy }
 }
