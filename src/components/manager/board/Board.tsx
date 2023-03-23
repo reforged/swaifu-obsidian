@@ -1,5 +1,5 @@
 import {Dispatch, ReactNode, SetStateAction, useEffect, useState} from 'react'
-import {Column, Option, Options, View} from './types'
+import {Column, Options, View} from './types'
 import BoardContext, {BoardContract} from '../../../contexts/BoardContext'
 import Search from './Search'
 import FilterView from './options/Filter'
