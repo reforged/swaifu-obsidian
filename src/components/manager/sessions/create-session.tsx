@@ -8,7 +8,7 @@ import ShowSession from "./panel/show-session";
 
 
 export default function CreateSession () {
-  const [session, setSession] = useContext(SessionContext)
+  const [session] = useContext(SessionContext)
 
   const { ref, isVisible, toggle } = useComponentVisible()
 
