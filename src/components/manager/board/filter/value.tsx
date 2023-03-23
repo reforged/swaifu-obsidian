@@ -10,7 +10,6 @@ import { classNames } from '../../../../utils/helper'
 type Props = {
   condition: ConditionContract
 }
-
 export default function ValueRow ({ condition }: Props) {
   const [board, setBoard] = useContext(BoardContext)
   const [value, setValue] = useState()

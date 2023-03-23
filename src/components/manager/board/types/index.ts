@@ -1,5 +1,5 @@
 import {StructureContract} from "../../../../contexts/BoardContext";
-import {ConditionContract, ConditionGroupContract} from "../filter/types";
+import {ConditionGroupContract} from "../filter/types";
 import {IEtiquette, IPermission, IRole} from "../../../../utils";
 
 export type Option = 'filter' | 'column' | 'mode'

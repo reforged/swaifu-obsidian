@@ -33,7 +33,6 @@ export default function DeleteRow ({ condition }: Props) {
       }
     })
 
-
     /*const li = board.filter.conditions.filter((item, index) => {
       if (isGroup(item)) {
         console.log("index:", index)
