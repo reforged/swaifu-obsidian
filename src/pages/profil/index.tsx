@@ -1,9 +1,9 @@
-import {AuthenticationContext} from "../../contexts/AuthenticationContext";
+import AuthenticationContext from "../../contexts/AuthenticationContext";
 
 export default function ProfilHome () {
   return (
     <AuthenticationContext.Consumer>
-      {({ user }) => (
+      {([ user ]) => (
         <div>
           { user &&
             <div>

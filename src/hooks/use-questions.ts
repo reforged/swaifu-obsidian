@@ -2,7 +2,7 @@ import {useCookies} from 'react-cookie'
 import {useMutation, useQuery, useQueryClient} from "react-query";
 import {http} from "../utils/helper";
 import {useContext} from "react";
-import {AuthenticationContext} from "../contexts/AuthenticationContext";
+import AuthenticationContext from "../contexts/AuthenticationContext";
 
 const useQuestions = () => {
   const [cookie, setCookie] = useCookies(['token'])
@@ -26,7 +26,7 @@ const useQuestions = () => {
   }
 
   function fetchByUser () {
-    const { user } = useContext(AuthenticationContext)
+    const [user, setUser] = useContext(AuthenticationContext)
     return useQuery('questions_user', async () => {
       const response = await http.get(`/questions/user/${user?.email}`, {
         headers: {
