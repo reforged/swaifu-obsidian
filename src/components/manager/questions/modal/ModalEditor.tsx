@@ -95,11 +95,11 @@ export default function ModalEditor ({ data }: Props) {
     createQuestion(objet)
     toggle()
     setQuestion({
+      ...question,
       type: '',
       label: 'Untitled',
       etiquettes: [],
       reponses: [],
-      enonce: []
     })
 
   }
@@ -107,11 +107,11 @@ export default function ModalEditor ({ data }: Props) {
   function close () {
     toggle()
     setQuestion({
+      ...question,
       type: '',
       label: 'Untitled',
       etiquettes: [],
       reponses: [],
-      enonce: []
     })
   }
 

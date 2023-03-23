@@ -31,7 +31,7 @@ export default function ModalQuestionView ({ questions }) {
     const original: IQuestion = questions
       .filter((item: IQuestion) => item.id === question.id)[0]
     const data: IQuestion[] = questions.filter((item: IQuestion) => item.id !== question.id)
-
+    console.log(question)
     if (data
       .map((item) => item.label.toLowerCase())
       .includes(question.label.toLowerCase())
@@ -64,6 +64,7 @@ export default function ModalQuestionView ({ questions }) {
   }
 
   useEffect(() => {
+    console.log(showQuestion)
     if (showQuestion) {
       console.log(showQuestion)
       if (verifData()) setDisabled(false)
@@ -100,7 +101,6 @@ export default function ModalQuestionView ({ questions }) {
       }
       editQuestion(objet)
       toggle()
-      setShowQuestion(null)
     }
   }
 
@@ -144,12 +144,14 @@ export default function ModalQuestionView ({ questions }) {
                     <Header />
 
                     <div className="pt-20">
-                      <BlockEditor
-                        blocks={blocks}
-                        settings={{ mode: 'editor' }}
-                        value={showQuestion.enonce}
-                        onChange={handleChange}
-                      />
+                      {showQuestion.enonce &&
+                        <BlockEditor
+                          blocks={blocks}
+                          settings={{mode: 'editor'}}
+                          value={showQuestion.enonce}
+                          onChange={handleChange}
+                        />
+                      }
                     </div>
                   </div>
                 </motion.div>

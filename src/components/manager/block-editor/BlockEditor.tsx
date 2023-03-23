@@ -3,8 +3,9 @@ import SettingContext from './contexts/SettingsContext'
 import { SettingsContract } from './contexts/SettingsContext'
 import StructureContext from './contexts/StructureContext'
 import CurrentBlockContext from "./contexts/CurrentBlockContext";
-import { useEffect, useState } from 'react'
+import {useContext, useEffect, useState} from 'react'
 import BlockContainer from './components/BlockContainer'
+import ShowQuestionContext from "../../../contexts/ShowQuestionContext";
 
 type Props = {
   blocks: {}
@@ -14,17 +15,28 @@ type Props = {
 }
 
 export default function BlockEditor (props: Props) {
-  const structure = useState(props.value)
+  const [structure, setStructure] = useState(props.value)
+  const [showQuestion] = useContext(ShowQuestionContext)
   const currentBlock = useState(null)
 
   useEffect(() => {
     props.onChange(structure[0])
+    console.log(props.value, structure)
+
+    if (!structure) {
+      setStructure(props.value)
+    }
+
   }, [props, structure])
+
+  useEffect(() => {
+    console.log(structure)
+  }, [structure])
 
   return (
     <SettingContext.Provider value={props.settings}>
       <BlocksContext.Provider value={props.blocks}>
-        <StructureContext.Provider value={structure}>
+        <StructureContext.Provider value={[structure, setStructure]}>
           <CurrentBlockContext.Provider value={currentBlock}>
             <BlockContainer />
           </CurrentBlockContext.Provider>
