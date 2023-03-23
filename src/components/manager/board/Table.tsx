@@ -5,7 +5,6 @@ import {tr} from '@markdoc/markdoc/dist/src/schema'
 import DragIcon from '../../icons/DragIcon'
 import { ExclamationTriangleIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { Menu, Transition, Dialog } from '@headlessui/react'
-import {Link} from "react-router-dom";
 import LogicWrapper from "./logic/logic-wrapper";
 
 type key<T> = keyof T
