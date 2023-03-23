@@ -2,16 +2,14 @@ import {XMarkIcon} from "@heroicons/react/20/solid";
 import React, {
   createElement,
   Fragment,
-  LegacyRef,
   useContext,
   useEffect,
   useRef,
   useState
 } from "react";
 import {classNames} from "../../../utils/helper";
-import {Menu, Transition} from "@headlessui/react";
 import SequenceContext from "../../../contexts/SequenceContext";
-import {PlusIcon, TrashIcon, WalletIcon} from "@heroicons/react/24/outline";
+import {PlusIcon, TrashIcon} from "@heroicons/react/24/outline";
 import useQuestions from "../../../hooks/use-questions";
 import {IQuestion} from "../../../utils";
 import AddQuestion from "./AddQuestion";
@@ -20,7 +18,6 @@ import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import {AnimatePresence, motion} from "framer-motion";
 import useComponentVisible from "../../../hooks/useComponentVisible";
 import useSequences from "../../../hooks/use-sequences";
-import {Option} from "../board/types";
 
 type Props = {
 

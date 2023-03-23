@@ -1,15 +1,15 @@
-import { Menu, Transition } from '@headlessui/react'
-import React, {Fragment, useContext, useEffect, useState} from "react";
-import {IQuestion, ISequence} from "../../../utils";
+import React, { useContext, useEffect, useState} from "react";
+import {IQuestion,} from "../../../utils";
 import {exist, isEmpty, uid} from "../../../utils/helper";
 import useQuestions from "../../../hooks/use-questions";
 import SequenceContext from "../../../contexts/SequenceContext";
 import {PlusIcon} from "@heroicons/react/24/outline";
 import Board from "../board/Board";
-import {Option, Options} from "../board/types";
+import { Options} from "../board/types";
 import useEtiquettes from "../../../hooks/use-etiquettes";
 import BoardContext from "../../../contexts/BoardContext";
 import LogicWrapper from "../board/logic/logic-wrapper";
+
 
 type Props = {}
 

@@ -1,17 +1,8 @@
-import React, {Fragment, useContext, useState} from "react";
+import React, {useContext} from "react";
 import { NavLink, Link } from 'react-router-dom'
-import {
-  HomeIcon,
-  ListBulletIcon,
-  ChatBubbleBottomCenterTextIcon,
-  UserIcon,
-  DocumentTextIcon,
-  UserGroupIcon
-} from '@heroicons/react/24/solid'
 import { classNames, ReactElement } from '../../utils/helper'
-import Profil from "./Profil";
-import {Menu, Transition} from "@headlessui/react";
-import {InformationCircleIcon, RocketLaunchIcon} from "@heroicons/react/24/outline";
+
+import { RocketLaunchIcon} from "@heroicons/react/24/outline";
 import NavigationContext, {NavigationContract} from "../../contexts/NavigationContext";
 
 type LinkItem = {
