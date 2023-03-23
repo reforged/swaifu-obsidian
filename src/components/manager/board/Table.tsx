@@ -6,6 +6,7 @@ import DragIcon from '../../icons/DragIcon'
 import { ExclamationTriangleIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { Menu, Transition, Dialog } from '@headlessui/react'
 import {Link} from "react-router-dom";
+import LogicWrapper from "./logic/logic-wrapper";
 
 type key<T> = keyof T
 type Props<T> = {
@@ -64,10 +65,23 @@ export default function Table<T> ({ data, skeleton, keys, columns, loading, onDe
           </tr>
         </thead>
         <tbody>
-        { filtered
-          ? <ShowData<T> data={filtered} onDelete={onDelete}/>
-          : <DataSkeleton skeleton={skeleton}  />
-        }
+        <BoardContext.Consumer>
+          {([board]) => {
+            console.log(board.filter)
+            const wrapper = new LogicWrapper(board.filter, data)
+            const result = wrapper.filteredData()
+
+            return (
+              <>
+                { result
+                  ? <ShowData<T> data={result} onDelete={onDelete}/>
+                  : <DataSkeleton skeleton={skeleton} />
+                }
+              </>
+            )
+          }}
+        </BoardContext.Consumer>
+
         </tbody>
       </table>
     </div>

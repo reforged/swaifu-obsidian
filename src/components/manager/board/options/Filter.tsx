@@ -12,10 +12,6 @@ import SelectConjunction from "../filter/select-menus/select-conjunction";
 export default function Filter () {
   const [board, setBoard] = useContext(BoardContext)
 
-  useEffect(() => {
-    console.log(board.filter, board)
-  }, [board.filter])
-
   function addCondition () {
     const condition: ConditionContract = {
       uid: uid(),

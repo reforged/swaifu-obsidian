@@ -22,11 +22,12 @@ export type Options<T> = {
   filter: ConditionGroupContract
   structure: StructureContract[]
   keys: key<T>[]
-  open: boolean
-  data?: {
+  open: boolean,
+  selectData?: {
     permissions: IPermission[],
     roles: IRole[],
     etiquettes: IEtiquette[]
   },
+  data?: any
   rowAction?: (item: T) => void
 }

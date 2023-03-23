@@ -37,20 +37,20 @@ export default function Board<T> ({ name, options, children, action }: Props<T>)
   const { data: permissions } = fetchPerms()
 
   useEffect(() => {
-    console.log("test")
     setBoard({
       ...board,
       data: {
         permissions,
         etiquettes,
         roles
+      },
+      selectData: {
+        permissions,
+        etiquettes,
+        roles
       }
     })
   }, [etiquettes, roles, permissions])
-
-  useEffect(() => {
-    console.log(board)
-  }, [board])
 
 
   return (
