@@ -7,6 +7,7 @@ export type StructureContract = {
   input: 'text' | 'select'
   checked: boolean
   default: boolean
+  filter: boolean
 }
 
 export type BoardContract<T> = Options<T>
