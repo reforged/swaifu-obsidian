@@ -1,4 +1,4 @@
-import React, {Dispatch, Fragment, SetStateAction, useContext, useEffect, useState} from 'react'
+import React, {Fragment, useContext, useEffect, useState} from 'react'
 import { IColor, IEtiquette } from '../../../utils'
 import { Dialog, Transition, Menu } from '@headlessui/react'
 import {XMarkIcon, TrashIcon} from '@heroicons/react/24/outline'
