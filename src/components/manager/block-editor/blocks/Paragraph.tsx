@@ -1,6 +1,6 @@
 import { useBlock } from '../utils'
 import ReactQuill from 'react-quill';
-import {Fragment, useContext, useEffect, useState} from 'react'
+import {Fragment, useContext, useState} from 'react'
 import 'react-quill/dist/quill.snow.css';
 import { classNames } from '../../../../utils/helper'
 import EditorMode from '../components/EditorMode'
@@ -16,7 +16,7 @@ type Props = {
 
 export default function Paragraph (props: Props) {
   const [showToolbar, setShowToolbar] = useState(false)
-  const [currentBlockMenu, setCurrentBlockMenu] = useContext(CurrentBlockContext)
+  const [ setCurrentBlockMenu] = useContext(CurrentBlockContext)
   const { updateBlock } = useBlock(props.uid)
 
   const modules = {
