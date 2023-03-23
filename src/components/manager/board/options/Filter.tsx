@@ -1,4 +1,4 @@
-import {Fragment, useContext, useEffect} from 'react'
+import {Fragment, useContext} from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import {PlusIcon, SwatchIcon} from '@heroicons/react/24/outline'
 import Condition from "../filter/condition";
