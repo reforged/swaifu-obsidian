@@ -2,7 +2,7 @@ import { useMutation } from 'react-query'
 import { http } from '../utils/helper'
 import { useCookies } from 'react-cookie'
 import {useNavigate} from "react-router";
-import {useContext, useEffect} from "react";
+import {useContext} from "react";
 import {AuthenticationContext} from "../contexts/AuthenticationContext";
 
 type Props = {
