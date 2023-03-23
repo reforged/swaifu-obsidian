@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react'
 import useComponentVisible from '../../../../hooks/useComponentVisible'
 import {AnimatePresence, motion} from 'framer-motion'
-import { PencilSquareIcon, QueueListIcon, ListBulletIcon} from '@heroicons/react/24/outline'
+import { PencilSquareIcon, ListBulletIcon} from '@heroicons/react/24/outline'
 import { classNames, ReactElement } from '../../../../utils/helper'
+
 
 type Reponse = {
   name: string
