@@ -1,7 +1,4 @@
-import React, {ReactNode, useEffect, useState} from 'react'
-import Markdoc from "@markdoc/markdoc";
-import Fence from "../../Fence";
-import {Prose} from "../../Prose";
+import React from 'react'
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";

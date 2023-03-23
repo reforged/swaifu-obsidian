@@ -1,6 +1,6 @@
 import React, {Fragment, useContext, useEffect, useState} from 'react'
 import { IColor, IEtiquette } from '../../../utils'
-import { Dialog, Transition, Menu } from '@headlessui/react'
+import { Dialog, Transition} from '@headlessui/react'
 import {XMarkIcon, TrashIcon} from '@heroicons/react/24/outline'
 import {classNames} from '../../../utils/helper'
 import useEtiquettes from "../../../hooks/use-etiquettes";

@@ -7,6 +7,9 @@ import { IColor, IEtiquette } from '@obsidian/type'
 import useEtiquettes from "../../../hooks/use-etiquettes";
 import {PlusIcon} from "@heroicons/react/24/outline";
 
+
+
+
 type Props = {
   data: IEtiquette[]
 }

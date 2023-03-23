@@ -1,8 +1,6 @@
-import React, {ReactNode, useEffect, useState} from 'react'
+import React, {ReactNode} from 'react'
 import {Prose} from "../../Prose";
 import {IReponse, ITypeQuestion} from "@obsidian/type";
-import Markdoc from "@markdoc/markdoc";
-import Fence from "../../Fence";
 import {classNames} from "../../../../utils/helper";
 import MarkDownRender from "./MarkDownRender";
 

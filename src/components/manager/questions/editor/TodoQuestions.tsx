@@ -3,6 +3,7 @@ import Input from "./form/Input";
 import Checkbox from "./form/Checkbox";
 import {IReponse, ITypeQuestion} from "@obsidian/type";
 
+
 type Props = {
   type: ITypeQuestion | null
   reponses: IReponse[]
