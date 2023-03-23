@@ -1,7 +1,6 @@
-import {Dispatch, useContext, useEffect, useRef, useState} from "react";
+import {Dispatch, useEffect, useRef, useState} from "react";
 import {CircleStackIcon, TrashIcon} from "@heroicons/react/24/outline";
 import {classNames} from "../../../../../utils/helper";
-import {IUser} from "../../../../../utils";
 import useUsers from "../../../../../hooks/use-users";
 
 type RowCsv = [
