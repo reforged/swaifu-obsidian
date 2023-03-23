@@ -3,7 +3,6 @@ import Sequence from "./sequence";
 import {classNames, filteredData} from "../../../utils/helper";
 import {useContext} from "react";
 import BoardContext from "../../../contexts/BoardContext";
-import {data} from "autoprefixer";
 
 type Props = {
   sequences: ISequence[]
