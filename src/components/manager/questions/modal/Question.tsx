@@ -23,7 +23,8 @@ export default function ModalQuestionView ({ questions }) {
   const { ref, isVisible, toggle , setIsVisible} = useComponentVisible()
   const [showQuestion, setShowQuestion] = useContext(ShowQuestionContext)
   const [disabled, setDisabled] = useState<boolean>(true)
-  const {} = useQuestions()
+  const { update } = useQuestions()
+  const { mutate: editQuestion } = update()
 
   function verifData () {
     const question = showQuestion!
@@ -48,25 +49,26 @@ export default function ModalQuestionView ({ questions }) {
       if (!responses.includes(true)) return false
     }
 
+    console.log(original.enonce, question.enonce)
     if (
-      original.label === question.label &&
-      original.type === question.type &&
-      original.enonce === question.enonce &&
-      original.etiquettes === question.etiquettes &&
+      original.label === question.label ||
+      original.type === question.type ||
+      original.enonce === question.enonce ||
+      original.etiquettes === question.etiquettes ||
       original.reponses === question.reponses
-    )
+    ) {
+      return true
+    }
 
-    return true
+    return false
   }
 
   useEffect(() => {
     if (showQuestion) {
+      console.log(showQuestion)
       if (verifData()) setDisabled(false)
       else setDisabled(true)
     }
-
-
-
   }, [showQuestion])
 
   useEffect(() => {
@@ -90,7 +92,16 @@ export default function ModalQuestionView ({ questions }) {
   function handleChange () {}
 
   function handleClick () {
-
+    console.log("UPDATE", showQuestion)
+    if (showQuestion) {
+      const objet = {
+        ...showQuestion,
+        etiquettes: showQuestion.etiquettes.map((item) => item.id)
+      }
+      editQuestion(objet)
+      toggle()
+      setShowQuestion(null)
+    }
   }
 
   return (
