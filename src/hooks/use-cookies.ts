@@ -1,6 +1,7 @@
 export function useCookies () {
   const _cookies = document.cookie.split('; ')
 
+
   function get (key: string) {
     const cookies = _cookies.reduce((acc, current) => {
       const [key, value] = current.split('=')
