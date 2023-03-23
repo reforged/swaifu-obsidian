@@ -70,10 +70,10 @@ export default function Table<T> ({ data, skeleton, keys, columns, loading, onDe
             console.log(board.filter)
             const wrapper = new LogicWrapper(board.filter, data)
             const result = wrapper.filteredData()
-
+            console.log(result)
             return (
               <>
-                { result
+                { result.length
                   ? <ShowData<T> data={result} onDelete={onDelete}/>
                   : <DataSkeleton skeleton={skeleton} />
                 }

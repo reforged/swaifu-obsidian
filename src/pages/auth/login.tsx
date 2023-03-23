@@ -157,7 +157,7 @@ function LoginWithCode () {
   const { mutate: loginUser } = loginCode()
 
   const handle = () => {
-    console.log(uid, password)
+    console.log(numero, password)
     loginUser({ numero, password})
   }
 

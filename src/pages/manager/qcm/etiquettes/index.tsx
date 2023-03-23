@@ -50,6 +50,10 @@ export default function HomeEtiquette () {
     toggle()
   }
 
+  useEffect(() => {
+    console.log(isLoading)
+  }, [isLoading])
+
 
   const options: Options<IEtiquette> = {
     label: 'Étiquette',
@@ -80,6 +84,7 @@ export default function HomeEtiquette () {
         <div>
           <div className={"relative"}>
             <div className="mt-12">
+              { options && data &&
               <Board<IEtiquette> name={"Étiquette"} options={options} action={<CreateEtiquette />}>
                 <BoardContext.Consumer>
                   {([board, setBoard]) => (
@@ -101,6 +106,7 @@ export default function HomeEtiquette () {
                   )}
                 </BoardContext.Consumer>
               </Board>
+              }
               {
                 etiquette && <ProfilEtiquette etiquettes={data} open={isVisible} setOpen={setIsVisible} />
               }
