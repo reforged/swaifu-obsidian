@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useState} from 'react'
 import {Route, Routes} from 'react-router'
 import Home from './pages/manager'
 import Layout from './layouts/layout'
@@ -16,12 +16,13 @@ import HomeSequence from './pages/manager/qcm/sequences'
 import HomeQCM from './pages/manager/qcm'
 import HomeComptes from './pages/manager/comptes'
 import NavigationContext , {NavigationContract} from './contexts/NavigationContext'
-import {BookOpenIcon, HomeIcon, UserGroupIcon, ListBulletIcon} from '@heroicons/react/24/solid'
+import { HomeIcon, UserGroupIcon, ListBulletIcon} from '@heroicons/react/24/solid'
 import {FolderIcon} from "@heroicons/react/24/outline";
 import HomeRoles from "./pages/manager/comptes/roles";
 import HomePermissions from "./pages/manager/comptes/permissions";
 import HomeSessions from "./pages/manager/qcm/sessions";
 import Room from "./pages/room";
+import StatPage from "./components/manager/sessions/stats/StatPage";
 import Register from "./pages/auth/register";
 
 
@@ -74,6 +75,7 @@ function App() {
     { uid: 'register', href: '/authentication/register', component: <Register /> },
 
     { uid: '404', href: '*', component: <NotFound /> },
+    { uid: 'StatPage', href: '/StatPage', component: <StatPage /> },
   ]
 
   return (
