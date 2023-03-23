@@ -1,8 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { http } from '../utils/helper'
 import { useCookies } from 'react-cookie'
-import { useContext } from 'react'
-import { EtiquettesContext } from '../contexts/EtiquettesContext'
 import { IEtiquette } from '../utils'
 
 const useEtiquettes = () => {
