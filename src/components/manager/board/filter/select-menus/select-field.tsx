@@ -36,7 +36,7 @@ export default function SelectField ({ condition }: Props) {
             if (subitem.uid !== condition.uid) return subitem
               const newItem: ConditionContract = {
                 uid: uid(),
-                value: condition.value,
+                value: selected.input === 'select' ? [] : '',
                 operator: condition.operator,
                 field: selected.key
               }
@@ -53,14 +53,14 @@ export default function SelectField ({ condition }: Props) {
           else {
             const newItem: ConditionContract = {
               ...(item as ConditionContract),
-              field: selected.key
+              field: selected.key,
+              value: selected.input === 'select' ? [] : ''
             }
             li.push(newItem)
           }
         }
       })
       const value = board.structure.find((item) => item.key === condition.field)
-
       if (value && selected.key !== value.key) {
         setBoard({
           ...board,
@@ -72,9 +72,6 @@ export default function SelectField ({ condition }: Props) {
         })
       }
     }
-
-
-
   }, [selected])
 
   return (
@@ -101,7 +98,7 @@ export default function SelectField ({ condition }: Props) {
               >
                 <Listbox.Options
                   className="absolute z-[99] mt-1 max-h-60 w-auto overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                  {board.structure.map((field) => (
+                  {board.structure.filter((item) => item.filter).map((field) => (
                     <Listbox.Option
                       key={field.key}
                       className={({active}) =>

@@ -2,32 +2,87 @@ import {Fragment, useContext, useEffect, useState} from "react"
 import { Listbox, Transition } from '@headlessui/react'
 import {CheckIcon, ChevronUpDownIcon} from "@heroicons/react/20/solid";
 import {classNames} from "../../../../../utils/helper";
-import {ConditionContract} from "../types";
+import {
+  ConditionContract,
+  ConditionGroupContract,
+  CoupleConditionContract,
+  OperatorContract
+} from "../types";
 import BoardContext from "../../../../../contexts/BoardContext";
+import {isGroup} from "../utils";
 
 type Props = {
   condition: ConditionContract
 }
-export const operators = [
-  { id: 1, name: 'contains', input: ['text']},
-  { id: 2, name: 'is', input: ['text', 'select'] },
-  { id: 3, name: 'is not', input: ['text', 'select'] },
-  { id: 4, name: 'is any of', input: ['select']},
-  { id: 5, name: 'is none of', input: ['select']}
+export const operators: OperatorContract[] = [
+  { id: 1, name: 'contains', input: ['text', 'select']},
+  { id: 2, name: 'not contains', input: ['text', 'select'] },
+  { id: 3, name: 'is', input: ['text'] },
+  { id: 4, name: 'is not', input: ['text'] },
 ]
 
 export default function SelectOperator ({ condition }: Props) {
   const [board, setBoard] = useContext(BoardContext)
 
-  const [selected, setSelected] = useState(operators.filter((item) => item.input.includes(
-    board.structure.filter((structure) => structure.key === condition.field)[0].input
-  ))[0])
+  const [selected, setSelected] = useState()
+
+  useEffect(() => {
+    if (condition) {
+      const operator = operators.find((item) => condition.operator === item.name)
+      if (operator && !selected) {
+        setSelected(operator)
+      }
+    }
+  }, [condition])
+
+  useEffect(() => {
+    const li = [] as CoupleConditionContract[]
+    if (selected && selected.name !== condition.operator) {
+      board.filter.conditions.forEach((item) => {
+        if (isGroup(item)) {
+          const sub = (item as ConditionGroupContract).conditions.map((subitem) => {
+            if (subitem.uid !== condition.uid) return subitem
+            const newItem: ConditionContract = {
+              ...condition,
+              operator: selected.name
+            }
+            return newItem
+          })
+          const group: ConditionGroupContract = {
+            ...(item as ConditionGroupContract),
+            conditions: sub
+          }
+
+          li.push(group)
+        } else {
+          if (item.uid !== condition.uid) li.push(item)
+          else {
+            const newItem: ConditionContract = {
+              ...(item as ConditionContract),
+             operator: selected.name
+            }
+            li.push(newItem)
+          }
+        }
+      })
+
+      setBoard({
+        ...board,
+        filter: {
+          uid: board.filter.uid,
+          conjunction: board.filter.conjunction,
+          conditions: li
+        }
+      })
+    }
+  }, [selected])
 
 
   return (
     <Listbox value={selected} onChange={setSelected}>
       {({ open }) => (
         <>
+          { selected &&
           <div className="relative">
             <Listbox.Button className="relative w-full cursor-default bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-smsm:text-sm sm:leading-6">
               <span className="block truncate">{selected.name}</span>
@@ -80,6 +135,7 @@ export default function SelectOperator ({ condition }: Props) {
               </Listbox.Options>
             </Transition>
           </div>
+          }
         </>
       )}
     </Listbox>

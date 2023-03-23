@@ -13,7 +13,7 @@ type Props = {
 
 export default function ValueRow ({ condition }: Props) {
   const [board, setBoard] = useContext(BoardContext)
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState()
   const [type, setType] = useState<TypeInputContract>(
     board.structure.find((item) => {
       if (item.key === condition.field) return item
@@ -21,20 +21,29 @@ export default function ValueRow ({ condition }: Props) {
   )
   const [select, setSelect] = useState<IEtiquette | IRole | IPermission>()
 
+  /*useEffect(() => {
+    if (!select && board.data && type === 'select') {
+      setSelect(board.data[condition.field as SelectTypeContract][0])
+    }
+  }, [board])
 
   useEffect(() => {
     const typeData = board.structure.find((item) => {
       if (item.key === condition.field) return item
     })
 
-    if (typeData && typeData.input !== type) {
+    console.log(condition, typeData)
+    setValue(condition.value)
+    if (typeData && condition.value !== value && typeData.input !== type) {
       setType(typeData.input)
+      console.log(value)
       const data: ConditionContract = {
         uid: condition.uid,
-        value: null,
+        value: typeData.input === 'text' ? '' : [],
         operator: condition.operator,
         field: condition.field
       }
+
 
       const li = UpdateRow(board.filter.conditions, condition, data)
       setBoard({
@@ -49,15 +58,87 @@ export default function ValueRow ({ condition }: Props) {
   }, [condition])
 
   useEffect(() => {
-    const data: ConditionContract = {
-      uid: condition.uid,
-      value: type === 'text' ? value : select,
-      operator: condition.operator,
-      field: condition.field
+    const typeData = board.structure.find((item) => {
+      if (item.key === condition.field) return item
+    })
+    if (typeData && condition.value !== value) {
+      setType(typeData.input)
+      const data: ConditionContract = {
+        uid: condition.uid,
+        value: value ? value : typeData.input === 'select' ? [] : '',
+        operator: condition.operator,
+        field: condition.field
+      }
+      console.log("VALUE DATA", data)
+      const li = UpdateRow(board.filter.conditions, condition, data)
+      if (condition.value !== value) {
+        setBoard({
+          ...board,
+          filter: {
+            uid: board.filter.uid,
+            conjunction: board.filter.conjunction,
+            conditions: li
+          }
+        })
+      }
     }
-    const li = UpdateRow(board.filter.conditions, condition, data)
 
-    if (condition.value !== value) {
+  }, [value, select])*/
+
+
+  useEffect(() => {
+    const typeData = board.structure.find((item) => {
+      if (item.key === condition.field) return item
+    })
+    if (!typeData) return
+
+    setType(typeData.input)
+    if (typeData.input !== type) {
+      const data: ConditionContract = {
+        uid: condition.uid,
+        value: typeData.input === 'select' ? [] : '',
+        operator: condition.operator,
+        field: condition.field
+      }
+      const li = UpdateRow(board.filter.conditions, condition, data)
+      setValue(
+        typeData.input === 'select' ?
+        board.data[condition.field as SelectTypeContract][0] : '')
+
+      setBoard({
+        ...board,
+        filter: {
+          uid: board.filter.uid,
+          conjunction: board.filter.conjunction,
+          conditions: li
+        }
+      })
+      return
+    }
+  }, [condition])
+
+  useEffect(() => {
+    if (value) {
+      console.log(type)
+      const data: ConditionContract = {
+        ...condition,
+        value: type === 'select' ? [value.id] : value
+      }
+      const li = UpdateRow(board.filter.conditions, condition, data)
+      setBoard({
+        ...board,
+        filter: {
+          uid: board.filter.uid,
+          conjunction: board.filter.conjunction,
+          conditions: li
+        }
+      })
+    } else {
+      const data: ConditionContract = {
+        ...condition,
+        value: type === 'select' ? [] : ''
+      }
+      const li = UpdateRow(board.filter.conditions, condition, data)
       setBoard({
         ...board,
         filter: {
@@ -67,8 +148,12 @@ export default function ValueRow ({ condition }: Props) {
         }
       })
     }
-  }, [value, select])
 
+  }, [value])
+
+  useEffect(() => {
+    console.log(board.filter)
+  }, [board])
 
   return (
     <div>
@@ -85,14 +170,14 @@ export default function ValueRow ({ condition }: Props) {
         />
 
         : <div>
-          <Listbox value={select} onChange={setSelect}>
+          <Listbox value={value} onChange={setValue}>
             {({ open}) => (
               <>
                 {
-                  board.data && board.data[condition.field as SelectTypeContract] && select &&
+                  board.data && board.data[condition.field as SelectTypeContract] && value &&
                   <div className="relative">
                     <Listbox.Button className="relative w-full cursor-default bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-smsm:text-sm sm:leading-6">
-                      <span className="block truncate">{select.label}</span>
+                      <span className="block truncate">{value.label}</span>
                       <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                         <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true"/>
                       </span>
