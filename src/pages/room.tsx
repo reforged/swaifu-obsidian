@@ -1,7 +1,7 @@
 import {useLocation} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import {io} from "socket.io-client";
-import {AuthenticationContext} from "../contexts/AuthenticationContext";
+import AuthenticationContext from "../contexts/AuthenticationContext";
 import RoomContext from "../contexts/RoomContext";
 import {useNavigate} from "react-router";
 import {IRoom} from "../utils/room";
@@ -21,7 +21,7 @@ export default function Room () {
   const location = useLocation()
   const router = useNavigate()
   const [code, setCode] = useState<string>(location.pathname.split("/")[2])
-  const { user } = useContext(AuthenticationContext)
+  const [user, setUser] = useContext(AuthenticationContext)
 
   const socket = io("ws://localhost:3333")
 

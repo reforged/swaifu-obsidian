@@ -5,7 +5,7 @@ import Layout from './layouts/layout'
 import HomeEtiquette from './pages/manager/qcm/etiquettes'
 import HomeQuestion from './pages/manager/qcm/questions'
 import Login from './pages/auth/login'
-import { AuthenticationContext} from './contexts/AuthenticationContext'
+import AuthenticationContext from './contexts/AuthenticationContext'
 import { EtiquettesContext } from './contexts/EtiquettesContext'
 import {IEtiquette, IUser} from './utils'
 import Index from './pages'
@@ -22,6 +22,7 @@ import HomeRoles from "./pages/manager/comptes/roles";
 import HomePermissions from "./pages/manager/comptes/permissions";
 import HomeSessions from "./pages/manager/qcm/sessions";
 import Room from "./pages/room";
+import Register from "./pages/auth/register";
 
 
 function App() {
@@ -70,13 +71,14 @@ function App() {
     { uid: 'comptes.permissions.list', href: '/manager/accounts/permissions', component: <HomePermissions />},
 
     { uid: 'login', href: '/authentication/login', component: <Login /> },
+    { uid: 'register', href: '/authentication/register', component: <Register /> },
 
     { uid: '404', href: '*', component: <NotFound /> },
   ]
 
   return (
     <div>
-      <AuthenticationContext.Provider value={{ user, setUser}}>
+      <AuthenticationContext.Provider value={[user, setUser]}>
         <EtiquettesContext.Provider value={{ etiquette, setEtiquette}}>
           <NavigationContext.Provider value={[navigation, setNavigation]}>
             <Routes>

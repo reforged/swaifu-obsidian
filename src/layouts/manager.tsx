@@ -1,5 +1,5 @@
 import React, {ReactNode, useContext, useEffect, useState} from "react";
-import { AuthenticationContext} from '../contexts/AuthenticationContext'
+import AuthenticationContext from '../contexts/AuthenticationContext'
 import {Outlet, useNavigate} from 'react-router'
 import useMe from '../hooks/useMe'
 import Sidebar from "../components/manager/Sidebar";
@@ -8,6 +8,7 @@ import NavigationContext, {NavigationContract} from "../contexts/NavigationConte
 import {classNames} from "../utils/helper";
 import {ChevronRightIcon} from "@heroicons/react/24/outline";
 import {HomeIcon} from "@heroicons/react/20/solid";
+import useAuthentication from "../hooks/use-authentication";
 
 type Props = {
   children: ReactNode
@@ -20,8 +21,10 @@ type Props = {
 }
 
 export default function Manager ({ children, layout }: Props) {
-  const { user } = useContext(AuthenticationContext)
+  const [ user ] = useContext(AuthenticationContext)
   const location = useLocation()
+  const { me } = useAuthentication()
+  const { data } = me()
   const [navigation, setNavigation] = useContext(NavigationContext)
   const [select, setSelected] = useState<NavigationContract>(selectItemNavigation())
   const router = useNavigate()
@@ -44,7 +47,6 @@ export default function Manager ({ children, layout }: Props) {
   }
 
 
-  const { data} = useMe()
 
 
   if (!user) {

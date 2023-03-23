@@ -12,7 +12,7 @@ export default function Profil () {
 
   return (
     <AuthenticationContext.Consumer>
-      { ({ user }) => (
+      {([ user ]) => (
         <>
           { user &&
             <Menu>
