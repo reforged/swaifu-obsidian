@@ -1,8 +1,6 @@
-import React, { useEffect, useState, Fragment } from 'react'
-import { Menu, Transition } from '@headlessui/react'
+import React, { useEffect, useState} from 'react'
 import { MoonIcon } from '@heroicons/react/24/solid'
 import { ComputerDesktopIcon, SunIcon } from '@heroicons/react/20/solid'
-import {classNames} from "../utils/helper";
 
 export default function DarkMode () {
   const [theme, setTheme] = useState(localStorage.theme)
