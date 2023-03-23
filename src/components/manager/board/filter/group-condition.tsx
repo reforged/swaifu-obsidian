@@ -1,10 +1,9 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import DeleteGroup from "./buttons/group/delete-group";
 import {ConditionGroupContract, ConditionContract} from "./types";
 import GroupAddCondition from "./buttons/group/group-add-condition";
 import Condition from "./condition";
 import SelectConjunction from "./select-menus/select-conjunction";
-import {isGroup} from "./utils";
 
 type Props = {
   condition: ConditionGroupContract
