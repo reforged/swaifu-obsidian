@@ -21,7 +21,7 @@ export default function Home () {
       }}
     >
       <AuthenticationContext.Consumer>
-        {({user}) => (
+        {([ user ]) => (
           <div>
             <h1 className="text-2xl font-medium">Good morning, {user?.email} 👋</h1>
 

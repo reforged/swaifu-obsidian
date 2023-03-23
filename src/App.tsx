@@ -5,7 +5,7 @@ import Layout from './layouts/layout'
 import HomeEtiquette from './pages/manager/qcm/etiquettes'
 import HomeQuestion from './pages/manager/qcm/questions'
 import Login from './pages/auth/login'
-import { AuthenticationContext} from './contexts/AuthenticationContext'
+import AuthenticationContext from './contexts/AuthenticationContext'
 import { EtiquettesContext } from './contexts/EtiquettesContext'
 import {IEtiquette, IUser} from './utils'
 import Index from './pages'
@@ -76,7 +76,7 @@ function App() {
 
   return (
     <div>
-      <AuthenticationContext.Provider value={{ user, setUser}}>
+      <AuthenticationContext.Provider value={[user, setUser]}>
         <EtiquettesContext.Provider value={{ etiquette, setEtiquette}}>
           <NavigationContext.Provider value={[navigation, setNavigation]}>
             <Routes>

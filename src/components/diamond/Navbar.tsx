@@ -4,7 +4,7 @@ import { Disclosure, Menu, Transition, Dialog } from '@headlessui/react'
 import {Bars3Icon, BellIcon, ChevronDownIcon, XMarkIcon} from '@heroicons/react/24/outline'
 import { classNames } from '../../utils/helper'
 import DarkMode from '../DarkMode'
-import {AuthenticationContext} from '../../contexts/AuthenticationContext'
+import AuthenticationContext from '../../contexts/AuthenticationContext'
 import {IUser} from '../../utils'
 import {IPermission, IRole} from '../../utils'
 import userLogout from '../../hooks/user-logout'
@@ -46,7 +46,7 @@ export default function Navbar ({ }: Props) {
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:items-center gap-8">
                 <AuthenticationContext.Consumer>
-                  {({ user }) => (
+                  {([ user ]) => (
                     <div>
                       { user ?
                         <div>
@@ -79,7 +79,7 @@ export default function Navbar ({ }: Props) {
 
 const Profil = () => {
   const { mutate: logout } = userLogout()
-  const { user } = useContext(AuthenticationContext)
+  const [user, setUser] = useContext(AuthenticationContext)
   const permissions: string[] = []
   user.permissions?.forEach((permission: IPermission) => permissions.push(permission.key))
   user.roles?.forEach((role: IRole) => {

@@ -1,5 +1,5 @@
 import React, {ReactNode, useContext, useEffect, useState} from "react";
-import { AuthenticationContext} from '../contexts/AuthenticationContext'
+import AuthenticationContext from '../contexts/AuthenticationContext'
 import {Outlet, useNavigate} from 'react-router'
 import useMe from '../hooks/useMe'
 import Sidebar from "../components/manager/Sidebar";
@@ -20,7 +20,7 @@ type Props = {
 }
 
 export default function Manager ({ children, layout }: Props) {
-  const { user } = useContext(AuthenticationContext)
+  const [ user ] = useContext(AuthenticationContext)
   const location = useLocation()
   const [navigation, setNavigation] = useContext(NavigationContext)
   const [select, setSelected] = useState<NavigationContract>(selectItemNavigation())
