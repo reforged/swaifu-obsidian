@@ -1,7 +1,7 @@
 import React from 'react'
 import { ChatBubbleLeftRightIcon, RocketLaunchIcon } from '@heroicons/react/24/outline'
 import { NavLink } from 'react-router-dom'
-import { AuthenticationContext } from '../../contexts/AuthenticationContext'
+import AuthenticationContext from '../../contexts/AuthenticationContext'
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import Manager from "../../layouts/manager";
 import { io } from "socket.io-client";

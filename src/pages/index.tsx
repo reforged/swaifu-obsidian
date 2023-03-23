@@ -3,12 +3,12 @@ import DarkMode from "../components/DarkMode";
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import Navbar from "../components/diamond/Navbar";
 import {io} from "socket.io-client";
-import {AuthenticationContext} from "../contexts/AuthenticationContext";
+import AuthenticationContext from "../contexts/AuthenticationContext";
 import {useNavigate} from "react-router";
 
 export default function Index () {
   const [open, setOpen] = useState<boolean>(false)
-  const {user } = useContext(AuthenticationContext)
+  const [user, setUser] = useContext(AuthenticationContext)
   const [code, setCode] = useState<string>('')
   const socket = io("ws://localhost:3333")
   const router = useNavigate()

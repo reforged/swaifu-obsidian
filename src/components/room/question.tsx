@@ -8,7 +8,7 @@ import rehypeKatex from "rehype-katex";
 import ReactMarkdown from "react-markdown";
 import ShowEnonce from "../manager/sessions/panel/question/show-enonce";
 import {io} from "socket.io-client";
-import {AuthenticationContext} from "../../contexts/AuthenticationContext";
+import AuthenticationContext from "../../contexts/AuthenticationContext";
 import {useCookies} from "react-cookie";
 import {LockEvent, NewQuestion} from "../../utils/room/events";
 
@@ -16,7 +16,7 @@ export default function Question () {
   const [room, setRoom] = useContext(RoomContext)
   const [selected, setSelected] = useState()
   const [cookie, setCookie] = useCookies(['room'])
-  const {user, setUser} = useContext(AuthenticationContext)
+  const [user, setUser] = useContext(AuthenticationContext)
   const socket = io('ws://localhost:3333')
 
   function submitAnswer () {

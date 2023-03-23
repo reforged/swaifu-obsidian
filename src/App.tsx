@@ -22,6 +22,7 @@ import HomeRoles from "./pages/manager/comptes/roles";
 import HomePermissions from "./pages/manager/comptes/permissions";
 import HomeSessions from "./pages/manager/qcm/sessions";
 import Room from "./pages/room";
+import Register from "./pages/auth/register";
 
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
     { uid: 'comptes.permissions.list', href: '/manager/accounts/permissions', component: <HomePermissions />},
 
     { uid: 'login', href: '/authentication/login', component: <Login /> },
+    { uid: 'register', href: '/authentication/register', component: <Register /> },
 
     { uid: '404', href: '*', component: <NotFound /> },
   ]

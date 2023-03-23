@@ -7,7 +7,7 @@ import DarkMode from '../DarkMode'
 import AuthenticationContext from '../../contexts/AuthenticationContext'
 import {IUser} from '../../utils'
 import {IPermission, IRole} from '../../utils'
-import userLogout from '../../hooks/user-logout'
+import useAuthentication from "../../hooks/use-authentication";
 
 type Props = {
   open: boolean
@@ -78,7 +78,8 @@ export default function Navbar ({ }: Props) {
 }
 
 const Profil = () => {
-  const { mutate: logout } = userLogout()
+  const { logout } = useAuthentication()
+  const { mutate: disconnectUser } = logout()
   const [user, setUser] = useContext(AuthenticationContext)
   const permissions: string[] = []
   user.permissions?.forEach((permission: IPermission) => permissions.push(permission.key))
@@ -89,7 +90,8 @@ const Profil = () => {
   })
 
   function handleClick () {
-    logout()
+    console.log("looggg")
+    disconnectUser()
   }
 
   const [manager, setManager] = useState<boolean>((permissions.includes('admin') || permissions.includes('manager')))
