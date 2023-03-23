@@ -36,12 +36,12 @@ export default function Navbar ({ }: Props) {
 
                 </div>
                 <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                  <a
-                    href="#"
+                  <Link
+                    to={"/"}
                     className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900"
                   >
                     Accueil
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:items-center gap-8">
@@ -130,15 +130,15 @@ const Profil = () => {
           <div className="py-1">
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="#"
+                <Link
+                  to={"/profil"}
                   className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                     'block px-4 py-2 text-sm'
                   )}
                 >
                   Account settings
-                </a>
+                </Link>
               )}
             </Menu.Item>
             <Menu.Item>

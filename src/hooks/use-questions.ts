@@ -3,6 +3,7 @@ import {useMutation, useQuery, useQueryClient} from "react-query";
 import {http} from "../utils/helper";
 import {useContext} from "react";
 import AuthenticationContext from "../contexts/AuthenticationContext";
+import {IQuestion} from "../utils";
 
 const useQuestions = () => {
   const [cookie, setCookie] = useCookies(['token'])
@@ -50,6 +51,25 @@ const useQuestions = () => {
     })
   }
 
+  function update () {
+    return useMutation(async (data: IQuestion) => {
+      const response = await http.put(`/questions/${data.id}`, data, {
+        method: 'POST',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': cookie.token
+        }
+      })
+
+      return response.data
+    }, {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(['questions'])
+      }
+    })
+  }
+
   function destroy () {
     return useMutation(async (id: string) => {
       const response = await http.delete(`/questions/${id}`, {
@@ -73,7 +93,8 @@ const useQuestions = () => {
     create,
     fetchByUser,
     fetch,
-    destroy
+    destroy,
+    update
   }
 }
 

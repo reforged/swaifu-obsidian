@@ -75,5 +75,24 @@ export default function useUsers () {
     })
   }
 
-  return { index, createMany, destroy }
+  function updateMe () {
+    return useMutation(async (data: any) => {
+      const response = await http.put('/profile/update', data, {
+        method: 'POST',
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': cookie.token
+        }
+      })
+
+      return response.data
+    }, {
+      onSuccess: async (data) => {
+        await queryClient.invalidateQueries(['user'])
+      }
+    })
+  }
+
+  return { index, createMany, destroy, updateMe }
 }
