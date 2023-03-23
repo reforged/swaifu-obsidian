@@ -1,9 +1,7 @@
-import React, {Fragment, useContext, useEffect, useState} from "react";
-import { Listbox, Transition } from '@headlessui/react'
+import React, { useContext, useEffect, useState} from "react";
 import useSequences from "../../../hooks/use-sequences";
 import {ISequence} from "../../../utils";
 import {classNames} from "../../../utils/helper";
-import {CheckIcon, ChevronUpDownIcon} from "@heroicons/react/20/solid";
 import {QueueListIcon} from "@heroicons/react/24/outline";
 import useSessions from "../../../hooks/use-sessions";
 import SessionContext from "../../../contexts/SessionContext";
