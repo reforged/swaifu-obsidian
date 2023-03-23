@@ -21,10 +21,11 @@ const navigation: INavigation[] = [
 ]
 
 export default function HomeRoles () {
-  const { index } = useRoles()
+  const { index, destroy } = useRoles()
   const { index: fetchPermissions } = usePermissions()
   const { data , isLoading } = index()
   const { data: permissions } = fetchPermissions()
+  const { mutate: deleteRole } = destroy()
 
   const [options, setOptions] = useState<Options<IRole>>()
 
@@ -77,7 +78,7 @@ export default function HomeRoles () {
             data={data as IRole[]}
             keys={['label']}
             skeleton={<UserSkeleton/>}
-            onDelete={() => console.log('dazda')}
+            onDelete={deleteRole}
           />
           <CreateRole/>
         </Board>
