@@ -1,11 +1,10 @@
-import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from 'react'
+import React, {Dispatch, SetStateAction, useContext, useState} from 'react'
 import useComponentVisible from '../../../../../hooks/useComponentVisible'
 import { AnimatePresence, motion } from 'framer-motion'
 import useEtiquettes from '../../../../../hooks/use-etiquettes'
 import { ListBulletIcon, XMarkIcon, EllipsisHorizontalIcon } from '@heroicons/react/24/outline'
 import { classNames } from '../../../../../utils/helper'
 import { IEtiquette } from '../../../../../utils'
-import {EtiquettesContext} from "../../../../../contexts/EtiquettesContext";
 import QuestionContext from "../../../../../contexts/QuestionContext";
 import ShowQuestionContext from "../../../../../contexts/ShowQuestionContext";
 
