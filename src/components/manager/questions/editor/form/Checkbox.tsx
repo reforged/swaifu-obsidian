@@ -1,10 +1,6 @@
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react'
-import { Switch } from '@headlessui/react'
-import {classNames} from "../../../../../utils/helper";
+import React, {Dispatch, SetStateAction} from 'react'
 import {IReponse} from "@obsidian/type";
 import { TrashIcon } from "@heroicons/react/24/outline";
-import useComponentVisible from "../../../../../hooks/useComponentVisible";
-import {AnimatePresence, motion} from "framer-motion";
 import Toggle from "../../../Toggle";
 import CreateReponse from "./CreateReponse";
 import NoReponses from "../../NoReponses";
