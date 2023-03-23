@@ -28,6 +28,11 @@ const pages = [
   { label: 'Sessions', href: '/manager/qcm/sessions', current: false},
 ]
 
+const navigation = [
+  {name: "QCM", href: '/manager/qcm', current: false},
+  {name: "Étiquettes", href: '/manager/qcm/etiquettes', current: true},
+]
+
 export default function HomeEtiquette () {
   const { ref, isVisible, toggle, setIsVisible } = useComponentVisible()
   const [etiquette, setEtiquette] = useState<IEtiquette | null>(null)
@@ -67,7 +72,7 @@ export default function HomeEtiquette () {
     <Manager
       layout={{
         label: 'Étiquettes',
-        location: [],
+        location: navigation,
         navigation: pages
       }}
     >

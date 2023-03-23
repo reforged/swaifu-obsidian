@@ -20,6 +20,11 @@ const pages = [
 	{ label: 'Sessions', href: '/manager/qcm/sessions', current: false},
 ]
 
+const navigation = [
+	{name: "QCM", href: '/manager/qcm', current: false},
+	{name: "Questions", href: '/manager/qcm/questions', current: true},
+]
+
 
 export default function HomeQuestion () {
 	const { fetch } = useQuestions()
@@ -47,7 +52,7 @@ export default function HomeQuestion () {
 		<Manager
 			layout={{
 				label: 'Questions',
-				location: [],
+				location: navigation,
 				navigation: pages
 			}}
 		>

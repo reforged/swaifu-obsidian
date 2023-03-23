@@ -69,7 +69,7 @@ export default function HomeSequence () {
     search: '',
     structure: [],
     keys: ['label'],
-    option: ['filter', 'mode'],
+    option: [],
     open: false
   }
 
