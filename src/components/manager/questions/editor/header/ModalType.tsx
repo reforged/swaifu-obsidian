@@ -1,4 +1,4 @@
-import React, {useState, Dispatch, SetStateAction, useEffect, useContext} from 'react'
+import React, {useState, Dispatch, SetStateAction, useContext} from 'react'
 import { ITypeQuestion } from '../../../../../utils'
 import useComponentVisible from '../../../../../hooks/useComponentVisible'
 import { ListBulletIcon, PencilSquareIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
