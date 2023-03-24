@@ -20,12 +20,17 @@ const pages = [
 	{ label: 'Sessions', href: '/manager/qcm/sessions', current: false},
 ]
 
+const navigation = [
+	{name: "QCM", href: '/manager/qcm', current: false},
+	{name: "Questions", href: '/manager/qcm/questions', current: true},
+]
+
 
 export default function HomeQuestion () {
 	const { fetch } = useQuestions()
 	const { data } = fetch()
 	const [showQuestion, setShowQuestion] = useState<IQuestion | null>(null)
-	const state = useState<IQuestion>({
+	const [question, setQuestion] = useState<IQuestion>({
 		type: '',
 		label: 'Untitled',
 		etiquettes: [],
@@ -47,11 +52,11 @@ export default function HomeQuestion () {
 		<Manager
 			layout={{
 				label: 'Questions',
-				location: [],
+				location: navigation,
 				navigation: pages
 			}}
 		>
-			<QuestionContext.Provider value={state}>
+			<QuestionContext.Provider value={[question, setQuestion]}>
 				<ShowQuestionContext.Provider value={[showQuestion, setShowQuestion]}>
 					<div className="relative">
 						<div className="flex items-start justify-between w-full">

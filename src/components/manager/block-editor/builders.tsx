@@ -4,6 +4,7 @@ import Paragraph from './blocks/Paragraph'
 import Divide from './blocks/Divide'
 import Blockquote from './blocks/Blockquote'
 import Code from './blocks/Code'
+import BlockMermaid from "./blocks/Mermaid";
 
 export function TitleBlock (): BlockContextContract {
   return {
@@ -14,6 +15,23 @@ export function TitleBlock (): BlockContextContract {
       fields: {
         level: 1,
         value: "Lorem ipsum dolor sit amet"
+      }
+    }
+  }
+}
+
+export function MermaidBlock (): BlockContextContract {
+  return {
+    block: BlockMermaid,
+    structure: {
+      uid: window.crypto.randomUUID(),
+      type: 'mermaid',
+      fields: {
+        value: "graph TD;\n" +
+          "    A-->B;\n" +
+          "    A-->C;\n" +
+          "    B-->D;\n" +
+          "    C-->D;"
       }
     }
   }

@@ -7,7 +7,7 @@ import BlockEditor from "../../block-editor/BlockEditor";
 import {BlockContextContract} from "../../block-editor/contexts/BlocksContext";
 import {
   BlockquoteBlock, CodeBlock,
-  DivideBlock,
+  DivideBlock, MermaidBlock,
   ParagraphBlock,
   TitleBlock
 } from "../../block-editor/builders";
@@ -23,14 +23,15 @@ export default function ModalQuestionView ({ questions }) {
   const { ref, isVisible, toggle , setIsVisible} = useComponentVisible()
   const [showQuestion, setShowQuestion] = useContext(ShowQuestionContext)
   const [disabled, setDisabled] = useState<boolean>(true)
-  const {} = useQuestions()
+  const { update } = useQuestions()
+  const { mutate: editQuestion } = update()
 
   function verifData () {
     const question = showQuestion!
     const original: IQuestion = questions
       .filter((item: IQuestion) => item.id === question.id)[0]
     const data: IQuestion[] = questions.filter((item: IQuestion) => item.id !== question.id)
-
+    console.log(question)
     if (data
       .map((item) => item.label.toLowerCase())
       .includes(question.label.toLowerCase())
@@ -49,24 +50,25 @@ export default function ModalQuestionView ({ questions }) {
     }
 
     if (
-      original.label === question.label &&
-      original.type === question.type &&
-      original.enonce === question.enonce &&
-      original.etiquettes === question.etiquettes &&
+      original.label === question.label ||
+      original.type === question.type ||
+      original.enonce === question.enonce ||
+      original.etiquettes === question.etiquettes ||
       original.reponses === question.reponses
-    )
+    ) {
+      return true
+    }
 
-    return true
+    return false
   }
 
   useEffect(() => {
+    console.log(showQuestion)
     if (showQuestion) {
+      console.log(showQuestion)
       if (verifData()) setDisabled(false)
       else setDisabled(true)
     }
-
-
-
   }, [showQuestion])
 
   useEffect(() => {
@@ -83,6 +85,7 @@ export default function ModalQuestionView ({ questions }) {
     title: TitleBlock,
     paragraph: ParagraphBlock,
     divide: DivideBlock,
+    mermaid: MermaidBlock,
     blockquote: BlockquoteBlock,
     code: CodeBlock,
   }
@@ -90,7 +93,15 @@ export default function ModalQuestionView ({ questions }) {
   function handleChange () {}
 
   function handleClick () {
-
+    console.log("UPDATE", showQuestion)
+    if (showQuestion) {
+      const objet = {
+        ...showQuestion,
+        etiquettes: showQuestion.etiquettes.map((item) => item.id)
+      }
+      editQuestion(objet)
+      toggle()
+    }
   }
 
   return (
@@ -133,12 +144,14 @@ export default function ModalQuestionView ({ questions }) {
                     <Header />
 
                     <div className="pt-20">
-                      <BlockEditor
-                        blocks={blocks}
-                        settings={{ mode: 'editor' }}
-                        value={showQuestion.enonce}
-                        onChange={handleChange}
-                      />
+                      {showQuestion.enonce &&
+                        <BlockEditor
+                          blocks={blocks}
+                          settings={{mode: 'preview'}}
+                          value={showQuestion.enonce}
+                          onChange={handleChange}
+                        />
+                      }
                     </div>
                   </div>
                 </motion.div>

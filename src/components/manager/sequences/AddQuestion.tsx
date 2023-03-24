@@ -69,7 +69,7 @@ export default function AddQuestion ({}: Props) {
                  <>
                   { isEmpty(questions, sequence.questions)
                     ? <div>Plus de questions</div>
-                    : <>
+                    : <div className="p-4">
                       {filtered.map((question: IQuestion) => {
                         if (!exist(question, sequence.questions)) {
                           return (
@@ -77,7 +77,7 @@ export default function AddQuestion ({}: Props) {
                           )
                         }
                       })}
-                    </>
+                    </div>
                   }
 
                 </>
@@ -107,7 +107,7 @@ function Question ({ question }: QuestionProps) {
 
   return (
     <button
-      className="group hover:bg-gray-100 p-2 justify-between flex items-center"
+      className="group hover:bg-gray-100 p-2 justify-between flex items-center w-full p-3"
       onClick={addQuestion}
     >
       <div>

@@ -73,7 +73,7 @@ export default function Index () {
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8">
            <img
                 className="h-11 w-11 object-cover rounded-md"
-                src="https://cdn.discordapp.com/attachments/1052152529682710558/1064960787426324531/dzadazdazda.png"
+                src="../../public/favicon.ico"
                 alt="Your Company"
               />
 
@@ -83,13 +83,13 @@ export default function Index () {
                 What's new
               </span>
                 <span className="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-gray-600 dark:text-gray-400">
-                <span>Just shipped v1.0</span>
+                <span>Le site de question 2.0</span>
                 <ChevronRightIcon className="h-5 w-5 text-gray-400 dark:text-gray-500" aria-hidden="true" />
               </span>
               </a>
             </div>
             <h1 className="mt-10 text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
-              Deploy to the cloud with confidence
+              Joues avec des superbes questions
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-500">
               Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet
@@ -115,9 +115,7 @@ export default function Index () {
               >
                 Get started
               </button>
-              <a href="#" className="text-base font-semibold leading-7 text-gray-900">
-                Learn more <span aria-hidden="true">→</span>
-              </a>
+             
             </div>
           </div>
           <div className="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mt-0 lg:mr-0 lg:max-w-none lg:flex-none xl:ml-32">

@@ -10,12 +10,16 @@ const pages = [
   { label: 'Sessions', href: '/qcm/sessions', current: false}
 ]
 
+const navigation = [
+  {name: "QCM", href: '/manager/qcm', current: true},
+]
+
 export default function HomeQCM () {
   return (
     <Manager
       layout={{
         label: 'QCM',
-        location: [],
+        location: navigation,
         navigation: pages
       }}
     >

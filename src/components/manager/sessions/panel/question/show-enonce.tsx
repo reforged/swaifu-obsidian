@@ -4,31 +4,35 @@ import {BlockContextContract} from "../../../block-editor/contexts/BlocksContext
 import QuestionContext from "../../../../../contexts/QuestionContext";
 import {
   BlockquoteBlock, CodeBlock,
-  DivideBlock,
+  DivideBlock, MermaidBlock,
   ParagraphBlock,
   TitleBlock
 } from "../../../block-editor/builders";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {ArrowRightCircleIcon} from "@heroicons/react/24/outline";
+import RoomContext from "../../../../../contexts/RoomContext";
 
 type Props = {
   question: IQuestion
 }
 export default function ShowEnonce ({ question }: Props) {
   const [state, setState] = useState<IQuestion>(question)
+  const [room, setRoom] = useContext(RoomContext)
 
   function handleChange () {}
   const blocks: { [key: string]: () => BlockContextContract} = {
     title: TitleBlock,
     paragraph: ParagraphBlock,
     divide: DivideBlock,
+    mermaid: MermaidBlock,
     blockquote: BlockquoteBlock,
     code: CodeBlock,
   }
 
   useEffect(() => {
-    setState(question)
-  }, [question])
+    console.log(question)
+    setState(room.session.question)
+  }, [room])
 
   return (
     <QuestionContext.Provider value={[state, setState]}>
@@ -41,7 +45,7 @@ export default function ShowEnonce ({ question }: Props) {
             settings={{
               mode: 'preview'
             }}
-            value={question.enonce}
+            value={room.session.question.enonce}
             onChange={handleChange}
           />
         </div>

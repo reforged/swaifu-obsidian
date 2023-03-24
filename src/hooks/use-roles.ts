@@ -1,6 +1,6 @@
 import { useCookies } from 'react-cookie'
 import ApiRequestBuilder from "./ApiRequestBuilder";
-import {useQuery, useQueryClient} from "react-query";
+import {useMutation, useQuery, useQueryClient} from "react-query";
 import {http} from "../utils/helper";
 import {IUser} from "../utils";
 
@@ -22,5 +22,41 @@ export default function useRoles () {
     })
   }
 
-  return { index }
+  function store () {
+    return useMutation(async (data: any) => {
+      const response = await http.post('/roles/create', data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': cookie.token
+        },
+        withCredentials: true
+      })
+
+      return response.data
+    }, {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(['roles'])
+      }
+    })
+  }
+
+  function destroy () {
+    return useMutation(async (data: any) => {
+      const response = await http.delete(`/roles/${data.id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': cookie.token
+        },
+        withCredentials: true
+      })
+
+      return response.data
+    }, {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(['roles'])
+      }
+    })
+  }
+
+  return { index, store, destroy }
 }

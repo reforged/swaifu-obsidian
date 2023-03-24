@@ -10,7 +10,7 @@ export const Mermaid = ({ text }: MermaidProps) => {
 
   useEffect(() => {
     mermaid.mermaidAPI.initialize({
-      startOnLoad: true,
+      startOnLoad: false,
       theme: "forest",
       logLevel: 5
     })

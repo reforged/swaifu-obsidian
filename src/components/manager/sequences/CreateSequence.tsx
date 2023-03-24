@@ -75,7 +75,7 @@ export default function CreateSequence ({ }: Props) {
           >
             <div className="absolute left-1/2 relative top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-full h-full p-8 ">
               <div className="relative h-full overflow-hidden">
-                <div ref={ref} className=" border border-gray-200 h-full bg-blue-500 rounded-lg shadow-2xl">
+                <div ref={ref} className=" border border-gray-200 h-full bg-white rounded-lg shadow-2xl">
                   <Modal toggle={toggle} />
                 </div>
               </div>
@@ -118,6 +118,14 @@ function Modal ({ toggle }) {
     })
   }
 
+  function onClose () {
+    toggle()
+    setSequence({
+      label: 'Untitled',
+      questions: []
+    })
+  }
+
   return (
     <div className="relative h-full">
       <div className="relative border border-gray-200 rounded-lg shadow-xl z-50 h-full h-full">
@@ -135,8 +143,8 @@ function Modal ({ toggle }) {
         </div>
 
         <div className="grid grid-cols-12 h-full">
-          <div className="col-span-3 border-r h-full p-4 bg-white bg-opacity-75 backdrop-blur-xl">
-            <div>
+          <div className="col-span-3 border-r h-full p-4 bg-gray-50 backdrop-blur-xl">
+            <div className="mt-12">
               <span>Nom de la séquence</span>
               <div>
                 <Title
@@ -154,7 +162,7 @@ function Modal ({ toggle }) {
               </div>
             </div>
 
-            <div className="bg-gray-100 border border-gray-300 rounded-md p-4 overflow-y-scroll h-72 py-8">
+            <div className="bg-gray-100 mt-4 border border-gray-300 rounded-md p-4 overflow-y-scroll h-72 py-8">
               <Fragment>
                 <DragDropContext onDragEnd={handleDragEnd}>
                   <Droppable droppableId="questions">
@@ -184,7 +192,7 @@ function Modal ({ toggle }) {
 
             <div className="flex justify-end pt-8 items-center gap-2">
               <button
-                onClick={close}
+                onClick={onClose}
                 className="rounded-md px-3 py-2 border bg-red-200 text-red-500"
               >
                 Cancel
@@ -213,6 +221,7 @@ type QuestionProps = {
   question: IQuestion
   index: number
 }
+
 function Question ({ question, index }: QuestionProps) {
   const [sequence, setSequence] = useContext(SequenceContext)
 
@@ -229,7 +238,7 @@ function Question ({ question, index }: QuestionProps) {
     <Draggable key={question.id} draggableId={question.id!} index={index}>
       {( provided, snapshot ) => (
         <div
-          className="group bg-red-500 hover:bg-gray-100 relative p-4 flex justify-between items-center"
+          className="group hover:bg-gray-200 rounded-md relative p-4 flex justify-between items-center"
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}

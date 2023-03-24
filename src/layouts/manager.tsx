@@ -63,7 +63,7 @@ export default function Manager ({ children, layout }: Props) {
 
             <Navigation select={select} />
             <div className="p-12">
-
+              <Breadcrumbs pages={layout.location}/>
               <div className="py-8 flex items-center justify-between">
                 <span className="font-title text-3xl font-bold">{layout.label}</span>
               </div>

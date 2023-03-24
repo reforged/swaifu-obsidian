@@ -60,17 +60,11 @@ const Button = ({ click, data }: ButtonProps) => {
         <button
             type={"button"}
             onClick={click}
-            className={"w-full text-left"}
+            className={"w-full text-left border rounded-md"}
         >
             <div className="bg-gray-50 rounded-md p-3 duration-100 ease-in-out hover:bg-gray-100">
                 <div className="flex flex-col gap-4">
-                    <div>
-                        { data.etiquettes
-                            && <div className="flex items-center gap-3">
-                                { data.etiquettes.map((etiquette: IEtiquette) => <Etiquette key={etiquette.id} data={etiquette} />)}
-                            </div>
-                        }
-                    </div>
+
                     <div className="flex flex-col">
                         <span className="text-gray-900 text-3xl font-bold">{ data.label }</span>
                         <TypeQuestion type={data.type}/>
@@ -84,29 +78,7 @@ const Button = ({ click, data }: ButtonProps) => {
 
 export default function QuestionStat ({ question }: Props) {
     const { ref, isVisible, toggle } = useComponentVisible()
-    const [body, setBody] = useState<string>(question.enonce)
-    const [bodyMd, setBodyMd] = useState<any>()
-    useEffect(() => {
-        const ast = Markdoc.parse(body)
-
-        const content = Markdoc.transform(ast, {
-            nodes: {
-                fence: {
-                    render: 'Fence',
-                    attributes: {
-                        content: { type: String },
-                        language: { type: String}
-                    }
-                }
-            }
-        })
-        const children = Markdoc.renderers.react(content, React, {
-            components: {
-                Fence: Fence
-            }
-        })
-        setBodyMd(children)
-    }, [body])
+    const [] = useState()
 
     const close = () => {
         toggle()
@@ -128,8 +100,8 @@ export default function QuestionStat ({ question }: Props) {
                         initial={{ opacity: 0}}
                     >
 
-                        <div className="absolute w-full h-full p-8">
-                            <div className="relative h-full overflow-hidden rounded-md">
+                        <div className="absolute w-full h-full p-8" >
+                            <div className="relative h-full overflow-hidden rounded-md" ref={ref}>
                                 <div className="border border-gray-200 h-full bg-white">
                                     <div className="relative border h-full">
                                         <div className="w-full bg-gray-100 flex justify-between items-center p-4 relative">

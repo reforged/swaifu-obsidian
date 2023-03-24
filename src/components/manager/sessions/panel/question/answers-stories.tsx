@@ -13,12 +13,12 @@ export default function AnswersStories () {
     <RoomContext.Consumer>
       {([room]) => (
         <>
-          { room.question &&
+          { room.session.question &&
             <div className="border py-8 px-2 rounded-md relative">
               <AnswersNumber />
               <span className="text-xs absolute top-0 left-0 m-2 p-2  rounded-md bg-gray-50">Réponses</span>
               <div className="flex flex-col gap-4 pt-6">
-                { room.question.reponses.map((reponse) => (
+                { room.session.question.reponses.map((reponse) => (
                   <Answer answer={reponse} />
                 ))}
               </div>

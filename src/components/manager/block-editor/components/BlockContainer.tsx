@@ -17,25 +17,11 @@ export default function BlockContainer (): JSX.Element {
   const { reorder } = useDragAndDrop()
 
   useEffect(() => {
-    const l1 = structure.map((item) => item.uid)
-    const l2 = question.enonce.map((item) => item.uid)
-    const l3 = l2.map((item, index) => {
-      return item === l1[index];
+    setQuestion({
+      ...question,
+      enonce: structure
     })
-    if (l3.includes(false) || !question.enonce.length) {
-      setQuestion({
-        ...question,
-        enonce: structure
-      })
-    }
-
   }, [structure])
-
-  useEffect(() => {
-    if (question.enonce.length) {
-      setStructure(question.enonce)
-    }
-  }, [question])
 
   function handleDragEnd (result) {
     if (!result.destination) {
@@ -120,7 +106,7 @@ export default function BlockContainer (): JSX.Element {
           </EditorMode>
 
           <EditorMode mode="preview">
-            <div className="lg:max-w-5xl mx-auto">
+            <div className="lg:max-w-5xl mx-auto w-4/5">
               {structure.map((block) => (
                 <Block key={block.uid} block={block} />
               ))}

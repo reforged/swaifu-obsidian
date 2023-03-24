@@ -57,7 +57,9 @@ export default function Sidebar (): JSX.Element {
 
           <div>
             <div className="relative flex flex-col gap-4 py-4">
-              dazda
+              <div className="mx-auto">
+                <InformationCircleIcon className="w-8" />
+              </div>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import { RadioGroup } from "@headlessui/react";
 import RoomContext from "../../contexts/RoomContext";
 import {classNames} from "../../utils/helper";
@@ -11,24 +11,31 @@ import {io} from "socket.io-client";
 import AuthenticationContext from "../../contexts/AuthenticationContext";
 import {useCookies} from "react-cookie";
 import {LockEvent, NewQuestion} from "../../utils/room/events";
+import useAutosizeTextArea from "../../hooks/use-autosize-text-area";
 
 export default function Question () {
   const [room, setRoom] = useContext(RoomContext)
   const [selected, setSelected] = useState()
   const [cookie, setCookie] = useCookies(['room'])
   const [user, setUser] = useContext(AuthenticationContext)
+  const [value, setValue] = useState<string>('')
+  const [disabled, setDisabled] = useState<boolean>(true)
+  const textAreaRef = useRef<HTMLTextAreaElement>(null)
+  useAutosizeTextArea(textAreaRef.current, value)
   const socket = io('ws://localhost:3333')
 
   function submitAnswer () {
+    console.log(value)
     socket.emit('send_answer', {
       user: user,
       question: room.session.question,
-      reponse: selected,
+      reponse: room.session.question.type === 'input' ? value : selected,
       session: room.session
     })
   }
 
   useEffect(() => {
+    console.log(selected)
   }, [selected])
 
   useEffect(() => {
@@ -61,6 +68,7 @@ export default function Question () {
   }, [room])
 
   socket.on('response_of_answer_sending', (data) => {
+    console.log(data)
     setRoom({
       ...room,
       session: data.session,
@@ -72,8 +80,13 @@ export default function Question () {
     if (room.session && room.session.id === data.session.id) {
       setRoom({
         ...room,
+        locked: false,
         wainting: false,
-        question: data.question
+        session: {
+          ...room.session,
+          question: data.question,
+        },
+        reponses: []
       })
     }
   })
@@ -88,6 +101,7 @@ export default function Question () {
   })
 
   socket.on('show_answer', (data) => {
+    console.log(data.session.id, room.session.id)
     if (data.session.id === room.session.id) {
       console.log(data)
       console.log(room)
@@ -97,6 +111,21 @@ export default function Question () {
       })
     }
   })
+
+  useEffect(() => {
+    if (room.wainting) {
+      setDisabled(true)
+      return
+    }
+    if (!room.session) return
+    if (room.session.question.type === 'input') {
+      if (value) setDisabled(false)
+      else setDisabled(true)
+    } else {
+      if (selected) setDisabled(false)
+      else setDisabled(true)
+    }
+  }, [value, room.wainting, selected])
 
 
   return (
@@ -122,7 +151,7 @@ export default function Question () {
             }
           </div>
           <div>
-            {room.reponses ?
+            {room.reponses && room.reponses.length ?
               <div className="flex flex-col gap-4">
                 { room.reponses.map((reponse) => (
                   <div
@@ -145,60 +174,79 @@ export default function Question () {
               :
               <div>
                 <div>
-                  <RadioGroup value={selected} onChange={setSelected}>
-                    <div className="space-y-4">
-                      {room.session!.question!.reponses.map((reponse, key) => (
-                        <RadioGroup.Option
-                          disabled={room.wainting}
-                          key={key}
-                          value={reponse}
-                          className={({checked, active}) =>
-                            classNames(
-                              checked ? 'border-transparent bg-indigo-50' : 'border-gray-300',
-                              active ? 'border-indigo-600 ring-2 ring-indigo-600' : '',
-                              'relative block cursor-pointer rounded-lg border  px-6 py-4 shadow-sm focus:outline-none sm:flex sm:justify-between'
-                            )
-                          }
-                        >
-                          {({active, checked}) => (
-                            <>
-                              <ReactMarkdown
-                                children={reponse.body}
-                                components={{
-                                  code: ({node, ...props}) => Fence({children: props})
-                                }}
-                                remarkPlugins={[remarkMath]}
-                                rehypePlugins={[rehypeKatex]}
-                              />
-                              <span
-                                className={classNames(
-                                  active ? 'border' : 'border-2',
-                                  checked ? 'border-indigo-600' : 'border-transparent',
-                                  'pointer-events-none absolute -inset-px rounded-lg'
-                                )}
-                                aria-hidden="true"
-                              />
-                            </>
-                          )}
-                        </RadioGroup.Option>
-                      ))}
+                  {room.session.question.type === 'input'
+
+                    ? <div>
+
+                      <textarea
+                        className="w-full"
+                        ref={textAreaRef}
+                        value={value}
+                        onChange={(event) => setValue(event.currentTarget.value)}
+                      />
+
                     </div>
-                  </RadioGroup>
+                    :
+                    <div>
+                      <RadioGroup value={selected} onChange={setSelected}>
+                        <div className="space-y-4">
+                          {room.session!.question!.reponses.map((reponse, key) => (
+                            <RadioGroup.Option
+                              disabled={room.wainting}
+                              key={key}
+                              value={reponse}
+                              className={({checked, active}) =>
+                                classNames(
+                                  checked ? 'border-transparent bg-indigo-50' : 'border-gray-300',
+                                  active ? 'border-indigo-600 ring-2 ring-indigo-600' : '',
+                                  'relative block cursor-pointer rounded-lg border  px-6 py-4 shadow-sm focus:outline-none sm:flex sm:justify-between'
+                                )
+                              }
+                            >
+                              {({active, checked}) => (
+                                <>
+                                  <ReactMarkdown
+                                    children={reponse.body}
+                                    components={{
+                                      code: ({node, ...props}) => Fence({children: props})
+                                    }}
+                                    remarkPlugins={[remarkMath]}
+                                    rehypePlugins={[rehypeKatex]}
+                                  />
+                                  <span
+                                    className={classNames(
+                                      active ? 'border' : 'border-2',
+                                      checked ? 'border-indigo-600' : 'border-transparent',
+                                      'pointer-events-none absolute -inset-px rounded-lg'
+                                    )}
+                                    aria-hidden="true"
+                                  />
+                                </>
+                              )}
+                            </RadioGroup.Option>
+                          ))}
+                        </div>
+                      </RadioGroup>
+                    </div>
+
+
+
+                  }
+                  <div>
+                    <button
+                      className={classNames(
+                        'w-full p-4 rounded-md border bg-indigo-500 text-white',
+                        disabled ? '!bg-gray-100 !text-gray-600' : ''
+                      )}
+                      disabled={disabled}
+                      onClick={submitAnswer}
+                    >
+                      Envoyer sa réponse
+                    </button>
+                  </div>
                 </div>
 
-                <div>
-                  <button
-                    className={classNames(
-                      selected ? 'bg-indigo-500 text-white' : 'bg-gray-100',
-                      'w-full p-4 rounded-md border',
-                      room.wainting ? '!bg-gray-100 !text-gray-600' : ''
-                    )}
-                    disabled={!selected || room.wainting}
-                    onClick={submitAnswer}
-                  >
-                    Envoyer sa réponse
-                  </button>
-                </div>
+
               </div>
             }
           </div>

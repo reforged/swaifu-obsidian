@@ -70,10 +70,10 @@ export default function Table<T> ({ data, skeleton, keys, columns, loading, onDe
             console.log(board.filter)
             const wrapper = new LogicWrapper(board.filter, data)
             const result = wrapper.filteredData()
-
+            console.log(result)
             return (
               <>
-                { result
+                { result.length
                   ? <ShowData<T> data={result} onDelete={onDelete}/>
                   : <DataSkeleton skeleton={skeleton} />
                 }
@@ -176,7 +176,7 @@ function Row<T> ({ item, selectValue, setActiveDeleteModal}) {
                     onClick={() => board.rowAction!(item)}
                   >
                     <PencilSquareIcon className="h-5 w-5 text-cyan-600" />
-                    <span>Modifier</span>
+                    <span>Visualiser</span>
                   </button>
                 </Menu.Item>
               }

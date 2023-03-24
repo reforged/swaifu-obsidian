@@ -47,6 +47,11 @@ const pages = [
   { label: 'Sessions', href: '/manager/qcm/sessions', current: false},
 ]
 
+const navigation = [
+  {name: "QCM", href: '/manager/qcm', current: false},
+  {name: "Séquences", href: '/manager/qcm/sequences', current: true},
+]
+
 export default function HomeSequence () {
   const { ref, isVisible, toggle } = useComponentVisible()
   const [sequence, setSequence] = useState<ISequence>({
@@ -69,7 +74,7 @@ export default function HomeSequence () {
     search: '',
     structure: [],
     keys: ['label'],
-    option: ['filter', 'mode'],
+    option: [],
     open: false
   }
 
@@ -77,7 +82,7 @@ export default function HomeSequence () {
     <Manager
       layout={{
         label: 'Séquences',
-        location: [],
+        location: navigation,
         navigation: pages
       }}
     >

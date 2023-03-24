@@ -4,7 +4,6 @@ import { IEtiquette } from '../../../../utils'
 import ProfilEtiquette from '../../../../components/manager/etiquettes/ProfilEtiquette'
 import CreateEtiquette from '../../../../components/manager/etiquettes/CreateEtiquette'
 import {classNames, filteredData, uid} from '../../../../utils/helper'
-import Search from '../../../../components/Search'
 import useEtiquettes from '../../../../hooks/use-etiquettes'
 import Board, {BoardData} from "../../../../components/manager/board/Board";
 import {EtiquettesContext} from "../../../../contexts/EtiquettesContext";
@@ -29,6 +28,11 @@ const pages = [
   { label: 'Sessions', href: '/manager/qcm/sessions', current: false},
 ]
 
+const navigation = [
+  {name: "QCM", href: '/manager/qcm', current: false},
+  {name: "Étiquettes", href: '/manager/qcm/etiquettes', current: true},
+]
+
 export default function HomeEtiquette () {
   const { ref, isVisible, toggle, setIsVisible } = useComponentVisible()
   const [etiquette, setEtiquette] = useState<IEtiquette | null>(null)
@@ -37,14 +41,18 @@ export default function HomeEtiquette () {
   const { mutate: deleteEtiquette } = destroy()
 
   const columns: StructureContract[] = [
-    {label: 'Label', key: 'label', checked: true, default: true},
-    {label: 'Color', key: 'color', checked: true, default: false},
+    {label: 'Label', key: 'label', checked: true, default: true, filter: true},
+    {label: 'Color', key: 'color', checked: true, default: false, filter: false},
   ]
 
   function onClick (item: IEtiquette) {
     setEtiquette(item)
     toggle()
   }
+
+  useEffect(() => {
+    console.log(isLoading)
+  }, [isLoading])
 
 
   const options: Options<IEtiquette> = {
@@ -59,17 +67,16 @@ export default function HomeEtiquette () {
     },
     keys: ['label'],
     open: false,
-    option: ['filter', 'column', 'mode'],
+    option: ['column', 'mode'],
     rowAction: onClick
   }
-
 
 
   return (
     <Manager
       layout={{
         label: 'Étiquettes',
-        location: [],
+        location: navigation,
         navigation: pages
       }}
     >
@@ -77,6 +84,7 @@ export default function HomeEtiquette () {
         <div>
           <div className={"relative"}>
             <div className="mt-12">
+              { options && data &&
               <Board<IEtiquette> name={"Étiquette"} options={options} action={<CreateEtiquette />}>
                 <BoardContext.Consumer>
                   {([board, setBoard]) => (
@@ -98,13 +106,11 @@ export default function HomeEtiquette () {
                   )}
                 </BoardContext.Consumer>
               </Board>
+              }
               {
                 etiquette && <ProfilEtiquette etiquettes={data} open={isVisible} setOpen={setIsVisible} />
               }
-
-
             </div>
-
           </div>
         </div>
       </EtiquettesContext.Provider>

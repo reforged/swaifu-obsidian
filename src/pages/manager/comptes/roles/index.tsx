@@ -21,22 +21,23 @@ const navigation: INavigation[] = [
 ]
 
 export default function HomeRoles () {
-  const { index } = useRoles()
+  const { index, destroy } = useRoles()
   const { index: fetchPermissions } = usePermissions()
   const { data , isLoading } = index()
   const { data: permissions } = fetchPermissions()
+  const { mutate: deleteRole } = destroy()
 
   const [options, setOptions] = useState<Options<IRole>>()
 
   const columns: StructureContract[] = [
     {label: 'Label', key: 'label', input: 'text', checked: true, default: true, filter: true},
-    {label: 'Key', key: 'key', input: 'text', checked: true, default: true, filter: true},
     {label: 'Utilisateurs', key: 'users', input: 'text', checked: true, default: false, filter: false},
     {label: 'Power', key: 'power',  input: 'text', checked: true, default: false, filter: false},
     {label: 'Permissions', key: 'permissions', input: 'select', checked: true, default: false, filter: true}
   ]
 
   useEffect(() => {
+    console.log(data)
     if (data && !options && permissions) {
       setOptions({
         label: 'Roles',
@@ -77,7 +78,7 @@ export default function HomeRoles () {
             data={data as IRole[]}
             keys={['label']}
             skeleton={<UserSkeleton/>}
-            onDelete={() => console.log('dazda')}
+            onDelete={deleteRole}
           />
           <CreateRole/>
         </Board>

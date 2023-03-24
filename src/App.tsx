@@ -24,6 +24,7 @@ import HomeSessions from "./pages/manager/qcm/sessions";
 import Room from "./pages/room";
 import StatPage from "./components/manager/sessions/stats/StatPage";
 import Register from "./pages/auth/register";
+import ShowSession from "./pages/manager/qcm/sessions/show";
 
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
     { uid: 'qcm.questions', href: '/manager/qcm/questions', component: <HomeQuestion />},
     { uid: 'qcm.sequences', href: '/manager/qcm/sequences', component: <HomeSequence />},
     { uid: 'qcm.sessions', href: '/manager/qcm/sessions', component: <HomeSessions />},
+    { uid: 'qcm.sessions', href: '/manager/qcm/session/*', component: <ShowSession />},
 
     { uid: 'comptes', href: '/manager/accounts', component: <HomeComptes />},
     { uid: 'comptes.users.list', href: '/manager/accounts/users', component: <HomeUsers />},
