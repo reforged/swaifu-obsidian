@@ -50,12 +50,14 @@ export default function LeftPartStat ({ question } : Props ) {
                           <span className="text-gray-900 text-sm">Nombre de reponses</span>
                           <span className="text-gray-800 text-7xl">{question.reponses.length}</span>
                       </div>
+                    <div className="flex flex-1 gap-2 items-center">
                       {etiquettes.map((item) => (
-                          <div className="flex flex-col p-3 bg-gray-100 rounded-md aspect-video">
-                              <span className="text-gray-900 text-sm">etiquette</span>
-                              <span className="text-gray-500">{item.label}</span>
-                          </div>
+                        <div className="px-3 py-1 rounded-full bg-gray-200">
+                          {item.label}
+                        </div>
                       ))}
+                    </div>
+
                   </div>
               </div>
           </div>

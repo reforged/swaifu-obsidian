@@ -100,8 +100,8 @@ export default function QuestionStat ({ question }: Props) {
                         initial={{ opacity: 0}}
                     >
 
-                        <div className="absolute w-full h-full p-8">
-                            <div className="relative h-full overflow-hidden rounded-md">
+                        <div className="absolute w-full h-full p-8" >
+                            <div className="relative h-full overflow-hidden rounded-md" ref={ref}>
                                 <div className="border border-gray-200 h-full bg-white">
                                     <div className="relative border h-full">
                                         <div className="w-full bg-gray-100 flex justify-between items-center p-4 relative">
@@ -111,6 +111,7 @@ export default function QuestionStat ({ question }: Props) {
 
                                         <div className="grid grid-cols-12 h-full">
                                             <LeftPartStat question={question} />
+                                            <RightPartStat question={question} />
                                         </div>
                                     </div>
                                 </div>

@@ -1,9 +1,42 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import StartRoom from "./start-room";
 import RoomContext from "../../../../contexts/RoomContext";
+import {Pie} from "react-chartjs-2";
 
 export default function LeftPart () {
   const [room, setRoom] = useContext(RoomContext)
+  const [data, setData] = useState()
+
+  useEffect(() => {
+    if (room.session.reponses && room.session.reponses.length) {
+      const reponses = room.session.reponses.filter((item) => item.question_id === room.session.question.id)
+      const test = room.session.question.reponses.map((item) => {
+        const li = reponses.map((reponse) => {
+          if (reponse.body === item.body) return reponse
+        })
+        return li.filter((i) => i)
+      })
+      setData({
+        labels: test.map((item, index) => `Question ${index+1}`),
+        datasets: [
+          {
+            label: "Les réponses",
+            data: test.map((item) => item.length),
+            backgroundColor: [
+              "rgb(133, 105, 241)",
+              "rgb(164, 101, 241)",
+              "rgb(101, 143, 241)",
+            ],
+            hoverOffset: 4,
+
+          },
+        ]
+      })
+    }
+
+  }, [room])
+
+
   return (
     <RoomContext.Consumer>
       {([room, setRoom]) => (
@@ -44,6 +77,12 @@ export default function LeftPart () {
                   }
                 </div>
               </div>
+
+              { data && room.session.question.type === 'checkbox' &&
+                <div className=" w-96 h-96">
+                  <Pie  data={data} />
+                </div>
+              }
             </div>
           }
         </>

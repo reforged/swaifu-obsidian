@@ -21,11 +21,7 @@ export default function Answer ({ answer }: Props) {
         remarkPlugins={[remarkMath]}
         rehypePlugins={[rehypeKatex]}
       />
-      <div className="w-2/3">
-        <div className="overflow-hidden rounded-sm bg-gray-200">
-          <div className="h-2 rounded-sm bg-indigo-600" style={{ width: '37.5%' }} />
-        </div>
-      </div>
+      
 
     </div>
   )
