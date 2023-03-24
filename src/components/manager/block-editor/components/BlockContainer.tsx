@@ -9,44 +9,35 @@ import EditorMode from './EditorMode'
 import BlockMenu from './BlockMenu'
 import CurrentBlockContext from "../contexts/CurrentBlockContext";
 import QuestionContext from "../../../../contexts/QuestionContext";
-import ShowQuestionContext from "../../../../contexts/ShowQuestionContext";
 
 export default function BlockContainer (): JSX.Element {
   const [structure, setStructure] = useContext(StructureContext)
   const [question, setQuestion] = useContext(QuestionContext)
-  const [showQuestion, setShowQuestion] = useContext(ShowQuestionContext)
   const [currentBlockMenu, setCurrentBlockMenu] = useContext(CurrentBlockContext)
   const { reorder } = useDragAndDrop()
 
   useEffect(() => {
-    console.log(structure)
     const l1 = structure.map((item) => item.uid)
     const l2 = question.enonce.map((item) => item.uid)
     const l3 = l2.map((item, index) => {
       return item === l1[index];
     })
+
     if (l3.includes(false) || !question.enonce.length) {
-      setQuestion({
-        ...question,
-        enonce: structure
-      })
-      if (showQuestion) {
-        setShowQuestion({
-          ...showQuestion,
-          enonce: structure
-        })
-      }
+      console.log("==========")
+
     }
+
+    setQuestion({
+      ...question,
+      enonce: structure
+    })
 
 
 
   }, [structure])
 
-  useEffect(() => {
-    if (!question.enonce.length) {
-      setStructure(question.enonce)
-    }
-  }, [question])
+
 
   function handleDragEnd (result) {
     if (!result.destination) {
