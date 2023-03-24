@@ -18,7 +18,7 @@ export default function BlockMermaid (props: Props) {
   const { updateBlock } = useBlock(props.uid)
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
-  useAutosizeTextArea(textAreaRef.current, props.fields.value);
+  useAutosizeTextArea(textAreaRef.current, props.fields.value)
 
   function handleChange (field: string, value: string) {
     updateBlock({ [field]: value })

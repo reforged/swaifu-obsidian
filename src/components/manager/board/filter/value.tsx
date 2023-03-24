@@ -92,8 +92,9 @@ export default function ValueRow ({ condition }: Props) {
     })
     if (!typeData) return
 
-    setType(typeData.input)
+
     if (typeData.input !== type) {
+      setType(typeData.input)
       const data: ConditionContract = {
         uid: condition.uid,
         value: typeData.input === 'select' ? [] : '',
@@ -119,7 +120,6 @@ export default function ValueRow ({ condition }: Props) {
 
   useEffect(() => {
     if (value) {
-      console.log(type)
       const data: ConditionContract = {
         ...condition,
         value: type === 'select' ? [value.id] : value
@@ -151,9 +151,7 @@ export default function ValueRow ({ condition }: Props) {
 
   }, [value])
 
-  useEffect(() => {
-    console.log(board.filter)
-  }, [board])
+  console.log(condition.field, condition.uid, board.data[condition.field])
 
   return (
     <div>
