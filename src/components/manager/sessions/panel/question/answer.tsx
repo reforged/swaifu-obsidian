@@ -21,7 +21,7 @@ export default function Answer ({ answer }: Props) {
         remarkPlugins={[remarkMath]}
         rehypePlugins={[rehypeKatex]}
       />
-      
+
 
     </div>
   )
