@@ -60,17 +60,11 @@ const Button = ({ click, data }: ButtonProps) => {
         <button
             type={"button"}
             onClick={click}
-            className={"w-full text-left"}
+            className={"w-full text-left border rounded-md"}
         >
             <div className="bg-gray-50 rounded-md p-3 duration-100 ease-in-out hover:bg-gray-100">
                 <div className="flex flex-col gap-4">
-                    <div>
-                        { data.etiquettes
-                            && <div className="flex items-center gap-3">
-                                { data.etiquettes.map((etiquette: IEtiquette) => <Etiquette key={etiquette.id} data={etiquette} />)}
-                            </div>
-                        }
-                    </div>
+
                     <div className="flex flex-col">
                         <span className="text-gray-900 text-3xl font-bold">{ data.label }</span>
                         <TypeQuestion type={data.type}/>
@@ -84,29 +78,7 @@ const Button = ({ click, data }: ButtonProps) => {
 
 export default function QuestionStat ({ question }: Props) {
     const { ref, isVisible, toggle } = useComponentVisible()
-    const [body, setBody] = useState<string>(question.enonce)
-    const [bodyMd, setBodyMd] = useState<any>()
-    useEffect(() => {
-        const ast = Markdoc.parse(body)
-
-        const content = Markdoc.transform(ast, {
-            nodes: {
-                fence: {
-                    render: 'Fence',
-                    attributes: {
-                        content: { type: String },
-                        language: { type: String}
-                    }
-                }
-            }
-        })
-        const children = Markdoc.renderers.react(content, React, {
-            components: {
-                Fence: Fence
-            }
-        })
-        setBodyMd(children)
-    }, [body])
+    const [] = useState()
 
     const close = () => {
         toggle()
@@ -139,7 +111,6 @@ export default function QuestionStat ({ question }: Props) {
 
                                         <div className="grid grid-cols-12 h-full">
                                             <LeftPartStat question={question} />
-                                            <RightPartStat question={question} />
                                         </div>
                                     </div>
                                 </div>

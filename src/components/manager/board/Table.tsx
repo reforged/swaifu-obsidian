@@ -176,7 +176,7 @@ function Row<T> ({ item, selectValue, setActiveDeleteModal}) {
                     onClick={() => board.rowAction!(item)}
                   >
                     <PencilSquareIcon className="h-5 w-5 text-cyan-600" />
-                    <span>Modifier</span>
+                    <span>Visualiser</span>
                   </button>
                 </Menu.Item>
               }

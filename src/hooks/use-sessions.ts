@@ -20,6 +20,20 @@ export default function useSessions () {
     })
   }
 
+  function show (data: string) {
+    return useQuery('session', async () => {
+      const response = await http.get(`/sessions/${data}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': cookie.token
+        },
+        withCredentials: true
+      })
+
+      return response.data
+    })
+  }
+
   function store () {
     return useMutation(async (sequenceId: string) => {
       const response = await http.post('/sessions/create', { sequence: sequenceId}, {
@@ -39,5 +53,5 @@ export default function useSessions () {
     })
   }
 
-  return { index, store }
+  return { index, store, show }
 }
