@@ -17,27 +17,11 @@ export default function BlockContainer (): JSX.Element {
   const { reorder } = useDragAndDrop()
 
   useEffect(() => {
-    const l1 = structure.map((item) => item.uid)
-    const l2 = question.enonce.map((item) => item.uid)
-    const l3 = l2.map((item, index) => {
-      return item === l1[index];
-    })
-
-    if (l3.includes(false) || !question.enonce.length) {
-      console.log("==========")
-
-    }
-
     setQuestion({
       ...question,
       enonce: structure
     })
-
-
-
   }, [structure])
-
-
 
   function handleDragEnd (result) {
     if (!result.destination) {

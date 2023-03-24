@@ -6,6 +6,7 @@ import CurrentBlockContext from "./contexts/CurrentBlockContext";
 import {useContext, useEffect, useState} from 'react'
 import BlockContainer from './components/BlockContainer'
 import ShowQuestionContext from "../../../contexts/ShowQuestionContext";
+import QuestionContext from "../../../contexts/QuestionContext";
 
 type Props = {
   blocks: {}
@@ -16,13 +17,24 @@ type Props = {
 
 export default function BlockEditor (props: Props) {
   const [structure, setStructure] = useState(props.value)
+  const [question, setQuestion] = useContext(QuestionContext)
   const currentBlock = useState(null)
 
   useEffect(() => {
     props.onChange(structure[0])
-    console.log(structure)
-
   }, [props, structure])
+
+  useEffect(() => {
+    const l1 = structure.map((item) => item.uid)
+    const l2 = question.enonce.map((item) => item.uid)
+    const l3 = l2.map((item, index) => {
+      return item === l1[index];
+    })
+    if (l3.includes(false)) {
+      setStructure(props.value)
+    }
+  }, [question])
+
 
   return (
     <SettingContext.Provider value={props.settings}>

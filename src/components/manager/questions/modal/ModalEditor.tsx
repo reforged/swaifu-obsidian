@@ -49,8 +49,6 @@ export default function ModalEditor ({ data }: Props) {
         setDisabled(true)
       }
     }
-    console.log("QUESTION", question)
-
   }, [question])
 
   const blocks: { [key: string]: () => BlockContextContract} = {
@@ -116,7 +114,6 @@ export default function ModalEditor ({ data }: Props) {
       reponses: [],
     })
   }
-
 
   return (
     <QuestionContext.Consumer>

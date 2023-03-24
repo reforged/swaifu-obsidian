@@ -15,12 +15,12 @@ export default function RightPart () {
   function nextQuestion () {
     let index = 0
     room.session!.sequence.questions.forEach((item, key) => {
-      if (item.id === room.question.id) {
+      if (item.id === room.session.question.id) {
         index = key
       }
     })
+    if (index < room.session!.sequence.questions.length) {
 
-    if (index < room.session!.sequence.questions.length-1) {
       setRoom({
         ...room,
         session: {
@@ -36,25 +36,6 @@ export default function RightPart () {
     })
   }
 
-  function previousQuestion () {
-    let index = 0
-    room.session!.sequence.questions.forEach((item, key) => {
-      if (item.id === room.question.id) {
-        index = key
-      }
-    })
-    if (index > 0) setRoom({
-      ...room,
-      session: {
-        ...room.session,
-        question: room.session.sequence.questions[index-1]
-      }
-    })
-    socket.emit('new_question', {
-      session: room.session,
-      question: room.session!.sequence.questions[index-1]
-    })
-  }
 
 
   return (
