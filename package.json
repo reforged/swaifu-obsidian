@@ -40,6 +40,8 @@
     "react-router": "^6.6.2",
     "react-router-dom": "^6.6.2",
     "rehype-katex": "^6.0.2",
+    "rehype-raw": "^6.1.1",
+    "remark-gfm": "^3.0.1",
     "remark-math": "^5.1.1",
     "sass": "^1.57.1",
     "socket.io-client": "^4.6.1"
