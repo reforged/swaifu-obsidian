@@ -16,22 +16,13 @@ type Props = {
 
 export default function BlockEditor (props: Props) {
   const [structure, setStructure] = useState(props.value)
-  const [showQuestion] = useContext(ShowQuestionContext)
   const currentBlock = useState(null)
 
   useEffect(() => {
     props.onChange(structure[0])
-    console.log(props.value, structure)
-
-    if (!structure) {
-      setStructure(props.value)
-    }
+    console.log(structure)
 
   }, [props, structure])
-
-  useEffect(() => {
-    console.log(structure)
-  }, [structure])
 
   return (
     <SettingContext.Provider value={props.settings}>
