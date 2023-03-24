@@ -4,7 +4,7 @@ import {BlockContextContract} from "../../../block-editor/contexts/BlocksContext
 import QuestionContext from "../../../../../contexts/QuestionContext";
 import {
   BlockquoteBlock, CodeBlock,
-  DivideBlock,
+  DivideBlock, MermaidBlock,
   ParagraphBlock,
   TitleBlock
 } from "../../../block-editor/builders";
@@ -22,6 +22,7 @@ export default function ShowEnonce ({ question }: Props) {
     title: TitleBlock,
     paragraph: ParagraphBlock,
     divide: DivideBlock,
+    mermaid: MermaidBlock,
     blockquote: BlockquoteBlock,
     code: CodeBlock,
   }

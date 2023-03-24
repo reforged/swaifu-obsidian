@@ -7,7 +7,7 @@ import BlockEditor from "../../block-editor/BlockEditor";
 import {BlockContextContract} from "../../block-editor/contexts/BlocksContext";
 import {
   BlockquoteBlock, CodeBlock,
-  DivideBlock,
+  DivideBlock, MermaidBlock,
   ParagraphBlock,
   TitleBlock
 } from "../../block-editor/builders";
@@ -49,7 +49,6 @@ export default function ModalQuestionView ({ questions }) {
       if (!responses.includes(true)) return false
     }
 
-    console.log(original.enonce, question.enonce)
     if (
       original.label === question.label ||
       original.type === question.type ||
@@ -86,6 +85,7 @@ export default function ModalQuestionView ({ questions }) {
     title: TitleBlock,
     paragraph: ParagraphBlock,
     divide: DivideBlock,
+    mermaid: MermaidBlock,
     blockquote: BlockquoteBlock,
     code: CodeBlock,
   }
@@ -147,7 +147,7 @@ export default function ModalQuestionView ({ questions }) {
                       {showQuestion.enonce &&
                         <BlockEditor
                           blocks={blocks}
-                          settings={{mode: 'editor'}}
+                          settings={{mode: 'preview'}}
                           value={showQuestion.enonce}
                           onChange={handleChange}
                         />

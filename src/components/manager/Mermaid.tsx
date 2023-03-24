@@ -15,7 +15,7 @@ export const Mermaid = ({ text }: MermaidProps) => {
       logLevel: 5
     })
   })
-  
+
   useEffect(() => {
     if (ref.current && text) {
       try {

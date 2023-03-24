@@ -14,7 +14,7 @@ import ModalReponses from '../editor/header/ModalReponses'
 import BlockEditor from '../../block-editor/BlockEditor'
 import {
   BlockquoteBlock, CodeBlock,
-  DivideBlock,
+  DivideBlock, MermaidBlock,
   ParagraphBlock,
   TitleBlock
 } from '../../block-editor/builders'
@@ -49,6 +49,7 @@ export default function ModalEditor ({ data }: Props) {
         setDisabled(true)
       }
     }
+    console.log("QUESTION", question)
 
   }, [question])
 
@@ -56,6 +57,7 @@ export default function ModalEditor ({ data }: Props) {
     title: TitleBlock,
     paragraph: ParagraphBlock,
     divide: DivideBlock,
+    mermaid: MermaidBlock,
     blockquote: BlockquoteBlock,
     code: CodeBlock,
   }
@@ -119,6 +121,7 @@ export default function ModalEditor ({ data }: Props) {
   return (
     <QuestionContext.Consumer>
       {([question, setQuestion]) => (
+
         <div>
           <button
             type={"button"}
@@ -140,7 +143,7 @@ export default function ModalEditor ({ data }: Props) {
                 exit={{ opacity: 0 }}
                 initial={{ opacity: 0 }}
               >
-                <div ref={ref} className="absolute left-1/2 top-12 transform -translate-x-1/2 h-[90%] w-[60%] py-8 bg-white border border-gray-200 rounded-md">
+                <div ref={ref} className="absolute left-1/2 top-12 transform -translate-x-1/2 h-[90%] w-[60%] py-8 bg-white border border-gray-200 rounded-md overflow-y-scroll">
                   <div className="fixed top-0 left-0 p-2 z-10">
                     <div className="flex items-center gap-3 text-gray-600">
                       <span className="bg-purple-200 text-purple-900 px-1  rounded-md">Questions</span>
@@ -175,7 +178,7 @@ export default function ModalEditor ({ data }: Props) {
                       settings={{
                         mode: 'editor'
                       }}
-                      value={question.enonce.length ? question.enonce : structure}
+                      value={structure}
                       onChange={handleChange}
                     />
                   </div>
