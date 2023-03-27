@@ -33,18 +33,13 @@ import SequenceStories from "../../../../components/manager/sequences/sequence-s
 import {CoupleConditionContract} from "../../../../components/manager/board/filter/types";
 
 
-type ReponsesPreviewProps = {
-  data: IReponse[]
-}
-
-type View = 'galerie' | 'liste'
-
 const pages = [
   { label: 'Home', href: '/manager/qcm', current: false},
   { label: 'Questions', href: '/manager/qcm/questions', current: false},
   { label: 'Etiquettes', href: '/manager/qcm/etiquettes', current: false},
   { label: 'Séquences', href: '/manager/qcm/sequences', current: true},
   { label: 'Sessions', href: '/manager/qcm/sessions', current: false},
+  { label: 'Examens', href: '/manager/qcm/examens', current: false},
 ]
 
 const navigation = [

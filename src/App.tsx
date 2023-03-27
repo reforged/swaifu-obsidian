@@ -25,6 +25,7 @@ import Room from "./pages/room";
 import StatPage from "./components/manager/sessions/stats/StatPage";
 import Register from "./pages/auth/register";
 import ShowSession from "./pages/manager/qcm/sessions/show";
+import HomeExamen from "./pages/manager/qcm/examens";
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
         { label: 'Etiquettes', href: '/manager/qcm/etiquettes', icon: FolderIcon },
         { label: 'Séquences', href: '/manager/qcm/sequences', icon: FolderIcon },
         { label: 'Sessions', href: '/manager/qcm/sessions', icon: FolderIcon },
+        { label: 'Examens', href: '/manager/qcm/examens', icon: FolderIcon },
       ]
     },
     {
@@ -66,7 +68,9 @@ function App() {
     { uid: 'qcm.questions', href: '/manager/qcm/questions', component: <HomeQuestion />},
     { uid: 'qcm.sequences', href: '/manager/qcm/sequences', component: <HomeSequence />},
     { uid: 'qcm.sessions', href: '/manager/qcm/sessions', component: <HomeSessions />},
+    { uid: 'qcm.examens', href: '/manager/qcm/examens', component: <HomeExamen />},
     { uid: 'qcm.sessions', href: '/manager/qcm/session/*', component: <ShowSession />},
+
 
     { uid: 'comptes', href: '/manager/accounts', component: <HomeComptes />},
     { uid: 'comptes.users.list', href: '/manager/accounts/users', component: <HomeUsers />},

@@ -18,6 +18,7 @@ const pages = [
 	{ label: 'Etiquettes', href: '/manager/qcm/etiquettes', current: false},
 	{ label: 'Séquences', href: '/manager/qcm/sequences', current: false},
 	{ label: 'Sessions', href: '/manager/qcm/sessions', current: false},
+	{ label: 'Examens', href: '/manager/qcm/examens', current: false},
 ]
 
 const navigation = [

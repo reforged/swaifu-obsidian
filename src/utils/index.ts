@@ -14,6 +14,13 @@ export type ISequence = {
   questions: IQuestion[]
 }
 
+export type IExamen = {
+  id?: string
+  label: string
+  options: any
+  questions: IQuestion[]
+}
+
 export type IUser = {
   id?: string
   firstname: string
