@@ -49,8 +49,14 @@ export default function ValueRow ({ condition }: Props) {
       })
       return
     } else {
-      const data = board.data[condition.field].find((item) => item.id === condition.value[0])
-      setValue(data)
+      if (typeData.input === 'select') {
+        const data = board.data[condition.field].find((item) => item.id === condition.value[0])
+        if (data) {
+          setValue(data)
+        }
+      }
+
+
     }
   }, [condition])
 
