@@ -18,7 +18,9 @@ export default class TextLogic<T> extends Logic<T> {
   }
 
   public contains (): boolean {
-    return (this.getData()[this.getCondition().field as keyof T] as string).toLowerCase()
+    const data = (this.getData()[this.getCondition().field as keyof T] as string)
+    if (!data) return false
+    return data.toLowerCase()
       .includes(this.value.toLowerCase())
   }
 
@@ -27,8 +29,9 @@ export default class TextLogic<T> extends Logic<T> {
   }
 
   public is (): boolean {
-    return (this.getData()[this.getCondition().field as keyof T] as string)
-      .toLowerCase() === this.value.toLowerCase()
+    const data = (this.getData()[this.getCondition().field as keyof T] as string)
+    if (!data) return false
+    return data.toLowerCase() === this.value.toLowerCase()
   }
 
   public isNot (): boolean {
@@ -36,7 +39,6 @@ export default class TextLogic<T> extends Logic<T> {
   }
 
   public evaluate(): boolean {
-
     const condition = this.getCondition()
     switch (condition.operator) {
       case "contains":
@@ -47,6 +49,7 @@ export default class TextLogic<T> extends Logic<T> {
         return this.isNot()
       case "is":
         return this.is()
+      default: return false
     }
   }
 }

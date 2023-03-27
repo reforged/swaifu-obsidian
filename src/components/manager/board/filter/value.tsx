@@ -19,79 +19,12 @@ export default function ValueRow ({ condition }: Props) {
       if (item.key === condition.field) return item
     })!.input
   )
-  const [select, setSelect] = useState<IEtiquette | IRole | IPermission>()
-
-  /*useEffect(() => {
-    if (!select && board.data && type === 'select') {
-      setSelect(board.data[condition.field as SelectTypeContract][0])
-    }
-  }, [board])
-
-  useEffect(() => {
-    const typeData = board.structure.find((item) => {
-      if (item.key === condition.field) return item
-    })
-
-    console.log(condition, typeData)
-    setValue(condition.value)
-    if (typeData && condition.value !== value && typeData.input !== type) {
-      setType(typeData.input)
-      console.log(value)
-      const data: ConditionContract = {
-        uid: condition.uid,
-        value: typeData.input === 'text' ? '' : [],
-        operator: condition.operator,
-        field: condition.field
-      }
-
-
-      const li = UpdateRow(board.filter.conditions, condition, data)
-      setBoard({
-        ...board,
-        filter: {
-          uid: board.filter.uid,
-          conjunction: board.filter.conjunction,
-          conditions: li
-        }
-      })
-    }
-  }, [condition])
-
-  useEffect(() => {
-    const typeData = board.structure.find((item) => {
-      if (item.key === condition.field) return item
-    })
-    if (typeData && condition.value !== value) {
-      setType(typeData.input)
-      const data: ConditionContract = {
-        uid: condition.uid,
-        value: value ? value : typeData.input === 'select' ? [] : '',
-        operator: condition.operator,
-        field: condition.field
-      }
-      console.log("VALUE DATA", data)
-      const li = UpdateRow(board.filter.conditions, condition, data)
-      if (condition.value !== value) {
-        setBoard({
-          ...board,
-          filter: {
-            uid: board.filter.uid,
-            conjunction: board.filter.conjunction,
-            conditions: li
-          }
-        })
-      }
-    }
-
-  }, [value, select])*/
-
 
   useEffect(() => {
     const typeData = board.structure.find((item) => {
       if (item.key === condition.field) return item
     })
     if (!typeData) return
-
 
     if (typeData.input !== type) {
       setType(typeData.input)
@@ -115,11 +48,15 @@ export default function ValueRow ({ condition }: Props) {
         }
       })
       return
+    } else {
+      const data = board.data[condition.field].find((item) => item.id === condition.value[0])
+      setValue(data)
     }
   }, [condition])
 
   useEffect(() => {
-    if (value) {
+    if (value && !condition.value.includes(value.id)) {
+
       const data: ConditionContract = {
         ...condition,
         value: type === 'select' ? [value.id] : value
@@ -133,41 +70,29 @@ export default function ValueRow ({ condition }: Props) {
           conditions: li
         }
       })
-    } else {
-      const data: ConditionContract = {
-        ...condition,
-        value: type === 'select' ? [] : ''
-      }
-      const li = UpdateRow(board.filter.conditions, condition, data)
-      setBoard({
-        ...board,
-        filter: {
-          uid: board.filter.uid,
-          conjunction: board.filter.conjunction,
-          conditions: li
-        }
-      })
     }
-
   }, [value])
-
-  console.log(condition.field, condition.uid, board.data[condition.field])
 
   return (
     <div>
       { type === 'text'
-        ?<input
-          type="text"
-          name="value"
-          value={value}
-          onChange={(e) => {
-            setValue(e.currentTarget.value)
-          }}
-          className="block h-full w-auto py-1.5 text-gray-900 border-none outline-0 placeholder:text-gray-400  sm:text-sm focus:outline-0"
-          placeholder="Enter a value"
-        />
+        ?
+        <div className="w-56 bg-blue-500 h-full">
+          <input
+            type="text"
+            name="value"
+            value={value}
+            onChange={(e) => {
+              setValue(e.currentTarget.value)
+            }}
+            className="block h-full w-full py-1.5 text-gray-900 border-none outline-0 placeholder:text-gray-400  sm:text-sm focus:outline-0"
+            placeholder="Enter a value"
+          />
+        </div>
 
-        : <div>
+
+        :
+        <div>
           <Listbox value={value} onChange={setValue}>
             {({ open}) => (
               <>

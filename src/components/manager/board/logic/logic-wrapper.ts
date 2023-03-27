@@ -13,6 +13,7 @@ export default class LogicWrapper<T> {
   }
 
   public filteredData () {
+    if (this.groupCondition.conditions.length === 0) return this.data
     return this.data.filter((item) => this.verifWithConjunction(item))
   }
 
@@ -34,6 +35,7 @@ export default class LogicWrapper<T> {
 
   public verifGroupConjunction (group: ConditionGroupContract, data: T) {
     const li: boolean[] = this.verifRow(data, group.conditions)
+    if (li.length === 0) return false
     if (group.conjunction === 'and') {
       return !li.includes(false);
     } else {
