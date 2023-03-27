@@ -14,11 +14,12 @@ export default function Condition ({ condition }: Props) {
   const [board, setBoard] = useContext(BoardContext)
 
   return (
-    <div className="border flex-1 rounded-md flex divide-x relative">
-      <SelectField condition={condition} />
-      <SelectOperator condition={condition} />
-      <ValueRow condition={condition} />
-      <div>
+    <div className="border rounded-md flex divide-x relative">
+        <SelectField condition={condition} />
+        <SelectOperator condition={condition} />
+        <ValueRow condition={condition} />
+
+      <div className="flex flex-end">
         <DeleteRow condition={condition} />
       </div>
 
