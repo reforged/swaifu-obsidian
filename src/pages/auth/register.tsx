@@ -81,7 +81,7 @@ export default function Register () {
                         Email address
                       </label>
                       <input
-                        type="text"
+                        type="email"
                         name="email-address"
                         id="email-address"
                         onChange={(e) => setEmail(e.currentTarget.value)}
