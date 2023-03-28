@@ -8,6 +8,7 @@ import {CircleStackIcon, InboxArrowDownIcon, UserPlusIcon} from "@heroicons/reac
 import useUsers from "../../../../../hooks/use-users";
 import {classNames} from "../../../../../utils/helper";
 import ImportCsv from "./import-csv";
+import CreateSimpleUser from "./CreateUser";
 
 export default function CreateUser () {
   const { ref, isVisible, toggle, setIsVisible } = useComponentVisible()
@@ -85,7 +86,7 @@ export default function CreateUser () {
                           <Tab.Panels>
                             <div className="flex-1 h-full w-full flex-col">
                               <Tab.Panel>
-                                Panel 1
+                                <CreateSimpleUser />
                               </Tab.Panel>
                               <Tab.Panel>
                                 <ImportCsv toggle={toggle} />
