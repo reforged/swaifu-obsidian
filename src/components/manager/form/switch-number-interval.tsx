@@ -4,17 +4,21 @@ import {Dispatch, SetStateAction} from "react";
 type Props = {
   state: number,
   setState: Dispatch<SetStateAction<number>>
+  max: number
 }
 
-export default function SwitchNumberInterval ({ state, setState }: Props) {
-
+export default function SwitchNumberInterval ({ state, setState, max }: Props) {
+  console.log("MAX ITEM")
   function before () {
     if (state === 0) return
     setState(state-1)
   }
 
   function next () {
-    setState(state+1)
+    if (max && state < max) {
+      setState(state+1)
+    }
+
   }
 
   return (
