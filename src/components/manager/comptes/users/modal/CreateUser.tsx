@@ -1,10 +1,12 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import {classNames} from "../../../../../utils/helper";
 import useUsers from "../../../../../hooks/use-users";
 import useRoles from "../../../../../hooks/use-roles";
-import {Listbox, Transition} from "@headlessui/react";
-import {CheckIcon, ChevronUpDownIcon} from "@heroicons/react/20/solid";
 import usePermissions from "../../../../../hooks/use-permissions";
+import AddPermission from "./buttons/add-permission";
+import {IPermission, IRole} from "../../../../../utils";
+import {PlusIcon} from "@heroicons/react/24/outline";
+import AddRole from "./buttons/add-role";
 export default function CreateSimpleUser(){
 
     const [disabled, setDisabled] = useState<boolean>(true)
@@ -17,22 +19,21 @@ export default function CreateSimpleUser(){
 
     const { index :fetchRoles} = useRoles()
     const { data: roles} = fetchRoles()
-    const [selectedrole, setSelectedrole] = useState(roles[0])
+    const [selectedroles, setSelectedrole] = useState([])
     const { index : fetchPerms } = usePermissions()
     const { data: permissions } = fetchPerms()
-    const [selectedpermission, setSelectedpermission] = useState(permissions[0])
+    const [ selectedpermissions , setSelectedpermission] = useState<IPermission[]>([])
 
-    const { createonecode,createoneemail } = useUsers()
-    const { mutate: createUseremail } = createoneemail()
-    const { mutate: createUsercode } = createonecode()
+    const { store } = useUsers()
+    const { mutate: createUser } = store()
 
 
     useEffect(() => {
-        console.log({firstname,lastname,password,email,numero})
+        console.log({firstname,lastname,password,email,numero,selectedpermissions,permissions,roles})
 
         if (firstname && lastname && password) {
             if (email != ''){
-                if (numero =='' && email.includes('@')){
+                if (email.includes('@')){
                     setDisabled(false)
                     }
                 else {
@@ -40,7 +41,7 @@ export default function CreateSimpleUser(){
                 }
             }
             else if (numero != '') {
-                if (email == '' && numero.length ==8){
+                if (numero.length ==8){
                     setDisabled(false)
                 }
                 else {
@@ -56,27 +57,36 @@ export default function CreateSimpleUser(){
 
 
         console.log({disabled})
-    }, [email, firstname, lastname, password, numero, selectedrole ,selectedpermission])
+    }, [email, firstname, lastname, password, numero, selectedroles ,selectedpermissions])
 
 
-    function submit (){
-        if (email==''){
-            return emailSubmit()
-        }
-        else {
-            return emailSubmit()
-        }
+
+    function Idroles(){
+        const rolesid = selectedroles.map((item : IRole) => item.id)
+        return rolesid
     }
-
-    function emailSubmit () {
-        createUseremail({ password, lastname, firstname, email})
+    function Idpermissions(){
+        const permissionsid = selectedpermissions.map((item : IPermission) => item.id)
+        return permissionsid
+    }
+    function OnSubmit () {
+        const rolesid = Idroles()
+        const permissionsid = Idpermissions()
+        createUser({ password, lastname, firstname, email,numero,rolesid,permissionsid})
         console.log({password, lastname, firstname,email})
     }
-    function numeroSubmit () {
-        createUsercode({ password, lastname, firstname, numero})
-        console.log({password, lastname, firstname,numero})
-    }
 
+    function deleterol(role : IRole){
+        const data = selectedroles.filter(
+            selectedItem => selectedItem !== role)
+        setSelectedrole(data)
+
+    }
+    function deleteper(permission : IPermission){
+        const data = selectedpermissions.filter(
+            selectedItem => selectedItem !== permission)
+        setSelectedpermission(data)
+    }
     return(
         <div className="p-8 flex flex-col h-full justify-between">
             <div>
@@ -154,129 +164,60 @@ export default function CreateSimpleUser(){
                     />
                 </div>
                 <div>
-                    <Listbox value={selectedrole} onChange={setSelectedrole}>
-                        {({ open }) => (
-                            <>
-                                <Listbox.Label className="block text-sm font-medium leading-6 text-gray-900">Roles</Listbox.Label>
-                                <div className="relative mt-2">
-                                    <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                        <span className="block truncate">{selectedrole.label}</span>
-                                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                            <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                                        </span>
-                                    </Listbox.Button>
+                    <div className="relative mt-2">
+                        <span className="block truncate">Roles</span>
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"></span>
+                    </div>
+                    {selectedroles.length !=0 ? (
+                        <>
+                            {selectedroles.map((role : IRole) => (
+                                <div className="relative">
+                                    <button
+                                        className="flex items-center gap-2 border px-3 py-2 rounded-md"
+                                        /* onClick={deleteper(permission)} */
 
-                                    <Transition
-                                        show={open}
-                                        as={Fragment}
-                                        leave="transition ease-in duration-100"
-                                        leaveFrom="opacity-100"
-                                        leaveTo="opacity-0"
                                     >
-                                        <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                            {roles.map((item) => (
-                                                <Listbox.Option
-                                                    key={item.id}
-                                                    className={({ active }) =>
-                                                        classNames(
-                                                            active ? 'bg-indigo-600 text-white' : 'text-gray-900',
-                                                            'relative cursor-default select-none py-2 pl-8 pr-4'
-                                                        )
-                                                    }
-                                                    value={item}
-                                                >
-                                                    {({ selected, active }) => (
-                                                        <>
-                                                            <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
-                                                              {item.label}
-                                                            </span>
-
-                                                            {selected ? (
-                                                                <span
-                                                                    className={classNames(
-                                                                        active ? 'text-white' : 'text-indigo-600',
-                                                                        'absolute inset-y-0 left-0 flex items-center pl-1.5'
-                                                                    )}
-                                                                >
-                                                                    <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                                                                </span>
-                                                            ) : null}
-                                                        </>
-                                                    )}
-                                                </Listbox.Option>
-                                            ))}
-                                        </Listbox.Options>
-                                    </Transition>
+                                        <span>{role.label}</span>
+                                        <span><PlusIcon className='w-6' /></span>
+                                    </button>
                                 </div>
-                            </>
-                        )}
-                    </Listbox>
-
+                            ))}
+                        </>
+                    ) : <div></div>
+                    }
+                    <AddRole selectedRol={selectedroles} setSelectedRol={setSelectedrole} />
                 </div>
                 <div>
-                    <Listbox value={selectedpermission} onChange={setSelectedpermission}>
-                        {({ open }) => (
-                            <>
-                                <Listbox.Label className="block text-sm font-medium leading-6 text-gray-900">Permissions</Listbox.Label>
-                                <div className="relative mt-2">
-                                    <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                        <span className="block truncate">{selectedpermission.label}</span>
-                                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                            <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                                        </span>
-                                    </Listbox.Button>
+                    <div className="relative mt-2">
+                        <span className="block truncate">Permissions</span>
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"></span>
+                    </div>
+                    {selectedpermissions.length !=0 ? (
+                        <>
+                            {selectedpermissions.map((permission : IPermission) => (
+                                <div className="relative">
+                                    <button
+                                        className="flex items-center gap-2 border px-3 py-2 rounded-md"
+                                        /* onClick={deleteper(permission)} */
 
-                                    <Transition
-                                        show={open}
-                                        as={Fragment}
-                                        leave="transition ease-in duration-100"
-                                        leaveFrom="opacity-100"
-                                        leaveTo="opacity-0"
                                     >
-                                        <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                            {permissions.map((item) => (
-                                                <Listbox.Option
-                                                    key={item.id}
-                                                    className={({ active }) =>
-                                                        classNames(
-                                                            active ? 'bg-indigo-600 text-white' : 'text-gray-900',
-                                                            'relative cursor-default select-none py-2 pl-8 pr-4'
-                                                        )
-                                                    }
-                                                    value={item}
-                                                >
-                                                    {({ selected, active }) => (
-                                                        <>
-                                                            <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
-                                                              {item.label}
-                                                            </span>
-
-                                                            {selected ? (
-                                                                <span
-                                                                    className={classNames(
-                                                                        active ? 'text-white' : 'text-indigo-600',
-                                                                        'absolute inset-y-0 left-0 flex items-center pl-1.5'
-                                                                    )}
-                                                                >
-                                                                    <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                                                                </span>
-                                                            ) : null}
-                                                        </>
-                                                    )}
-                                                </Listbox.Option>
-                                            ))}
-                                        </Listbox.Options>
-                                    </Transition>
+                                        <span>{permission.label}</span>
+                                        <span><PlusIcon className='w-6' /></span>
+                                    </button>
                                 </div>
-                            </>
-                        )}
-                    </Listbox>
-
+                            ))}
+                        </>
+                    ) : <div></div>
+                    }
+                    <AddPermission selectedPer={selectedpermissions} setSelectedPer={setSelectedpermission} />
                 </div>
+
+
+
 
                 <div className="mt-8">
                     <button
-                        onClick={submit}
+                        onClick={OnSubmit}
                         disabled={disabled}
                         className={classNames(
                             'rounded-md px-3 py-2 border w-full',
