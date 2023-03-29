@@ -1,18 +1,28 @@
 import useComponentVisible from '../../../hooks/useComponentVisible'
-import {PlusIcon} from '@heroicons/react/24/outline'
-import React, {useState} from 'react'
+import {ChevronDownIcon, CircleStackIcon} from '@heroicons/react/24/outline'
+import React, {useContext, useState} from 'react'
 import {AnimatePresence, motion} from 'framer-motion'
-import {XMarkIcon} from '@heroicons/react/20/solid'
+import {XMarkIcon, PlusIcon} from '@heroicons/react/20/solid'
 import ExamenContext from '../../../contexts/ExamenContext'
-import {IExamen} from "./types";
+import {IExamen} from './types'
+import {Title} from "../questions/editor/header/Title";
+import {classNames} from "../../../utils/helper";
+import Modal from "./modal";
 
+/**
+ * @obsidian/examen
+ *
+ * (c) Bonnal Nathaël <pro.nathaelbonnal@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 export default function CreateExamen () {
   const {ref, isVisible, toggle} = useComponentVisible()
   const [examen, setExamen] = useState<IExamen>({
     label: 'Untitled',
     options: []
   })
-
   return (
     <ExamenContext.Provider value={[examen, setExamen]}>
       <div>
@@ -50,40 +60,3 @@ export default function CreateExamen () {
   )
 }
 
-function Modal ({ toggle }) {
-  return (
-    <div>
-      <div className="w-full bg-gray-100 flex border-b justify-between items-center p-4 relative">
-        <div className="text-center w-full">
-          <span className="font-title uppercase">Créer examen</span>
-        </div>
-        <div>
-          <button
-            onClick={toggle}
-            className="hover:bg-gray-200 p-1 rounded-md"
-          >
-            <XMarkIcon className="w-6 h-6" />
-          </button>
-        </div>
-      </div>
-      <div className="p-4">
-        {/* HEADER */}
-        <div></div>
-        {/* BOARD */}
-        <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-8 bg-red-500">
-
-            test 1
-          </div>
-          <div className="col-span-4 relative">
-
-            <div className="p-4 rounded-md border bg-white shadow-sm">
-              <span className="text-md text-gray-900 font-semibold">Notifications</span>
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
