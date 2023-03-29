@@ -46,3 +46,12 @@ export function filteredData<T> (data: any[], keys: (keyof T)[], search: string)
     }
   )
 }
+
+export function factorielle (n: number): number {
+  if (n === 0) return 1
+  return n * factorielle(n-1)
+}
+
+export function combinaison (k: number, n: number): number {
+  return factorielle(n) / (factorielle(k) * factorielle(n-k))
+}

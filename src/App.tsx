@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Route, Routes} from 'react-router'
 import Home from './pages/manager'
 import Layout from './layouts/layout'
@@ -83,6 +83,7 @@ function App() {
     { uid: '404', href: '*', component: <NotFound /> },
     { uid: 'StatPage', href: '/StatPage', component: <StatPage /> },
   ]
+
 
   return (
     <div>

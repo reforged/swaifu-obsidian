@@ -3,6 +3,7 @@ module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
   ],
   presets: [],
   darkMode: 'class', // or 'class'
@@ -975,6 +976,7 @@ module.exports = {
     'disabled',
   ],
   plugins: [
+    require('flowbite/plugin'),
     require('@tailwindcss/forms'),
     require('@headlessui/tailwindcss')
   ],
