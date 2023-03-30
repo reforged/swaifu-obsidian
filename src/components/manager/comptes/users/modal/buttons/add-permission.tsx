@@ -32,7 +32,7 @@ export default function AddPermission ({selectedPer , setSelectedPer }){
         <Menu as="div" className="relative inline-block text-left">
             <div>
                 <Menu.Button>
-                    <button className="bg-blue-100 px-4 py-2 font-thin text-lg rounded-md text-blue-500 flex items-center">
+                    <button className="bg-blue-100 px-4 py-2 font-thin text-lg rounded-md text-blue-500 flex items-center z-50">
                         <PlusIcon className="w-6 font-bold" />
                         <span>Ajouter Permission</span>
                     </button>
