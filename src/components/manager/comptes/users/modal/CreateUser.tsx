@@ -8,29 +8,19 @@ import {IPermission, IRole} from "../../../../../utils";
 import {PlusIcon} from "@heroicons/react/24/outline";
 import AddRole from "./buttons/add-role";
 export default function CreateSimpleUser(){
-
     const [disabled, setDisabled] = useState<boolean>(true)
+    const { store } = useUsers()
+    const { mutate: createUser } = store()
 
     const [firstname, setFirstname] = useState<string>('')
     const [lastname, setLastname] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [numero,setNumero] = useState<string>('')
     const [email, setEmail] = useState<string>('')
-
-    const { index :fetchRoles} = useRoles()
-    const { data: roles} = fetchRoles()
     const [selectedroles, setSelectedrole] = useState([])
-    const { index : fetchPerms } = usePermissions()
-    const { data: permissions } = fetchPerms()
     const [ selectedpermissions , setSelectedpermission] = useState<IPermission[]>([])
 
-    const { store } = useUsers()
-    const { mutate: createUser } = store()
-
-
     useEffect(() => {
-        console.log({firstname,lastname,password,email,numero,selectedpermissions,permissions,roles})
-
         if (firstname && lastname && password) {
             if (email != ''){
                 if (email.includes('@')){
@@ -55,8 +45,10 @@ export default function CreateSimpleUser(){
             setDisabled(true)
         }
 
+        const rolesid = Idroles()
+        const permissionsid = Idpermissions()
+        console.log({firstname,lastname,password,email,numero,rolesid,permissionsid})
 
-        console.log({disabled})
     }, [email, firstname, lastname, password, numero, selectedroles ,selectedpermissions])
 
 
@@ -70,9 +62,9 @@ export default function CreateSimpleUser(){
         return permissionsid
     }
     function OnSubmit () {
-        const rolesid = Idroles()
-        const permissionsid = Idpermissions()
-        createUser({ password, lastname, firstname, email,numero,rolesid,permissionsid})
+        const roles = Idroles()
+        const permissions = Idpermissions()
+        createUser({ password, lastname, firstname, email,numero,roles,permissions})
         console.log({password, lastname, firstname,email})
     }
 
@@ -165,7 +157,7 @@ export default function CreateSimpleUser(){
                 </div>
                 <div>
                     <div className="relative mt-2">
-                        <span className="block truncate">Roles</span>
+                        <span className="block truncate text-sm font-medium leading-6 text-gray-900">Roles</span>
                         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"></span>
                     </div>
                     {selectedroles.length !=0 ? (
@@ -174,7 +166,7 @@ export default function CreateSimpleUser(){
                                 <div className="relative">
                                     <button
                                         className="flex items-center gap-2 border px-3 py-2 rounded-md"
-                                        /* onClick={deleteper(permission)} */
+                                        onClick={() => deleterol(role)}
 
                                     >
                                         <span>{role.label}</span>
@@ -189,7 +181,7 @@ export default function CreateSimpleUser(){
                 </div>
                 <div>
                     <div className="relative mt-2">
-                        <span className="block truncate">Permissions</span>
+                        <span className="block truncate text-sm font-medium leading-6 text-gray-900">Permissions</span>
                         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"></span>
                     </div>
                     {selectedpermissions.length !=0 ? (
@@ -198,7 +190,7 @@ export default function CreateSimpleUser(){
                                 <div className="relative">
                                     <button
                                         className="flex items-center gap-2 border px-3 py-2 rounded-md"
-                                        /* onClick={deleteper(permission)} */
+                                         onClick={() => deleteper(permission)}
 
                                     >
                                         <span>{permission.label}</span>
