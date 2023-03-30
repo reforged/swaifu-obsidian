@@ -53,6 +53,7 @@ export type IEtiquette = {
   id?: string
   label: string
   color: string
+  questions: IQuestion[]
 }
 
 export type IColor = {

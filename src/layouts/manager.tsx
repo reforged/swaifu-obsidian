@@ -55,18 +55,24 @@ export default function Manager ({ children, layout }: Props) {
 
 
   return (
-    <div className="hidden lg:flex lg:flex-shrink-0 min-h-screen bg-[#E2E9F3]">
+    <div className="flex flex-col lg:flex-row lg:flex-shrink-0 min-h-screen bg-[#E2E9F3]">
       <Sidebar />
       <div className="flex min-w-0 min-h-screen flex-1 flex-col overflow-hidden w-full h-full">
-        <div className="mx-auto w-full p-4 h-full min-h-screen flex ">
+        <div className="mx-auto w-full lg:p-4 h-full min-h-screen flex ">
           <div className="bg-white w-full min-h-full rounded-md shadow-md overflow-hidden">
 
-            <Navigation select={select} />
-            <div className="p-12">
-              <Breadcrumbs pages={layout.location}/>
-              <div className="py-8 flex items-center justify-between">
-                <span className="font-title text-3xl font-bold">{layout.label}</span>
+            <div className="hidden lg:flex">
+              <Navigation select={select} />
+            </div>
+
+            <div className="lg:p-12">
+              <div className="p-6 lg:p-0">
+                <Breadcrumbs pages={layout.location}/>
+                <div className="py-8 flex items-center justify-between">
+                  <span className="font-title text-3xl font-bold">{layout.label}</span>
+                </div>
               </div>
+
               <div className="">
                 {children}
               </div>

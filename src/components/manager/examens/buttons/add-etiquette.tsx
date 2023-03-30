@@ -20,6 +20,24 @@ export default function AddEtiquette () {
       return !li.includes(etiquette.id)
     })
     setFiltered(data)
+
+    const li: string[] = []
+    examen.options.forEach((option) => {
+      option.etiquette.questions.forEach((question) => {
+        if (!li.includes(question.id!)) {
+          li.push(question.id!)
+        }
+      })
+    })
+
+    if (li.length !== examen.totalQuestions) {
+      setExamen({
+        ...examen,
+        totalQuestions: li.length
+      })
+    }
+
+    console.log(examen)
   }, [examen])
 
   function add (etiquette: IEtiquette) {

@@ -112,7 +112,7 @@ export default function ModalQuestionView ({ questions }) {
             <AnimatePresence>
               { isVisible && showQuestion &&
                 <motion.div
-                  className="fixed z-20 inset-0 bg-black bg-opacity-25"
+                  className="fixed z-[99] inset-0 bg-black bg-opacity-[30%] backdrop-blur-[2px] backdrop-brightness-100"
                   animate={{ opacity: 1}}
                   transition={{
                     duration: 0.2,
@@ -121,38 +121,41 @@ export default function ModalQuestionView ({ questions }) {
                   exit={{ opacity: 0 }}
                   initial={{ opacity: 0 }}
                 >
-                  <div ref={ref} className="absolute left-1/2 top-12 transform -translate-x-1/2 h-[90%] w-[60%] py-8 bg-white border border-gray-200 rounded-md">
-                    <div className="fixed top-0 left-0 p-2 z-10">
-                      <div className="flex items-center gap-3 text-gray-600">
-                        <span className="bg-purple-200 text-purple-900 px-1  rounded-md">Questions</span>
-                        <span>/</span>
-                        <span>{ showQuestion.label ? showQuestion.label : 'Untitled' }</span>
+                  <div className="absolute w-full h-full p-8">
+                    <div className="bg-white h-full rounded-md border relative overflow-hidden" ref={ref}>
+                      <div className="absolute top-0 left-0 p-2 z-10">
+                        <div className="flex items-center gap-3 text-gray-600">
+                          <span className="bg-purple-200 text-purple-900 px-1  rounded-md">Questions</span>
+                          <span>/</span>
+                          <span>{ showQuestion.label ? showQuestion.label : 'Untitled' }</span>
+                        </div>
+                      </div>
+                      <div className="fixed bottom-0 right-0 p-2 z-50">
+                        <button
+                          disabled={disabled}
+                          onClick={handleClick}
+                          className={classNames(
+                            'rounded-md px-3 py-2 border',
+                            disabled ? 'text-gray-400 bg-gray-50' : 'bg-indigo-500 text-white'
+                          )}
+                        >
+                          Update
+                        </button>
+                      </div>
+                      <Header />
+
+                      <div className="pt-20">
+                        {showQuestion.enonce &&
+                          <BlockEditor
+                            blocks={blocks}
+                            settings={{mode: 'preview'}}
+                            value={showQuestion.enonce}
+                            onChange={handleChange}
+                          />
+                        }
                       </div>
                     </div>
-                    <div className="fixed bottom-0 right-0 p-2 z-50">
-                      <button
-                        disabled={disabled}
-                        onClick={handleClick}
-                        className={classNames(
-                          'rounded-md px-3 py-2 border',
-                          disabled ? 'text-gray-400 bg-gray-50' : 'bg-indigo-500 text-white'
-                        )}
-                      >
-                        Update
-                      </button>
-                    </div>
-                    <Header />
 
-                    <div className="pt-20">
-                      {showQuestion.enonce &&
-                        <BlockEditor
-                          blocks={blocks}
-                          settings={{mode: 'preview'}}
-                          value={showQuestion.enonce}
-                          onChange={handleChange}
-                        />
-                      }
-                    </div>
                   </div>
                 </motion.div>
               }

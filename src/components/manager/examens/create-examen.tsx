@@ -21,7 +21,13 @@ export default function CreateExamen () {
   const {ref, isVisible, toggle} = useComponentVisible()
   const [examen, setExamen] = useState<IExamen>({
     label: 'Untitled',
-    options: []
+    options: [],
+    nbQuestions: 0,
+    nbSujets: 0,
+    combinaison: 0,
+    totalQuestions: 0,
+    totalSujets: 0,
+    sujets: []
   })
   return (
     <ExamenContext.Provider value={[examen, setExamen]}>

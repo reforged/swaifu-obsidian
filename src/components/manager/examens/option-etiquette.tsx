@@ -37,7 +37,7 @@ export default function OptionEtiquette ({ option, index }: Props) {
         etiquette: item.etiquette
       }
     })
-    console.log()
+
     setExamen({
       ...examen,
       options: li

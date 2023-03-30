@@ -45,7 +45,7 @@ export default function Table<T> ({ data, skeleton, keys, columns, loading, onDe
 
 
   return (
-    <div>
+    <div className="overflow-x-scroll">
       <table className="w-full min-w-full divide-y">
         <thead className="border-b border-[#E3E3E3]/2">
           <tr>

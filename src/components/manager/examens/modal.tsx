@@ -6,12 +6,12 @@ import {ChevronDownIcon, CircleStackIcon, ChevronUpIcon } from "@heroicons/react
 import AddEtiquette from "./buttons/add-etiquette";
 import OptionEtiquette from "./option-etiquette";
 import { Disclosure } from '@headlessui/react'
-import {Tooltip, Button} from "flowbite-react";
-import MultiRangeSlider from "../form/multi-range-slider/multi-range-slider";
+import Examen from "./examen";
+import TotalQuestion from "./total-question";
+import TotalSujets from "./total-sujets";
 
 export default function Modal ({ toggle }) {
   const [examen, setExamen] = useContext(ExamenContext)
-  const [value, setValue] = useState(0)
   const [nbSujet, setNbSujet] = useState(0)
   const [disabled, setDisabled] = useState<boolean>(true)
 
@@ -21,13 +21,34 @@ export default function Modal ({ toggle }) {
   }
 
   useEffect(() => {
-    const data = examen.options.reduce(
-      (acc, current) => acc = combinaison(current.max, current.etiquette.questions.length)*acc, 1
-    )
-
-    setValue(data)
-
+    const data = combinaison(examen.nbQuestions, examen.totalQuestions)
+    if (data !== examen.combinaison) {
+      setExamen({
+        ...examen,
+        combinaison: data >= 1 ? data : 0
+      })
+    }
   }, [examen])
+
+  useEffect(() => {
+    if (
+      examen.combinaison >= examen.nbSujets &&
+      examen.nbQuestions <= examen.totalQuestions &&
+      examen.label.length
+    ) setDisabled(false)
+    else setDisabled(true)
+  }, [examen])
+
+
+  function createExamen () {
+    const data = new Examen(examen.nbSujets, examen.nbQuestions, examen.combinaison, examen.options)
+    const result = data.execute()
+    setExamen({
+      ...examen,
+      sujets: result
+    })
+  }
+
   return (
     <div>
       <div className="w-full bg-gray-100 flex border-b justify-between items-center p-4 relative">
@@ -73,44 +94,20 @@ export default function Modal ({ toggle }) {
           <div className="col-span-9">
             {/* FIRST BOARD */}
             <div className="border p-4 bg-white shadow-sm rounded-md">
-              <div className="flex justify-between items-center pb-8">
-                <div>
-                  <div className="relative mt-2 rounded-md shadow-sm">
-                    <input
-                      type="number"
-                      name="number_subject"
-                      id="number_subject"
-                      min={0}
-                      value={nbSujet}
-                      onKeyPress={(event) => {
-                        if (!/[0-9]/.test(event.key)) {
-                          event.preventDefault();
-                        }
-                      }}
-                      onChange={e => setNbSujet(e.currentTarget.value)}
-                      className={classNames(
-                        'block w-full appearance-none rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset  focus:ring-2 focus:ring-inset  sm:text-sm sm:leading-6',
-                        nbSujet > value ? 'ring-red-300 placeholder:text-red-300 focus:ring-red-500' : 'ring-gray-300 placeholder:text-gray-400 focus:ring-indigo-600'
-                      )}
-                      placeholder="1"
-                    />
-                    <div className={classNames(
-                      'pointer-events-none absolute inset-y-0 right-0 flex items-center pr-8',
-                      nbSujet > value ? 'visible' : 'invisible'
-                    )}>
-                      <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
-                    </div>
-                  </div>
-                  { nbSujet > value && (
-                    <p className="text-sm text-red-500">Vous ne pouvez pas créer autant de sujet avec cette combinaison</p>
-                  )}
-                  <p className="mt-2 text-sm text-gray-500" id="email-description">
-                    Indiquez le nombre de sujet que vous désirez
-                  </p>
+              <div className="flex justify-between items-start pb-8">
+                <div className="flex flex-col">
+
+                  <TotalSujets />
+                  <TotalQuestion />
+                  <span>
+                    {examen.totalQuestions}
+                  </span>
                 </div>
+
+
                 <AddEtiquette />
               </div>
-              <span>Nombre de sujets possibles : {value}</span>
+              <span>Nombre de sujets possibles : {examen.combinaison}</span>
               <div className="border rounded-md mt-8">
                 { examen.options.length ?
                   <div className="flex flex-col divide-y">
@@ -120,14 +117,12 @@ export default function Modal ({ toggle }) {
                   </div>
                   : <div className="p-4">Pas d'étiquettes sélectionné</div>
                 }
-
-
-
               </div>
 
               <div className="flex justify-end mt-4">
                 <div className="">
                   <button
+                    onClick={createExamen}
                     className={classNames(
                       'rounded-md px-3 py-2 border w-full',
                       disabled ? 'text-gray-400 bg-gray-50' : 'bg-indigo-500 text-white'
