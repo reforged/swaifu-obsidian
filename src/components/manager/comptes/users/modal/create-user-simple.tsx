@@ -5,8 +5,6 @@ import AddPermission from "./buttons/add-permission";
 import {IPermission, IRole} from "../../../../../utils";
 import {PlusIcon} from "@heroicons/react/24/outline";
 import AddRole from "./buttons/add-role";
-
-
 export default function CreateSimpleUser({ toggle }){
     const [disabled, setDisabled] = useState<boolean>(true)
     const { store } = useUsers()
