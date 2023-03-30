@@ -1,8 +1,6 @@
 import React, { useEffect, useState} from "react";
 import {classNames} from "../../../../../utils/helper";
 import useUsers from "../../../../../hooks/use-users";
-import useRoles from "../../../../../hooks/use-roles";
-import usePermissions from "../../../../../hooks/use-permissions";
 import AddPermission from "./buttons/add-permission";
 import {IPermission, IRole} from "../../../../../utils";
 import {PlusIcon} from "@heroicons/react/24/outline";

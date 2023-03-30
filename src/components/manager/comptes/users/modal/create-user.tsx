@@ -1,7 +1,7 @@
 import useComponentVisible from "../../../../../hooks/useComponentVisible";
 import { Tab } from "@headlessui/react";
 import {AnimatePresence, motion} from "framer-motion";
-import { useContext, useEffect, useState} from "react";
+import { useContext, useEffect} from "react";
 import BoardContext from "../../../../../contexts/BoardContext";
 import {XMarkIcon} from "@heroicons/react/20/solid";
 import { InboxArrowDownIcon, UserPlusIcon} from "@heroicons/react/24/outline";

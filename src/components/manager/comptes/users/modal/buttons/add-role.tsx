@@ -1,5 +1,5 @@
 import {Fragment, useEffect, useState} from "react";
-import {IPermission, IRole} from "../../../../../../utils";
+import {IRole} from "../../../../../../utils";
 import {Menu, Transition} from "@headlessui/react";
 import {PlusIcon} from "@heroicons/react/20/solid";
 import {classNames} from "../../../../../../utils/helper";
