@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Route, Routes} from 'react-router'
 import Home from './pages/manager'
 import Layout from './layouts/layout'
@@ -35,10 +35,10 @@ function App() {
     { label: 'Home', href: '/manager/home', icon: HomeIcon },
     {
       label: 'QCM',
-      href: '/manager/qcm',
+      href: '/manager/qcm/home',
       icon: ListBulletIcon,
       children: [
-        { label: 'Home', href: '/manager/qcm', icon: FolderIcon },
+        { label: 'Home', href: '/manager/qcm/home', icon: FolderIcon },
         { label: 'Questions', href: '/manager/qcm/questions', icon: FolderIcon },
         { label: 'Etiquettes', href: '/manager/qcm/etiquettes', icon: FolderIcon },
         { label: 'Séquences', href: '/manager/qcm/sequences', icon: FolderIcon },
@@ -49,9 +49,9 @@ function App() {
     {
       label: 'Accounts',
       icon: UserGroupIcon,
-      href: '/manager/accounts',
+      href: '/manager/accounts/home',
       children: [
-        { label: 'Home', href: '/manager/accounts', icon: FolderIcon },
+        { label: 'Home', href: '/manager/accounts/home', icon: FolderIcon },
         { label: 'Utilisateurs', href: '/manager/accounts/users', icon: FolderIcon },
         { label: 'Roles', href: '/manager/accounts/roles', icon: FolderIcon },
         { label: 'Permissions', href: '/manager/accounts/permissions', icon: FolderIcon }
@@ -63,7 +63,7 @@ function App() {
   const routes = [
     { uid: 'home', href: '/manager/home', component: <Home />},
 
-    { uid: 'qcm', href: '/manager/qcm', component: <HomeQCM />},
+    { uid: 'qcm', href: '/manager/qcm/home', component: <HomeQCM />},
     { uid: 'qcm.etiquettes', href: '/manager/qcm/etiquettes', component: <HomeEtiquette />},
     { uid: 'qcm.questions', href: '/manager/qcm/questions', component: <HomeQuestion />},
     { uid: 'qcm.sequences', href: '/manager/qcm/sequences', component: <HomeSequence />},
@@ -72,7 +72,7 @@ function App() {
     { uid: 'qcm.sessions', href: '/manager/qcm/session/*', component: <ShowSession />},
 
 
-    { uid: 'comptes', href: '/manager/accounts', component: <HomeComptes />},
+    { uid: 'comptes', href: '/manager/accounts/home', component: <HomeComptes />},
     { uid: 'comptes.users.list', href: '/manager/accounts/users', component: <HomeUsers />},
     { uid: 'comptes.roles.list', href: '/manager/accounts/roles', component: <HomeRoles />},
     { uid: 'comptes.permissions.list', href: '/manager/accounts/permissions', component: <HomePermissions />},
@@ -83,6 +83,7 @@ function App() {
     { uid: '404', href: '*', component: <NotFound /> },
     { uid: 'StatPage', href: '/StatPage', component: <StatPage /> },
   ]
+
 
   return (
     <div>

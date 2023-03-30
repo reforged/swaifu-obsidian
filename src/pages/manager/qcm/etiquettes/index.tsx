@@ -129,7 +129,7 @@ function GalerieEtiquettes ({ etiquettes, toggle, setIsVisible }: ViewProps) {
   const [etiquette, setEtiquette] = useContext(EtiquettesContext)
   const [board, setBoard] = useContext(BoardContext)
   return (
-    <div className="grid grid-cols-4 p-4 gap-4">
+    <div className="grid grid-cols-3 lg:grid-cols-4 p-4 gap-4">
       { filteredData<IEtiquette>(etiquettes, ['label'], board.search).map((etiquette) => (
         <button
           className="" key={etiquette.id}

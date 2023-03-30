@@ -1,13 +1,23 @@
-import {IQuestion} from '../../../utils'
+import {IEtiquette, IQuestion} from '../../../utils'
 
 export type IExamen = {
   id?: string
   label: string
-  options: QuestionOptions[]
+  combinaison: number
+  nbSujets: number
+  nbQuestions: number
+  totalSujets: number
+  totalQuestions: number
+  options: EtiquetteOptions[]
+  sujets: string[][]
 }
 
-type QuestionOptions = {
+export type EtiquetteOptions = {
   min: number
   max: number
-  question: IQuestion
+  etiquette: IEtiquette
+}
+
+export type ISujet = {
+  questions: IQuestion[]
 }

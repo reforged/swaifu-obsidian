@@ -46,3 +46,22 @@ export function filteredData<T> (data: any[], keys: (keyof T)[], search: string)
     }
   )
 }
+
+export function factorielle (n: number): number {
+  if (n <= 0) return 1
+  return n * factorielle(n-1)
+}
+
+export function combinaison (k: number, n: number): number {
+  return factorielle(n) / (factorielle(k) * factorielle(n-k))
+}
+
+export function randomInt (max: number) {
+  return Math.floor(Math.random() * max)
+}
+
+export function somme (li: number[]) {
+  return li.reduce(
+    (acc, current) => acc += current, 0
+  )
+}

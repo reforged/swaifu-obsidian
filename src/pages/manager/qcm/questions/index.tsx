@@ -86,7 +86,7 @@ export default function HomeQuestion () {
 											</div>
 											: <div>
 												{ data &&
-													<div className="grid grid-cols-3 gap-4 p-4">
+													<div className="grid lg:grid-cols-3 gap-4 p-4">
 														{ filteredData<IQuestion>(data, ['label'], board.search).map((question: IQuestion) => (
 															<Question key={question.id} question={question} />
 														))}
