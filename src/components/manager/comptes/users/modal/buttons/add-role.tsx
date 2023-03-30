@@ -4,7 +4,6 @@ import {Menu, Transition} from "@headlessui/react";
 import {PlusIcon} from "@heroicons/react/20/solid";
 import {classNames} from "../../../../../../utils/helper";
 import useRoles from "../../../../../../hooks/use-roles";
-import usePermissions from "../../../../../../hooks/use-permissions";
 
 
 export default function AddRole ({selectedRol , setSelectedRol }){
