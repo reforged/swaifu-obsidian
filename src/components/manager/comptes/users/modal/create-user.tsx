@@ -1,21 +1,16 @@
 import useComponentVisible from "../../../../../hooks/useComponentVisible";
 import { Tab } from "@headlessui/react";
 import {AnimatePresence, motion} from "framer-motion";
-import {LegacyRef, useContext, useEffect, useRef, useState} from "react";
+import { useContext, useEffect, useState} from "react";
 import BoardContext from "../../../../../contexts/BoardContext";
 import {XMarkIcon} from "@heroicons/react/20/solid";
-import {CircleStackIcon, InboxArrowDownIcon, UserPlusIcon} from "@heroicons/react/24/outline";
-import useUsers from "../../../../../hooks/use-users";
-import {classNames} from "../../../../../utils/helper";
+import { InboxArrowDownIcon, UserPlusIcon} from "@heroicons/react/24/outline";
 import ImportCsv from "./import-csv";
-import CreateSimpleUser from "./CreateUser";
+import CreateSimpleUser from "./create-user-simple";
 
 export default function CreateUser () {
   const { ref, isVisible, toggle, setIsVisible } = useComponentVisible()
-
   const [board, setBoard] = useContext(BoardContext)
-  const [csvFile, setCsvFile] = useState(null)
-  const [csvArray, setCsvArray] = useState<any>([])
 
   useEffect(() => {
     if (board.open) setIsVisible(true)
@@ -86,7 +81,7 @@ export default function CreateUser () {
                           <Tab.Panels>
                             <div className="flex-1 h-full w-full flex-col">
                               <Tab.Panel>
-                                <CreateSimpleUser />
+                                <CreateSimpleUser toggle={toggle} />
                               </Tab.Panel>
                               <Tab.Panel>
                                 <ImportCsv toggle={toggle} />
