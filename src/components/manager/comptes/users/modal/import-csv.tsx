@@ -22,7 +22,7 @@ export default function ImportCsv ({ toggle }: Props) {
   const { mutate: createUsers} = createMany()
   const { data, isLoading } = index()
   const [disabled, setDisabled] = useState<boolean>(true)
-  const [selectedroles, setSelectedrole] = useState([])
+  const [roles, setRoles] = useState<IRole[]>([])
 
   useEffect(() => {
     if (csvArray.length) {
@@ -48,15 +48,12 @@ export default function ImportCsv ({ toggle }: Props) {
     setCsvFile(null)
     setCsvArray([])
   }
-  function Idroles(){
-    const rolesid = selectedroles.map((item : IRole) => item.id)
-    return rolesid
-  }
-  function deleterol(role : IRole){
-    const data = selectedroles.filter(
-        selectedItem => selectedItem !== role)
-    setSelectedrole(data)
 
+
+  function onDelete (index: number) {
+    const list = roles
+    list.splice(index, 1)
+    setRoles([...list])
   }
 
   function exist (user, index): boolean {
@@ -75,7 +72,6 @@ export default function ImportCsv ({ toggle }: Props) {
       })
       return list
     }
-    const rolesid = Idroles()
     const list = filtered()
 
     createUsers({
@@ -84,9 +80,10 @@ export default function ImportCsv ({ toggle }: Props) {
           firstname: item[0],
           lastname: item[1],
           numero: item[2],
+          password: item[2]
         }
       }),
-      roles: rolesid
+      roles: roles.map((role) => role.id)
     })
     toggle()
 
@@ -127,24 +124,24 @@ export default function ImportCsv ({ toggle }: Props) {
             <span className="block truncate text-sm font-medium leading-6 text-gray-900">Roles</span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"></span>
           </div>
-          {selectedroles.length !=0 ? (
+          {roles.length ? (
               <>
-                {selectedroles.map((role : IRole) => (
+                {roles.map((role : IRole, index) => (
                     <div className="relative">
                       <button
                           className="flex items-center gap-2 border px-3 py-2 rounded-md"
-                          onClick={() => deleterol(role)}
+                          onClick={() => onDelete(index)}
 
                       >
                         <span>{role.label}</span>
-                        <span><PlusIcon className='w-6' /></span>
+                        <span><TrashIcon className='w-4' /></span>
                       </button>
                     </div>
                 ))}
               </>
           ) : <div></div>
           }
-          <AddRole selectedRol={selectedroles} setSelectedRol={setSelectedrole} />
+          <AddRole roles={roles} setRoles={setRoles} />
         </div>
 
         <div>
