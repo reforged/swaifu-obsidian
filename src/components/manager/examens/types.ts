@@ -21,3 +21,5 @@ export type EtiquetteOptions = {
 export type ISujet = {
   questions: IQuestion[]
 }
+
+export type Interval = [number, number]
