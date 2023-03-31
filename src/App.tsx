@@ -22,7 +22,6 @@ import HomeRoles from "./pages/manager/comptes/roles";
 import HomePermissions from "./pages/manager/comptes/permissions";
 import HomeSessions from "./pages/manager/qcm/sessions";
 import Room from "./pages/room";
-import StatPage from "./components/manager/sessions/stats/StatPage";
 import Register from "./pages/auth/register";
 import ShowSession from "./pages/manager/qcm/sessions/show";
 import HomeExamen from "./pages/manager/qcm/examens";
@@ -81,7 +80,6 @@ function App() {
     { uid: 'register', href: '/authentication/register', component: <Register /> },
 
     { uid: '404', href: '*', component: <NotFound /> },
-    { uid: 'StatPage', href: '/StatPage', component: <StatPage /> },
   ]
 
 
