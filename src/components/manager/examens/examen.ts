@@ -1,96 +1,70 @@
-import {EtiquetteOptions, ISujet} from "./types";
-import {combinaison, randomInt} from "../../../utils/helper";
+import { EtiquetteOptions, Interval } from './types'
+import { randomInt } from '../../../utils/helper'
 
 /**
  * @obsidian/examen
  *
  * (c) Bonnal Nathaël <pro.nathaelbonnal@gmail.com>
+ * (c) Hawkins Oscar
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 export default class Examen {
-  private nbSujet: number
-  private nbQuestion: number
-  private combinaison: number
+  private readonly intervales: Interval[]
   private options: EtiquetteOptions[]
+  private readonly nbQuestions: number
+  private readonly nbSujets: number
   private readonly sujets: Array<string[]>
 
-  constructor (nbSujet: number, nbQuestion: number, combinaison: number, options: EtiquetteOptions[]) {
-    this.nbSujet = nbSujet
-    this.nbQuestion = nbQuestion
-    this.combinaison = combinaison
+  constructor(questions: number, sujets: number, options: EtiquetteOptions[]) {
+    this.nbQuestions = questions
     this.options = options
+    this.nbSujets = sujets
+    this.intervales = options.map((item) => [item.min, item.max]) as Interval[]
     this.sujets = new Array<string[]>()
   }
 
-  public isEmpty () {
-    return this.sujets.length === 0
-  }
+  private combinaison (k: number, tab: Interval[]) {
+    const [min, max] = tab[0]
 
-  public generateSujet (): string[] {
-    const sujet: string[] = []
-    const tab = this.generateTab()
-    this.options.forEach((option, index) => {
-      for (let i = 0; i < tab[index]; i++) {
-        const data = option.etiquette.questions.filter((question) => !sujet.includes(question.id!))
-        const value = data[randomInt(data.length)].id
-        sujet.push(value)
+    if (k-min < 0) return null
+
+    if (tab.length === 1) {
+      if (k <= max) {
+        return [[k]]
       }
-    })
-    return sujet
-  }
+      return null
+    }
 
-  public generateTab(): number[] {
-    const li: number[] = this.options.map(option => option.min)
-    while (this.sommeListe(li) < this.nbQuestion) {
-      const value = this.options
-        .map((option, index) => (option.max > li[index] ? index : null))
-        .filter(item => item !== null)
+    const generated = []
 
-      if (!value.length) {
-        return []
-      }
-
-      const random = randomInt(value.length - 1)
-      const index = value[random]
-
-      li[index] += 1
-
-      if (this.options[index].max <= li[index]) {
-        value.splice(random, 1)
+    for (let i = min; i <= max ; i++) {
+      if (k-i >= 0) {
+        const res = this.combinaison(k-i, tab.slice(1, tab.length))
+        if (res) {
+          for (const value of res) {
+            generated.push([i, ...value])
+          }
+        }
+      } else {
+        break
       }
     }
 
-    return li
+    return generated
   }
 
   public numberQuestionsUnique (): number {
-    const li: string[] = []
+    const li = []
     this.options.forEach((option) => {
       option.etiquette.questions.forEach((question) => {
-        if (!li.includes(question.id!)) {
-          li.push(question.id!)
+        if (!li.includes(question.id)) {
+          li.push(question.id)
         }
       })
     })
-
-
     return li.length
-  }
-
-  /**
-   *
-   * @param li
-   */
-  public sommeListe (li: number[]): number {
-    return li.reduce(
-      (acc, current) => acc += current, 0
-    )
-  }
-
-  public getSujets () {
-    return this.sujets
   }
 
   public isPresent (li: string[]) {
@@ -101,27 +75,41 @@ export default class Examen {
       .includes(true)
   }
 
+  private generateSujet (tab: number[]): string[] {
+    const li: string[] = []
+    this.options.forEach((option, index) => {
+      for (let i = 0; i < tab[index]; i++) {
+        const data = option.etiquette.questions.filter((question) => !li.includes(question.id))
+        const value = data[randomInt(data.length)].id
 
-  public execute (): string[][] {
-    console.log(this.numberQuestionsUnique() < this.nbQuestion)
-    console.log(this.combinaison, this.nbSujet)
-    if (this.numberQuestionsUnique() < this.nbQuestion || this.combinaison < this.nbSujet) {
+        li.push(value)
+      }
+    })
+    return li
+  }
+
+  public getCombinaison (): Interval[] {
+    return this.combinaison(this.nbQuestions, this.intervales)
+  }
+
+  public execute (): Array<string[]> {
+    const tab = this.combinaison(this.nbQuestions, this.intervales)
+
+    if (tab.length < this.nbSujets) {
       return []
     }
 
-    let count = 0
-    while (this.sujets.length < this.nbSujet) {
-      const sujet = this.generateSujet()
+    while (this.sujets.length < this.nbSujets) {
+      if (!tab.length) break
+
+      const random = randomInt(tab.length)
+      const sujet = this.generateSujet(tab[random])
       if (!this.isPresent(sujet)) {
         this.sujets.push(sujet)
       }
-      count++
+      tab.splice(random, 1)
 
-      if (count > 5000) {
-        this.nbSujet--
-      }
     }
-
     return this.sujets
   }
 }
