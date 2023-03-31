@@ -6,6 +6,7 @@ import ModalCheckbox from "../../modal/reponses/ModalCheckbox";
 import ModalText from "../../modal/reponses/ModalText";
 import ShowQuestionContext from "../../../../../contexts/ShowQuestionContext";
 import {useContext} from "react";
+import ModalLibre from "../../modal/reponses/ModalLibre";
 
 type Props = {
   context: typeof ShowQuestionContext | typeof QuestionContext
@@ -58,6 +59,7 @@ const Content = ({ context }: Props) => {
                       ? <div>
                         { question!.type === 'checkbox' && <ModalCheckbox context={context} /> }
                         { question!.type === 'input' && <ModalText /> }
+                        { question!.type === 'libre' && <ModalLibre /> }
                       </div>
                       : <div className="p-2">
                         <span className="text-gray-500">Veuillez sélectionner un type de question</span>
