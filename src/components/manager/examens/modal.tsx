@@ -9,25 +9,39 @@ import { Disclosure } from '@headlessui/react'
 import Examen from "./examen";
 import TotalQuestion from "./total-question";
 import TotalSujets from "./total-sujets";
+import {Interval} from "./types";
 
 export default function Modal ({ toggle }) {
   const [examen, setExamen] = useContext(ExamenContext)
   const [nbSujet, setNbSujet] = useState(0)
   const [disabled, setDisabled] = useState<boolean>(true)
 
-  function factorielle (n: number): number {
-    if (n === 0) return 1
-    return n * factorielle(n-1)
-  }
-
   useEffect(() => {
-    const data = combinaison(examen.nbQuestions, examen.totalQuestions)
-    if (data !== examen.combinaison) {
-      setExamen({
-        ...examen,
-        combinaison: data >= 1 ? data : 0
-      })
+    //const data = combinaison(examen.nbQuestions, examen.totalQuestions)
+    if (examen.options.length) {
+      const data = new Examen(examen.nbQuestions, examen.nbSujets, examen.options)
+      const combinaison: Interval[] = data.getCombinaison()
+      const total = data.numberQuestionsUnique()
+      if (total) {
+        if (total !== examen.totalQuestions) {
+          setExamen({
+            ...examen,
+            totalQuestions: total
+          })
+        }
+      }
+      if (combinaison) {
+        if (combinaison.length !== examen.combinaison) {
+          setExamen({
+            ...examen,
+            combinaison: combinaison.length
+          })
+        }
+      }
     }
+
+    console.log("SUJET",examen.sujets)
+
   }, [examen])
 
   useEffect(() => {
@@ -41,7 +55,7 @@ export default function Modal ({ toggle }) {
 
 
   function createExamen () {
-    const data = new Examen(examen.nbSujets, examen.nbQuestions, examen.combinaison, examen.options)
+    const data = new Examen(examen.nbQuestions, examen.nbSujets, examen.options)
     const result = data.execute()
     setExamen({
       ...examen,

@@ -7,21 +7,7 @@ export default function TotalQuestion () {
   const [examen, setExamen] = useContext(ExamenContext)
   const [valide, setValide] = useState(true)
 
-  useEffect(() => {
-    if (
-      examen.nbQuestions > examen.totalQuestions ||
-      examen.nbQuestions > examen.options.reduce(
-        (acc, current) => acc += current.max, 0
-      ) ||
-      examen.nbQuestions < examen.options.reduce(
-      (acc, current) => acc += current.min, 0
-    )
-    ) {
-      setValide(false)
-    } else {
-      setValide(true)
-    }
-  }, [examen])
+
 
   function update (e) {
     setExamen({
