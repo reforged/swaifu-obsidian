@@ -10,73 +10,99 @@ import WaintingRoom from "../components/room/wainting-room";
 import {JoinEvent, JoinSuccessfulEvent, StartEvent} from "../utils/room/events";
 import Question from "../components/room/question";
 import {useCookies} from "react-cookie";
+import useWebsocket from "../hooks/use-websocket";
 
 export default function Room () {
   const [cookie, setCookie, removeCookie] = useCookies(['room'])
   const [room, setRoom] = useState<IRoom>({
     locked: false,
     session: null,
-    wainting: false
+    waiting: false
   })
   const location = useLocation()
   const router = useNavigate()
   const [code, setCode] = useState<string>(location.pathname.split("/")[2])
   const [user, setUser] = useContext(AuthenticationContext)
 
-  const socket = io("ws://localhost:3333")
+  const { socket } = useWebsocket()
+
+  function JoinSuccess (data: JoinSuccessfulEvent) {
+    console.log(data)
+    const question = data.session.question
+    const userReponses = data.session.reponses.filter((item) => item.user_id === user.id)
+    const reponse = question?.reponses.find((item) => {
+      let value
+      userReponses.forEach((a) => {
+        if (a.question_id === question.id) {
+          if (item.body === a.body) value = item
+        }
+      })
+      return value
+    })
+
+    console.log(room, data.session)
+
+    setRoom({
+      ...room,
+      session: data.session,
+      waiting: !!reponse,
+    })
+  }
+
 
   useEffect(() => {
     if (code && user) {
-      socket.emit('session_connexion', {
-        user,
-        code: code
-      })
+      console.log("test")
 
-      socket.on('error', async (data) => {
-        if (data.code === code) {
-          router('/')
-        }
-      })
 
-      socket.on('join_success', async (data: JoinSuccessfulEvent) => {
-        const question = data.session.question
-        const userReponses = data.session.reponses.filter((item) => item.user_id === user.id)
-        const reponse = question.reponses.find((item) => {
-          let value
-          userReponses.forEach((a) => {
-            if (a.question_id === question.id) {
-              if (item.body === a.body) value = item
-            }
-          })
-          return value
-        })
-        setRoom({
-          ...room,
-          session: data.session,
-          wainting: !!reponse
-        })
 
-      })
     }
-  }, [code, user])
 
-  socket.on('session_deleted', () => {
-    router('/')
-  })
+  }, [])
 
-  socket.on('start_session', async (data: StartEvent) => {
+
+
+  function StartSession (data) {
+
     if (data.session.code === code) {
+      console.log(data)
       setRoom({
         ...room,
         session: data.session,
-        question: data.question
       })
     }
-  })
+  }
+
+  function StopSession () {
+    router('/')
+  }
+
+  socket.on('StopSession', StopSession)
+  socket.on('StartSession', StartSession)
+  socket.on('JoinSuccessful', JoinSuccess)
 
   useEffect(() => {
-    console.log(room)
-  }, [room])
+    if (user) {
+      socket.emit('UserJoinEvent', {
+        user,
+        code: code
+      })
+    }
+
+  }, [])
+  /*useEffect(() => {
+
+
+    return () => {
+      socket.off('StopSession', StopSession)
+      socket.off('StartSession', StartSession)
+      socket.off('JoinSuccessful', JoinSuccess)
+    }
+  }, [])*/
+
+ useEffect(() => {
+   console.log(room)
+ }, [room])
 
   return (
     <RoomContext.Provider value={[room, setRoom]}>

@@ -14,23 +14,26 @@ export default function RightPart () {
 
   function nextQuestion () {
     let index = 0
-    room.session!.sequence.questions.forEach((item, key) => {
+    if (!room.session) return
+    room.session.sequence.questions.forEach((item, key) => {
       if (item.id === room.session.question.id) {
         index = key
       }
     })
+    console.log(room, index)
     if (index < room.session!.sequence.questions.length) {
-
-      setRoom({
-        ...room,
-        session: {
-          ...room.session,
-          question: room.session.sequence.questions[index+1]
-        }
-      })
+      if (room.session) {
+        setRoom({
+          ...room,
+          session: {
+            ...room.session,
+            question: room.session.sequence.questions[index+1]
+          }
+        })
+      }
     }
 
-    socket.emit('new_question', {
+    socket.emit('QuestionUpdate', {
       session: room.session,
       question: room.session!.sequence.questions[index+1]
     })
@@ -41,8 +44,8 @@ export default function RightPart () {
   return (
     <>
       { room.session && room.session.question &&
-        <div className="col-span-8 h-full p-4">
-          <div className="flex flex-col">
+        <div className="col-span-8 h-full p-4 overflow-y-scroll">
+          <div className="flex flex-col overflow-y-scroll">
             <div>
               <span>{room.session.question.label}</span>
               <span>{room.session!.sequence.questions.findIndex((item) => item.id === room.session.question.id)}</span>

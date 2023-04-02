@@ -3,10 +3,11 @@ import RoomContext from "../../../../../contexts/RoomContext";
 import {io} from "socket.io-client";
 import {classNames} from "../../../../../utils/helper";
 import {LockClosedIcon, LockOpenIcon} from "@heroicons/react/24/outline";
+import useWebsocket from "../../../../../hooks/use-websocket";
 
 export default function LockButton () {
   const [room, setRoom] = useContext(RoomContext)
-  const socket = io("ws://localhost:3333")
+  const { socket } = useWebsocket()
 
   function handleLock () {
     setRoom({
@@ -14,7 +15,7 @@ export default function LockButton () {
       locked: !room.locked
     })
 
-    socket.emit('lock_answer', {
+    socket.emit('LockAnswer', {
       locked: !room.locked,
       session: room.session
     })

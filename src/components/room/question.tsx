@@ -25,18 +25,14 @@ export default function Question () {
   const socket = io('ws://localhost:3333')
 
   function submitAnswer () {
-    console.log(value)
-    socket.emit('send_answer', {
+    console.log(room)
+    socket.emit('NewAnswer', {
       user: user,
       question: room.session.question,
       reponse: room.session.question.type === 'input' ? value : selected,
       session: room.session
     })
   }
-
-  useEffect(() => {
-    console.log(selected)
-  }, [selected])
 
   useEffect(() => {
     if (room.session && room.session.question && room.session.reponses) {
@@ -50,13 +46,6 @@ export default function Question () {
           }
         })
         return value
-        /*for (let i = 0; i < usersReponses.length ; i++) {
-          console.log("user réponse:", usersReponses[i])
-          if (usersReponses[i].question_id === question.id) {
-            console.log("test in boucle")
-            if (item.body === usersReponses[i].body) return item
-          }
-        }*/
       })
 
       if (reponse) {
@@ -67,41 +56,40 @@ export default function Question () {
 
   }, [room])
 
-  socket.on('response_of_answer_sending', (data) => {
-    console.log(data)
+  function responseOfAnswerSending (data) {
     setRoom({
       ...room,
       session: data.session,
-      wainting: data.wainting
+      waiting: data.waiting
     })
-  })
+  }
 
-  socket.on('new_question', (data: NewQuestion) => {
+  function questionUpdate (data: NewQuestion) {
     if (room.session && room.session.id === data.session.id) {
+      console.log(data, room.session)
       setRoom({
         ...room,
         locked: false,
-        wainting: false,
+        waiting: false,
         session: {
           ...room.session,
-          question: data.question,
+          question: data.session.question,
         },
         reponses: []
       })
     }
-  })
+  }
 
-  socket.on('lock_answer', (data: LockEvent) => {
+  function lockAnswer (data: LockEvent) {
     if (room.session && data.session.id === room.session.id) {
       setRoom({
         ...room,
         locked: data.locked
       })
     }
-  })
+  }
 
-  socket.on('show_answer', (data) => {
-    console.log(data.session.id, room.session.id)
+  function showAnswer (data) {
     if (data.session.id === room.session.id) {
       console.log(data)
       console.log(room)
@@ -110,10 +98,36 @@ export default function Question () {
         reponses: data.reponses
       })
     }
-  })
+  }
+
+  socket.on('QuestionUpdate', questionUpdate)
+  socket.on('LockAnswer', lockAnswer)
+  socket.on('ShowAnswer', showAnswer)
+  socket.on('ResponseOfAnswerSending', responseOfAnswerSending)
+
+  /*useEffect(() => {
+
+
+
+    return () => {
+
+      socket.off('QuestionUpdate', questionUpdate)
+      socket.off('LockAnswer', lockAnswer)
+      socket.off('ShowAnswer', showAnswer)
+    }
+  }, [])
 
   useEffect(() => {
-    if (room.wainting) {
+
+    return () => {
+      socket.off('ResponseOfAnswerSending', responseOfAnswerSending)
+    }
+  }, [selected, value])*/
+
+
+
+  useEffect(() => {
+    if (room.waiting) {
       setDisabled(true)
       return
     }
@@ -125,7 +139,7 @@ export default function Question () {
       if (selected) setDisabled(false)
       else setDisabled(true)
     }
-  }, [value, room.wainting, selected])
+  }, [value, room.waiting, selected])
 
 
   return (
@@ -143,10 +157,10 @@ export default function Question () {
                 <span></span>
                 <span className="">Heads up, voting is closed</span>
               </div>
-              : room.wainting &&
+              : room.waiting &&
               <div>
                 <span></span>
-                <span className="">Wainting for the next clap</span>
+                <span className="">Waiting for the next clap</span>
               </div>
             }
           </div>
@@ -192,7 +206,7 @@ export default function Question () {
                         <div className="space-y-4">
                           {room.session!.question!.reponses.map((reponse, key) => (
                             <RadioGroup.Option
-                              disabled={room.wainting}
+                              disabled={room.waiting}
                               key={key}
                               value={reponse}
                               className={({checked, active}) =>

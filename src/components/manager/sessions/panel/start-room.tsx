@@ -1,26 +1,37 @@
 import RoomContext from "../../../../contexts/RoomContext";
 import {io} from "socket.io-client";
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import SessionContext from "../../../../contexts/SessionContext";
+import useWebsocket from "../../../../hooks/use-websocket";
 
 export default function StartRoom () {
-  const socket = io('ws://localhost:3333')
   const [session, setSession] = useContext(SessionContext)
   const [room, setRoom] = useContext(RoomContext)
+  const { socket } = useWebsocket()
 
   function handleClick () {
-    socket.emit('start_session', {
+    socket.emit('StartSession', {
       session
     })
   }
 
-  socket.on('start_session', (data) => {
+  function startSession (data) {
+    console.log(data)
     setRoom({
       ...room,
-      question: data.question,
       session: data.session
     })
-  })
+  }
+
+  useEffect(() => {
+    socket.on('StartSession', startSession)
+
+    return () => {
+      socket.off('StartSession', startSession)
+    }
+  }, [])
+
+
 
   return (
     <RoomContext.Consumer>
