@@ -20,8 +20,10 @@ export default function Modal ({ toggle }) {
     //const data = combinaison(examen.nbQuestions, examen.totalQuestions)
     if (examen.options.length) {
       const data = new Examen(examen.nbQuestions, examen.nbSujets, examen.options)
-      const combinaison: Interval[] = data.getCombinaison()
+      const combinaisonEtiquettes: Interval[] = data.getCombinaison()
       const total = data.numberQuestionsUnique()
+      const combinaisonTotal = combinaison(examen.nbQuestions, total)
+
       if (total) {
         if (total !== examen.totalQuestions) {
           setExamen({
@@ -30,17 +32,25 @@ export default function Modal ({ toggle }) {
           })
         }
       }
-      if (combinaison) {
-        if (combinaison.length !== examen.combinaison) {
-          setExamen({
-            ...examen,
-            combinaison: combinaison.length
-          })
+      if (combinaisonEtiquettes) {
+        if (combinaisonEtiquettes.length > combinaisonTotal) {
+          if (combinaisonTotal !== examen.combinaison) {
+            setExamen({
+              ...examen,
+              combinaison: combinaisonTotal
+            })
+          }
+        } else {
+          if (combinaisonEtiquettes.length !== examen.combinaison) {
+            setExamen({
+              ...examen,
+              combinaison: combinaisonEtiquettes.length
+            })
+          }
         }
       }
     }
 
-    console.log("SUJET",examen.sujets)
 
   }, [examen])
 
