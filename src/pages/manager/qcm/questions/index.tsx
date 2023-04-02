@@ -206,11 +206,15 @@ function Question ({ question }: any) {
 							<span className="text-sm">Type de question</span>
 							<div className="pt-2">
 								{
-									question.type === 'input' && <span className="bg-gray-200 px-2 py-1 rounded-md">Libre</span>
+									question.type === 'input' && <span className="bg-gray-200 px-2 py-1 rounded-md">ouverte</span>
 								}
 
 								{
 									question.type === 'checkbox' && <span className="bg-gray-200 px-2 py-1 rounded-md">QCM</span>
+								}
+
+								{
+									question.type === 'libre' && <span className="bg-gray-200 px-2 py-1 rounded-md">libre</span>
 								}
 
 							</div>
