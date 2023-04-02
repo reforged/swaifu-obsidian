@@ -26,10 +26,13 @@ import StatPage from "./components/manager/sessions/stats/StatPage";
 import Register from "./pages/auth/register";
 import ShowSession from "./pages/manager/qcm/sessions/show";
 import HomeExamen from "./pages/manager/qcm/examens";
+import useWebsocket from "./hooks/use-websocket";
 
 
 function App() {
   const [user, setUser] = useState<IUser | null>(null)
+  const { socket } = useWebsocket()
+  const [isConnected, setIsConnected] = useState(socket.connected)
   const [etiquette, setEtiquette] = useState<IEtiquette | null>(null)
   const [navigation, setNavigation] = useState<NavigationContract[]>([
     { label: 'Home', href: '/manager/home', icon: HomeIcon },
@@ -59,6 +62,25 @@ function App() {
       ]
     },
   ])
+
+  useEffect(() => {
+    function onConnect() {
+      setIsConnected(true);
+    }
+
+    function onDisconnect() {
+      setIsConnected(false);
+    }
+
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+
+    return () => {
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
+    };
+  }, []);
+
 
   const routes = [
     { uid: 'home', href: '/manager/home', component: <Home />},

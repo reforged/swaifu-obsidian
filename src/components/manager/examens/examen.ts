@@ -80,9 +80,13 @@ export default class Examen {
     this.options.forEach((option, index) => {
       for (let i = 0; i < tab[index]; i++) {
         const data = option.etiquette.questions.filter((question) => !li.includes(question.id))
-        const value = data[randomInt(data.length)].id
+        const key = randomInt(data.length)
+        if (data.length) {
+          const value = data[key].id
 
-        li.push(value)
+          li.push(value)
+        }
+
       }
     })
     return li
@@ -104,12 +108,13 @@ export default class Examen {
 
       const random = randomInt(tab.length)
       const sujet = this.generateSujet(tab[random])
-      if (!this.isPresent(sujet)) {
+      if (!this.isPresent(sujet) && sujet.length === this.nbQuestions) {
         this.sujets.push(sujet)
       }
       tab.splice(random, 1)
 
     }
+    console.log(this.sujets)
     return this.sujets
   }
 }
