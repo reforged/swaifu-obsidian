@@ -20,7 +20,7 @@ export default function RightPart () {
         index = key
       }
     })
-    console.log(room, index)
+
     if (index < room.session!.sequence.questions.length) {
       if (room.session) {
         setRoom({
@@ -38,8 +38,6 @@ export default function RightPart () {
       question: room.session!.sequence.questions[index+1]
     })
   }
-
-
 
   return (
     <>

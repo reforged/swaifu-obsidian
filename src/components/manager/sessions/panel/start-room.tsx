@@ -16,7 +16,6 @@ export default function StartRoom () {
   }
 
   function startSession (data) {
-    console.log(data)
     setRoom({
       ...room,
       session: data.session
@@ -45,7 +44,7 @@ export default function StartRoom () {
             >
               <span>Commencer la session</span>
             </button>
-            : <div className="bg-gray-100 rounded-md w-full h-full ">
+            : <div className="bg-gray-100 rounded-md w-full h-full flex flex-col gap-2">
               <span className="text-gray-900 text-sm">Status de la session</span>
               <span className="text-gray-500">En cours</span>
             </div>

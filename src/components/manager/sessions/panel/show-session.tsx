@@ -19,7 +19,6 @@ export default function ShowSession ({ reference, toggle }) {
   const { socket } = useWebsocket()
 
   function newUser (data) {
-    console.log(data)
     if (!room.session) return
     if (room.session.id === data.session.id) {
       setRoom({
@@ -30,7 +29,6 @@ export default function ShowSession ({ reference, toggle }) {
   }
 
   function newAnswer (data: NewAnswerEvent) {
-    console.log(data)
     if (!room.session) return
     if (room.session.id === data.session.id) {
       setRoom({
