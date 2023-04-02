@@ -5,5 +5,5 @@ export type IRoom = {
   question?: IQuestion
   reponses?: IReponse[]
   locked: boolean
-  wainting: boolean
+  waiting: boolean
 }

@@ -30,5 +30,6 @@ export type ShowAnswerEvent = {
 export type JoinSuccessfulEvent = {
   message: string,
   session: ISession
+  locked: boolean
 }
 export type ShowStats = {}

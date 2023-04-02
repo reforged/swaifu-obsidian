@@ -114,7 +114,6 @@ export default class Examen {
       tab.splice(random, 1)
 
     }
-    console.log(this.sujets)
     return this.sujets
   }
 }
