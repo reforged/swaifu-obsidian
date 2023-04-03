@@ -1,6 +1,6 @@
 import {io} from "socket.io-client";
 
-const baseUrl: string = 'wss://api.reforged.fr'
+const baseUrl: string = 'ws://localhost:3333'
 
 export function useWebsocket () {
   const socket = io(baseUrl, {

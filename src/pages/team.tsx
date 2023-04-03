@@ -3,8 +3,8 @@ import React, {useState} from "react";
 
 const stats = [
   { label: 'Plus de 30.000 lignes de code on était écrite pour ce projet', value: '30k lignes' },
-  { label: 'Assets under holding', value: '$119 trillion' },
-  { label: 'New users annually', value: '46,000' },
+  { label: 'Vous aimerez acquérir ce magnifique site de question ?', value: "$9k c'est kdo" },
+  { label: 'Nous comptons plus de 4.500 utilisateurs actifs avec plus de deux cents professeur inscrits !!', value: 'Une grande communauté' },
 ]
 
 const footerNavigation = {
@@ -44,7 +44,7 @@ const team = [
       'https://avatars.githubusercontent.com/u/45915005?s=96&v=4',
   },
   {
-    name: 'Alfonsi Loic',
+    name: 'Alfonsi Loïc',
     role: 'Front-End Developer',
     imageUrl:
       'https://avatars.githubusercontent.com/u/97971973?s=120&v=4',
@@ -220,7 +220,7 @@ function ContentSection () {
                 href="https://github.com/NathaelB" target="_blank" className="text-indigo-500">Nathaël Bonnal</a>.
               </p>
               <p className="mt-10">
-                A travers ce projet, <span className="text-indigo-500">Loic Alfonsi</span> et <span className="text-indigo-500">Guilbert-Lode Titouan</span> ont pu
+                A travers ce projet, <span className="text-indigo-500">Loïc Alfonsi</span> et <span className="text-indigo-500">Guibert-Lode Titouan</span> ont pu
                 découvrir davantage le domaine du web et plus particulièrement du développement front-end et développement back-end. Chacun ont contribués sur leurs
                 tâches respectifs tout en apprenant  avec le lead de chaque équipe.
               </p>
@@ -263,13 +263,16 @@ function TeamSection () {
           </li>
         ))}
       </ul>
+      <div className="w-4/5 lg:w-3/5 mx-auto mt-8">
+        <img className="rounded-md" src="https://media.discordapp.net/attachments/1052152529682710558/1092376669144236072/IMG_1147.png?width=1444&height=1424" alt=""/>
+      </div>
     </div>
   )
 }
 
 function Footer () {
   return (
-    <footer className="mx-auto mt-40 max-w-7xl overflow-hidden px-6 pb-20 sm:mt-64 sm:pb-24 lg:px-8">
+    <footer className="mx-auto mt-20 max-w-7xl overflow-hidden px-6 pb-20 sm:pb-24 lg:px-8">
       <nav className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12" aria-label="Footer">
         {footerNavigation.main.map((item) => (
           <div key={item.name} className="pb-6">

@@ -75,7 +75,7 @@ export default function Index () {
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8">
            <img
                 className="h-11 w-11 object-cover rounded-md"
-                src="../../public/favicon.ico"
+                src="https://cdn.discordapp.com/attachments/1092374549133275186/1092374584709369886/favicon.png"
                 alt="Your Company"
               />
 

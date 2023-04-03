@@ -11,6 +11,7 @@ import TotalQuestion from "./total-question";
 import TotalSujets from "./total-sujets";
 import {Interval} from "./types";
 import SujetStories from "./sujets/sujet-stories";
+import ToggleAnonymat from "./buttons/toggle-anonymat";
 
 export default function Modal ({ toggle }) {
   const [examen, setExamen] = useContext(ExamenContext)
@@ -93,13 +94,17 @@ export default function Modal ({ toggle }) {
           </button>
         </div>
       </div>
-      <div className="p-8 bg-gray-50 h-full">
+      <div className="p-8 bg-gray-50 h-full overflow-y-scroll">
         {/* HEADER */}
         <div className="flex items-center justify-between pb-8">
           <div>
             <input
               type="text"
-
+              onChange={(e) => setExamen({
+                ...examen,
+                label: e.currentTarget.value
+              })}
+              value={examen.label}
               placeholder={"Titre de l'examen"}
               maxLength={15}
               className={classNames('border-none bg-transparent text-2xl font-bold !ring-0 !outline-0 ')}
@@ -113,6 +118,16 @@ export default function Modal ({ toggle }) {
               <span className="flex items-center gap-2">
                 <span className="">Nombres de sujet possibles:</span>
                 <span className='text-gray-900'>{examen.combinaison}</span>
+              </span>
+            </div>
+
+            <div className="text-gray-400 flex items-center gap-2 px-3 py-1 rounded-full border">
+              <span>
+                <CircleStackIcon className="w-4" />
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="">Sujets anonymes:</span>
+                <span className='text-gray-900'>{examen.anonymat ? "oui" : "non"}</span>
               </span>
             </div>
             <div className="text-gray-400 flex items-center gap-2 px-3 py-1 rounded-full border">
@@ -154,7 +169,11 @@ export default function Modal ({ toggle }) {
                 }
               </div>
 
-              <div className="flex justify-end mt-4">
+              <div className="flex justify-between items-center mt-4">
+                <div className="flex items-center gap-2">
+                  <ToggleAnonymat />
+                  <span className="text-sm text-gray-500">Sujets anonymes</span>
+                </div>
                 <div className="">
                   <button
                     onClick={createExamen}
