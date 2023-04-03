@@ -154,7 +154,7 @@ function NotFound () {
                   <span className="sr-only">Your Company</span>
                   <img
                     className="h-16 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                    src="https://cdn.discordapp.com/attachments/1092374549133275186/1092374584709369886/favicon.png"
                     alt=""
                   />
                 </a>

@@ -18,7 +18,7 @@ export default function DeleteSession () {
       session: room.session,
       user: user
     })
-    router('/manager/qcm')
+    router('/manager/qcm/home')
   }
 
   return (

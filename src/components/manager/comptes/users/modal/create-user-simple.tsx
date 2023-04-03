@@ -131,7 +131,7 @@ export default function CreateSimpleUser({ toggle }){
             <span className="block truncate text-sm font-medium leading-6 text-gray-900">Roles</span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"></span>
           </div>
-          {roles.length &&
+          {roles.length ?
             <>
               {roles.map((role : IRole, index) => (
                 <div className="relative">
@@ -145,6 +145,7 @@ export default function CreateSimpleUser({ toggle }){
                 </div>
               ))}
             </>
+            : <></>
           }
           <AddRole roles={roles}  setRoles={setRoles}/>
         </div>
@@ -153,7 +154,7 @@ export default function CreateSimpleUser({ toggle }){
             <span className="block truncate text-sm font-medium leading-6 text-gray-900">Permissions</span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"></span>
           </div>
-          {permissions.length &&
+          {permissions.length ?
             <>
               {permissions.map((permission : IPermission, index) => (
                 <div className="relative">
@@ -168,6 +169,7 @@ export default function CreateSimpleUser({ toggle }){
                 </div>
               ))}
             </>
+            : <></>
           }
           <AddPermission permissions={permissions} setPermissions={setPermissions} />
         </div>

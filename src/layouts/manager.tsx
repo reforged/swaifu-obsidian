@@ -16,7 +16,7 @@ type Props = {
 
   layout: {
     label: string
-    location: string[]
+    location?: string[]
     navigation?: any[]
   }
 }
@@ -69,7 +69,10 @@ export default function Manager ({ children, layout }: Props) {
 
             <div className="lg:p-12">
               <div className="p-6 lg:p-0">
-                <Breadcrumbs pages={layout.location}/>
+                { layout.location &&
+                  <Breadcrumbs pages={layout.location}/>
+                }
+
                 <div className="py-8 flex items-center justify-between">
                   <span className="font-title text-3xl font-bold">{layout.label}</span>
                 </div>
@@ -114,7 +117,7 @@ function Navigation ({ select }: { select: NavigationContract}) {
 
 function Breadcrumbs ({ pages }) {
   return (
-    <nav className="flex" aria-label="Breadcrumb">
+    <nav className="flex truncate" aria-label="Breadcrumb">
       <ol role='list' className="flex items-center space-x-4">
         <li>
           <div>
@@ -131,7 +134,7 @@ function Breadcrumbs ({ pages }) {
               <ChevronRightIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
               <Link
                 to={page.href}
-                className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                className="ml-4 text-sm font-medium truncate text-gray-500 hover:text-gray-700"
                 aria-current={page.current ? 'page' : undefined}
               >
                 {page.name}
