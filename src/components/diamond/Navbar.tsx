@@ -1,7 +1,13 @@
 import React, {Fragment, useContext, useEffect, useState} from 'react'
 import { Link } from 'react-router-dom'
 import { Disclosure, Menu, Transition, Dialog } from '@headlessui/react'
-import {Bars3Icon, BellIcon, ChevronDownIcon, XMarkIcon} from '@heroicons/react/24/outline'
+import {
+  Bars3CenterLeftIcon,
+  Bars3Icon,
+  BellIcon,
+  ChevronDownIcon,
+  XMarkIcon
+} from '@heroicons/react/24/outline'
 import { classNames } from '../../utils/helper'
 import DarkMode from '../DarkMode'
 import AuthenticationContext from '../../contexts/AuthenticationContext'
@@ -14,66 +20,74 @@ type Props = {
   setOpen: (a: boolean) => void
 }
 
+const navigation = [
+  {label: 'Accueil', href: '/'},
+  {label: "L'Équipe", href: '/team'},
+]
 export default function Navbar ({ }: Props) {
+  const [open, setOpen] = useState<boolean>(false)
   return (
-    <Disclosure as="nav" className="">
-      {({ open }) => (
-        <>
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex h-16 justify-between">
-              <div className="flex">
-                <div className="flex flex-shrink-0 items-center">
-                  <img
-                    className="block h-8 w-8 lg:hidden object-cover rounded-md"
-                    src="https://cdn.discordapp.com/attachments/1052152529682710558/1064960787426324531/dzadazdazda.png"
-                    alt="Your Company"
-                  />
-                  <img
-                    className="hidden h-8 w-8 lg:block object-cover rounded-md"
-                    src="../../public/favicon.ico"
-                    alt="Your Company"
-                  />
+    <>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 justify-between">
+          <div className="flex">
+            <Link to={"/"} className="flex flex-shrink-0 items-center">
+              <div className="flex flex-shrink-0 items-center">
+                <img
+                  className="block h-8 w-8 lg:hidden object-cover rounded-md"
+                  src="../../public/favicon.ico"
+                  alt="Your Company"
+                />
+                <img
+                  className="hidden h-8 w-8 lg:block object-cover rounded-md"
+                  src="../../public/favicon.ico"
+                  alt="Your Company"
+                />
 
-                </div>
-                <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                  <Link
-                    to={"/"}
-                    className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900"
-                  >
-                    Accueil
-                  </Link>
-                </div>
               </div>
-              <div className="hidden sm:ml-6 sm:flex sm:items-center gap-8">
-                <AuthenticationContext.Consumer>
-                  {([ user ]) => (
-                    <div>
-                      { user ?
-                        <div>
-                          <Profil />
-                        </div>
-                        : <Link to={'/authentication/login'} className="px-3 py-2 border rounded-md bg-gray-800 border-gray-700 text-gray-300">Login</Link>
-                      }
-                    </div>
-                  )}
-                </AuthenticationContext.Consumer>
+            </Link>
 
-                <DarkMode />
-              </div>
-              <div className="-mr-2 flex items-center sm:hidden">
-                {/* Mobile menu button */}
-                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                  <span className="sr-only">Open main menu</span>
-                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                </Disclosure.Button>
-              </div>
+            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+              { navigation.map((item, index) => (
+                <Link
+                  key={index}
+                  to={item.href}
+                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900"
+                >
+                  {item.label}
+                </Link>
+              ))}
+
             </div>
           </div>
+          <div className="hidden sm:ml-6 sm:flex sm:items-center gap-8">
+            <AuthenticationContext.Consumer>
+              {([ user ]) => (
+                <div>
+                  { user ?
+                    <div>
+                      <Profil />
+                    </div>
+                    : <Link to={'/authentication/login'} className="px-3 py-2 border rounded-md bg-gray-800 border-gray-700 text-gray-300">Login</Link>
+                  }
+                </div>
+              )}
+            </AuthenticationContext.Consumer>
+          </div>
+          <button
+            type="button"
+            className="border-r border-gray-200 px-4 text-gray-500  lg:hidden"
+            onClick={() => setOpen(true)}
+          >
+            <span className="sr-only">Open sidebar</span>
+            <Bars3CenterLeftIcon className="h-6 w-6" aria-hidden="true" />
+          </button>
+        </div>
+      </div>
 
-          <MobileNavbar open={open} />
-        </>
-      )}
-    </Disclosure>
+      <MobileNavbar open={open} setOpen={setOpen}/>
+    </>
+
   )
 }
 
@@ -90,7 +104,6 @@ const Profil = () => {
   })
 
   function handleClick () {
-    console.log("looggg")
     disconnectUser()
   }
 
@@ -105,10 +118,10 @@ const Profil = () => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="inline-flex w-full justify-center rounded-md bg-gray-800 border border-gray-700  px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-          {user.email}
+        <Menu.Button className="inline-flex w-full justify-center rounded-md bg-gray-100 border border-gray-200  px-4 py-2 text-sm font-medium text-gray-900 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+          {user.firstname} {user.lastname}
           <ChevronDownIcon
-            className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
+            className="ml-2 -mr-1 h-5 w-5"
             aria-hidden="true"
           />
         </Menu.Button>
@@ -125,7 +138,7 @@ const Profil = () => {
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="px-4 py-3">
             <p className="text-sm">Connecté avec</p>
-            <p className="truncate text-sm font-medium text-gray-900">{ user.email }</p>
+            <p className="truncate text-sm font-medium text-gray-900">{ user.email ? user.email : user.numero }</p>
           </div>
           <div className="py-1">
             <Menu.Item>
@@ -137,21 +150,8 @@ const Profil = () => {
                     'block px-4 py-2 text-sm'
                   )}
                 >
-                  Account settings
+                  Mon compte
                 </Link>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  Support
-                </a>
               )}
             </Menu.Item>
               <Menu.Item>
@@ -165,7 +165,7 @@ const Profil = () => {
                           'block px-4 py-2 text-sm'
                         )}
                       >
-                        Manager
+                        Panel Administrateur
                       </Link>
                     }
                   </div>
@@ -185,7 +185,7 @@ const Profil = () => {
                       'block w-full px-4 py-2 text-left text-sm'
                     )}
                   >
-                    Sign out
+                    Se Déconnecter
                   </button>
                 )}
               </Menu.Item>
@@ -198,69 +198,92 @@ const Profil = () => {
 
 type MobileProps = {
   open: boolean
+  setOpen: any
 }
-function MobileNavbar ({ open }: MobileProps) {
+function MobileNavbar ({ open, setOpen }: MobileProps) {
   return (
-    <Fragment>
-      <Transition
-        as={Fragment}
-        show={open}
-        enter="transform transition duration-[400ms]"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="transform duration-200 transition ease-in-out"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-      >
-        <div className="fixed inset-0 bg-black bg-opacity-50" />
-      </Transition>
+    <Transition.Root show={open} as={Fragment}>
+      <Dialog as="div" className="relative s-40 lg:hidden" onClose={setOpen}>
+        <Transition.Child
+          as={Fragment}
+          enter="transition-opacity ease-linear duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity ease-linear duration-300"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-75" />
+        </Transition.Child>
 
-      <Transition.Root show={open} as={Fragment}>
-        <Dialog as={Fragment} onClose={() => !open}>
-          <div className="relative z-10">
-            <div className="fixed inset-0" />
-            <div className="fixed inset-0 overflow-hidden">
-              <div className="absolute inset-0 overflow-hidden">
-                <div className="pointer-events-none fixed inset-y-0 left-0 flex max-w-full pr-10">
-                  <Transition.Child
-                    as={Fragment}
-                    enter="transform transition ease-in-out duration-500 sm:duration-700"
-                    enterFrom="-translate-x-full"
-                    enterTo="translate-x-0"
-                    leave="transform transition ease-in-out duration-500 sm:duration-700"
-                    leaveFrom="translate-x-0"
-                    leaveTo="-translate-x-full"
+        <div className="fixed inset-0 z-40 flex">
+          <Transition.Child
+            as={Fragment}
+            enter="transition ease-in-out duration-300 transform"
+            enterFrom="-translate-x-full"
+            enterTo="translate-x-0"
+            leave="transition ease-in-out duration-300 transform"
+            leaveFrom="translate-x-0"
+            leaveTo="-translate-x-full"
+          >
+            <Dialog.Panel className="relative flex w-full max-w-sm flex-1 flex-col bg-white pb-4 pt-5">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-in-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in-out duration-300"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <div className="absolute right-0 top-0 -mr-12 pt-2">
+                  <button
+                    type="button"
+                    className="ml-1 flex h-10 w-10 items-center justify-center rounded-full"
+                    onClick={() => setOpen(false)}
                   >
-                    <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                      <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
-                        <div className="relative flex-1">
-                          <div className="flex justify-between w-full">
-                            <div>
-                              Lorem
-                            </div>
-                            <div className="flex items-start justify-between pr-5">
-                              <div className="ml-3 flex h-7 items-center">
-                                <Disclosure.Button
-                                  type="button"
-                                  className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                >
-                                  <span className="sr-only">Close panel</span>
-                                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                                </Disclosure.Button>
-                              </div>
-                            </div>
-                          </div>
+                    <span className="sr-only">Close sidebar</span>
+                    <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                  </button>
+                </div>
+              </Transition.Child>
+              <div className="flex flex-shrink-0 items-center px-4 justify-between">
+                <img
+                  className="h-8 w-auto"
+                  src="../../public/favicon.ico"
+                  alt="Your Company"
+                />
+                <AuthenticationContext.Consumer>
+                  {([ user ]) => (
+                    <div>
+                      { user ?
+                        <div>
+                          <Profil />
                         </div>
-                      </div>
-                    </Dialog.Panel>
-                  </Transition.Child>
+                        : <Link to={'/authentication/login'} className="px-3 py-2 border rounded-md bg-gray-800 border-gray-700 text-gray-300">Login</Link>
+                      }
+                    </div>
+                  )}
+                </AuthenticationContext.Consumer>
+              </div>
+
+              <div className="mt-5 mx-3 h-0 flex-1 overflow-y-auto">
+                <div className="pt-4 flex flex-col gap-2 border-t mx-auto">
+                  { navigation.map((item, index) => (
+                    <Link
+                      key={index}
+                      to={item.href}
+                      className="inline-flex items-center px-1 pt-1 text-lg font-medium text-gray-900"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
                 </div>
               </div>
-            </div>
-          </div>
-        </Dialog>
-      </Transition.Root>
-
-    </Fragment>
+            </Dialog.Panel>
+          </Transition.Child>
+        </div>
+      </Dialog>
+    </Transition.Root>
   )
 }
