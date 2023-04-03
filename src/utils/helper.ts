@@ -15,7 +15,7 @@ export function ReactElement ({ tag, children, ...props }: ReactElementProps): J
 }
 
 export const http = axios.create({
-  baseURL: 'https://api.reforged.fr',
+  baseURL: 'http://localhost:3333',
   withCredentials: true,
 })
 

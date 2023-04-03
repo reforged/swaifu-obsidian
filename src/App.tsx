@@ -27,7 +27,9 @@ import ShowSession from "./pages/manager/qcm/sessions/show";
 import HomeExamen from "./pages/manager/qcm/examens";
 import useWebsocket from "./hooks/use-websocket";
 import TeamPage from "./pages/team";
-
+import {IExamen} from "./components/manager/examens/types";
+import ExamenContext from "./contexts/ExamenContext";
+import ShowExamen from "./pages/manager/qcm/examens/show";
 
 function App() {
   const [user, setUser] = useState<IUser | null>(null)
@@ -62,6 +64,17 @@ function App() {
       ]
     },
   ])
+  const [examen, setExamen] = useState<IExamen>({
+    label: '',
+    options: [],
+    nbQuestions: 0,
+    nbSujets: 0,
+    combinaison: 0,
+    totalQuestions: 0,
+    totalSujets: 0,
+    sujets: [],
+    anonymat: true
+  })
 
   useEffect(() => {
     function onConnect() {
@@ -91,6 +104,7 @@ function App() {
     { uid: 'qcm.sequences', href: '/manager/qcm/sequences', component: <HomeSequence />},
     { uid: 'qcm.sessions', href: '/manager/qcm/sessions', component: <HomeSessions />},
     { uid: 'qcm.examens', href: '/manager/qcm/examens', component: <HomeExamen />},
+    { uid: 'qcm.examen', href: '/manager/qcm/examen', component: <ShowExamen />},
     { uid: 'qcm.sessions', href: '/manager/qcm/session/*', component: <ShowSession />},
 
 
@@ -110,32 +124,35 @@ function App() {
     <div>
       <AuthenticationContext.Provider value={[user, setUser]}>
         <EtiquettesContext.Provider value={{ etiquette, setEtiquette}}>
-          <NavigationContext.Provider value={[navigation, setNavigation]}>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<Index />} />
-                <Route path={"/room/*"} element={<Room />} />
-              </Route>
-
-              <Route path={"/team"} element={<TeamPage />}/>
+          <ExamenContext.Provider value={[examen, setExamen]}>
 
 
-              <Route path="/profil" element={<Auth />}>
-                <Route index element={<ProfilHome />} />
-              </Route>
+            <NavigationContext.Provider value={[navigation, setNavigation]}>
+              <Routes>
+                <Route path="/" element={<Layout />}>
+                  <Route index element={<Index />} />
+                  <Route path={"/room/*"} element={<Room />} />
+                </Route>
 
-              <Route path={"/"}>
-                {routes.map((route) => (
-                  <Route
-                    key={route.uid}
-                    path={route.href}
-                    element={route.component}
-                  />
-                ))}
-              </Route>
-            </Routes>
-          </NavigationContext.Provider>
+                <Route path={"/team"} element={<TeamPage />}/>
 
+
+                <Route path="/profil" element={<Auth />}>
+                  <Route index element={<ProfilHome />} />
+                </Route>
+
+                <Route path={"/"}>
+                  {routes.map((route) => (
+                    <Route
+                      key={route.uid}
+                      path={route.href}
+                      element={route.component}
+                    />
+                  ))}
+                </Route>
+              </Routes>
+            </NavigationContext.Provider>
+          </ExamenContext.Provider>
         </EtiquettesContext.Provider>
       </AuthenticationContext.Provider>
     </div>

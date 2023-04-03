@@ -32,7 +32,7 @@ export default function Register () {
             <div>
               <Link to={"/"}>
                 <div className="w-10 h-10 flex items-center justify-center bg-purple-600 rounded-md">
-                  <img className="h-full w-full object-cover rounded-md" src="../../../public/favicon.ico" alt=""/>
+                  <img className="h-full w-full object-cover rounded-md" src="https://cdn.discordapp.com/attachments/1092374549133275186/1092374584709369886/favicon.png" alt=""/>
                 </div>
               </Link>
 

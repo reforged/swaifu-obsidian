@@ -9,6 +9,7 @@ export type IExamen = {
   totalSujets: number
   totalQuestions: number
   options: EtiquetteOptions[]
+  anonymat: boolean
   sujets: string[][]
 }
 
