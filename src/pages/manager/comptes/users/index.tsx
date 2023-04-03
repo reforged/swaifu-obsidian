@@ -24,6 +24,11 @@ const navigation: INavigation[] = [
   { label: 'Permissions', href: '/manager/comptes/permissions'}
 ]
 
+const pages = [
+  {name: "Comptes", href: '/manager/accounts/home', current: false},
+  {name: "Utilisateurs", href: '/manager/accounts/users', current: true},
+]
+
 export default function HomeUsers () {
   const { index, destroy } = useUsers()
   const { index: fetchRoles  } = useRoles()
@@ -74,7 +79,7 @@ export default function HomeUsers () {
     <Manager
       layout={{
         label: 'Gestion des comptes utilisateurs',
-        location: ['Gestion des comptes', 'Utilisateurs'],
+        location: pages,
         navigation: navigation
       }}
     >

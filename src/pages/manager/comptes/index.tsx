@@ -9,12 +9,16 @@ const pages = [
   { name: 'Utilisateurs', href: '/accounts/users', current: false},
 ]
 
+const navigation = [
+  {name: "Comptes", href: '/manager/accounts/home', current: true},
+]
+
 export default function HomeComptes () {
   return (
     <Manager
       layout={{
         label: 'Comptes',
-        location: [],
+        location: navigation,
         navigation: pages
       }}
     >

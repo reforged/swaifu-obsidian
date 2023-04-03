@@ -7,11 +7,12 @@ const pages = [
   { label: 'Questions', href: '/qcm/questions', current: false},
   { label: 'Etiquettes', href: '/qcm/etiquettes', current: false},
   { label: 'Séquences', href: '/qcm/sequences', current: false},
-  { label: 'Sessions', href: '/qcm/sessions', current: false}
+  { label: 'Sessions', href: '/qcm/sessions', current: false},
+  { label: 'Examens', href: '/qcm/examens', current: false},
 ]
 
 const navigation = [
-  {name: "QCM", href: '/manager/qcm', current: true},
+  {name: "QCM", href: '/manager/qcm/home', current: true},
 ]
 
 export default function HomeQCM () {

@@ -55,9 +55,9 @@ export default function Board<T> ({ name, options, children, action }: Props<T>)
 
   return (
     <BoardContext.Provider value={[board, setBoard]}>
-      <div className="w-full bg-[#F7F9FC] rounded-md border mt-8">
+      <div className="w-full bg-[#F7F9FC] lg:rounded-md border mt-8">
         <div className="flex items-center px-8 py-3 justify-between border-b">
-          <div className="flex w-full">
+          <div className="w-full hidden lg:flex">
             { action }
           </div>
           <div className="flex items-center gap-4 w-full">

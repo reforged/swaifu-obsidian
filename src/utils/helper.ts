@@ -15,7 +15,7 @@ export function ReactElement ({ tag, children, ...props }: ReactElementProps): J
 }
 
 export const http = axios.create({
-  baseURL: 'http://localhost:3333',
+  baseURL: 'https://api.reforged.fr',
   withCredentials: true,
 })
 
@@ -44,5 +44,24 @@ export function filteredData<T> (data: any[], keys: (keyof T)[], search: string)
       const value = keys.map((key) => item[key]).join(' ')
       return value.toLowerCase().indexOf(search.toLowerCase()) !== -1
     }
+  )
+}
+
+export function factorielle (n: number): number {
+  if (n <= 0) return 1
+  return n * factorielle(n-1)
+}
+
+export function combinaison (k: number, n: number): number {
+  return factorielle(n) / (factorielle(k) * factorielle(n-k))
+}
+
+export function randomInt (max: number) {
+  return Math.floor(Math.random() * max)
+}
+
+export function somme (li: number[]) {
+  return li.reduce(
+    (acc, current) => acc += current, 0
   )
 }

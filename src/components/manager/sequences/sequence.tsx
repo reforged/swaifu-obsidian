@@ -24,7 +24,7 @@ export default function Sequence ({ sequence }: Props) {
   }
 
   function handle () {
-    console.log(sequence)
+
   }
 
   return (

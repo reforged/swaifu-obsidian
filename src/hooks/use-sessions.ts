@@ -48,7 +48,7 @@ export default function useSessions () {
       return response.data
     }, {
       onSuccess: async (session: ISession) => {
-        console.log(session)
+
       }
     })
   }

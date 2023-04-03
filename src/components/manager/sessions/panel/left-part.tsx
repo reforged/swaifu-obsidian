@@ -8,7 +8,7 @@ export default function LeftPart () {
   const [data, setData] = useState()
 
   useEffect(() => {
-    if (room.session.reponses && room.session.reponses.length) {
+    if (room.session && room.session.question && room.session.reponses && room.session.reponses.length) {
       const reponses = room.session.reponses.filter((item) => item.question_id === room.session.question.id)
       const test = room.session.question.reponses.map((item) => {
         const li = reponses.map((reponse) => {
@@ -28,7 +28,6 @@ export default function LeftPart () {
               "rgb(101, 143, 241)",
             ],
             hoverOffset: 4,
-
           },
         ]
       })

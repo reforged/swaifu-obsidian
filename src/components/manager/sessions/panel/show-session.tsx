@@ -6,36 +6,51 @@ import RightPart from "./right-part";
 import {io} from "socket.io-client";
 import {IRoom} from "../../../../utils/room";
 import RoomContext from "../../../../contexts/RoomContext";
+import useWebsocket from "../../../../hooks/use-websocket";
+import {NewAnswerEvent} from "../types/events";
 
 export default function ShowSession ({ reference, toggle }) {
   const [session, setSession] = useContext(SessionContext)
   const [room, setRoom] = useState<IRoom>({
     session: session,
     locked: false,
-    wainting: false
+    waiting: false
   })
-  const socket = io('ws://localhost:3333')
+  const { socket } = useWebsocket()
 
-  socket.on('new_user', async (data) => {
-    setRoom({
-      ...room,
-      session: data.session
-    })
-  })
+  function newUser (data) {
+    if (!room.session) return
+    if (room.session.id === data.session.id) {
+      setRoom({
+        ...room,
+        session: data.session
+      })
+    }
+  }
+
+  function newAnswer (data: NewAnswerEvent) {
+    if (!room.session) return
+
+    if (room.session.id === data.session.id) {
+      setRoom({
+        ...room,
+        session: data.session
+      })
+    }
+  }
+
+
 
   useEffect(() => {
-    setRoom({
-      ...room,
-      session
-    })
-  }, [session])
+    socket.on('NewUser', newUser)
+    socket.on('NewAnswer', newAnswer)
+    return () => {
+      socket.off('NewUser', newUser)
+      socket.off('NewAnswer', newAnswer)
+    }
+  }, [])
 
-  socket.on('update_answers', (data) => {
-    setRoom({
-      ...room,
-      session: data.session
-    })
-  })
+
   function closeLive () {}
 
   return (

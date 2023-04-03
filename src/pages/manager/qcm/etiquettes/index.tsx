@@ -26,10 +26,11 @@ const pages = [
   { label: 'Etiquettes', href: '/manager/qcm/etiquettes', current: true},
   { label: 'Séquences', href: '/manager/qcm/sequences', current: false},
   { label: 'Sessions', href: '/manager/qcm/sessions', current: false},
+  { label: 'Examens', href: '/manager/qcm/examens', current: false},
 ]
 
 const navigation = [
-  {name: "QCM", href: '/manager/qcm', current: false},
+  {name: "QCM", href: '/manager/qcm/home', current: false},
   {name: "Étiquettes", href: '/manager/qcm/etiquettes', current: true},
 ]
 
@@ -49,11 +50,6 @@ export default function HomeEtiquette () {
     setEtiquette(item)
     toggle()
   }
-
-  useEffect(() => {
-    console.log(isLoading)
-  }, [isLoading])
-
 
   const options: Options<IEtiquette> = {
     label: 'Étiquette',
@@ -128,7 +124,7 @@ function GalerieEtiquettes ({ etiquettes, toggle, setIsVisible }: ViewProps) {
   const [etiquette, setEtiquette] = useContext(EtiquettesContext)
   const [board, setBoard] = useContext(BoardContext)
   return (
-    <div className="grid grid-cols-4 p-4 gap-4">
+    <div className="grid grid-cols-3 lg:grid-cols-4 p-4 gap-4">
       { filteredData<IEtiquette>(etiquettes, ['label'], board.search).map((etiquette) => (
         <button
           className="" key={etiquette.id}

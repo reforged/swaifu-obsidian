@@ -14,6 +14,7 @@ export type ISequence = {
   questions: IQuestion[]
 }
 
+
 export type IUser = {
   id?: string
   firstname: string
@@ -22,6 +23,7 @@ export type IUser = {
   email?: string
   permissions: IPermission[]
   roles: IRole[]
+  sessions: ISession[]
 }
 
 export type IReponse = {
@@ -52,6 +54,7 @@ export type IEtiquette = {
   id?: string
   label: string
   color: string
+  questions: IQuestion[]
 }
 
 export type IColor = {

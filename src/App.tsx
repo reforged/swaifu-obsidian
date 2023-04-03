@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Route, Routes} from 'react-router'
 import Home from './pages/manager'
 import Layout from './layouts/layout'
@@ -22,34 +22,39 @@ import HomeRoles from "./pages/manager/comptes/roles";
 import HomePermissions from "./pages/manager/comptes/permissions";
 import HomeSessions from "./pages/manager/qcm/sessions";
 import Room from "./pages/room";
-import StatPage from "./components/manager/sessions/stats/StatPage";
 import Register from "./pages/auth/register";
 import ShowSession from "./pages/manager/qcm/sessions/show";
+import HomeExamen from "./pages/manager/qcm/examens";
+import useWebsocket from "./hooks/use-websocket";
+import TeamPage from "./pages/team";
 
 
 function App() {
   const [user, setUser] = useState<IUser | null>(null)
+  const { socket } = useWebsocket()
+  const [isConnected, setIsConnected] = useState(socket.connected)
   const [etiquette, setEtiquette] = useState<IEtiquette | null>(null)
   const [navigation, setNavigation] = useState<NavigationContract[]>([
     { label: 'Home', href: '/manager/home', icon: HomeIcon },
     {
       label: 'QCM',
-      href: '/manager/qcm',
+      href: '/manager/qcm/home',
       icon: ListBulletIcon,
       children: [
-        { label: 'Home', href: '/manager/qcm', icon: FolderIcon },
+        { label: 'Home', href: '/manager/qcm/home', icon: FolderIcon },
         { label: 'Questions', href: '/manager/qcm/questions', icon: FolderIcon },
         { label: 'Etiquettes', href: '/manager/qcm/etiquettes', icon: FolderIcon },
         { label: 'Séquences', href: '/manager/qcm/sequences', icon: FolderIcon },
         { label: 'Sessions', href: '/manager/qcm/sessions', icon: FolderIcon },
+        { label: 'Examens', href: '/manager/qcm/examens', icon: FolderIcon },
       ]
     },
     {
       label: 'Accounts',
       icon: UserGroupIcon,
-      href: '/manager/accounts',
+      href: '/manager/accounts/home',
       children: [
-        { label: 'Home', href: '/manager/accounts', icon: FolderIcon },
+        { label: 'Home', href: '/manager/accounts/home', icon: FolderIcon },
         { label: 'Utilisateurs', href: '/manager/accounts/users', icon: FolderIcon },
         { label: 'Roles', href: '/manager/accounts/roles', icon: FolderIcon },
         { label: 'Permissions', href: '/manager/accounts/permissions', icon: FolderIcon }
@@ -58,17 +63,38 @@ function App() {
     },
   ])
 
+  useEffect(() => {
+    function onConnect() {
+      setIsConnected(true);
+    }
+
+    function onDisconnect() {
+      setIsConnected(false);
+    }
+
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+
+    return () => {
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
+    };
+  }, []);
+
+
   const routes = [
     { uid: 'home', href: '/manager/home', component: <Home />},
 
-    { uid: 'qcm', href: '/manager/qcm', component: <HomeQCM />},
+    { uid: 'qcm', href: '/manager/qcm/home', component: <HomeQCM />},
     { uid: 'qcm.etiquettes', href: '/manager/qcm/etiquettes', component: <HomeEtiquette />},
     { uid: 'qcm.questions', href: '/manager/qcm/questions', component: <HomeQuestion />},
     { uid: 'qcm.sequences', href: '/manager/qcm/sequences', component: <HomeSequence />},
     { uid: 'qcm.sessions', href: '/manager/qcm/sessions', component: <HomeSessions />},
+    { uid: 'qcm.examens', href: '/manager/qcm/examens', component: <HomeExamen />},
     { uid: 'qcm.sessions', href: '/manager/qcm/session/*', component: <ShowSession />},
 
-    { uid: 'comptes', href: '/manager/accounts', component: <HomeComptes />},
+
+    { uid: 'comptes', href: '/manager/accounts/home', component: <HomeComptes />},
     { uid: 'comptes.users.list', href: '/manager/accounts/users', component: <HomeUsers />},
     { uid: 'comptes.roles.list', href: '/manager/accounts/roles', component: <HomeRoles />},
     { uid: 'comptes.permissions.list', href: '/manager/accounts/permissions', component: <HomePermissions />},
@@ -77,8 +103,8 @@ function App() {
     { uid: 'register', href: '/authentication/register', component: <Register /> },
 
     { uid: '404', href: '*', component: <NotFound /> },
-    { uid: 'StatPage', href: '/StatPage', component: <StatPage /> },
   ]
+
 
   return (
     <div>
@@ -91,6 +117,7 @@ function App() {
                 <Route path={"/room/*"} element={<Room />} />
               </Route>
 
+              <Route path={"/team"} element={<TeamPage />}/>
 
 
               <Route path="/profil" element={<Auth />}>

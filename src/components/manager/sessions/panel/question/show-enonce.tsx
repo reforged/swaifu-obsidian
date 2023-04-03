@@ -30,7 +30,6 @@ export default function ShowEnonce ({ question }: Props) {
   }
 
   useEffect(() => {
-    console.log(question)
     setState(room.session.question)
   }, [room])
 

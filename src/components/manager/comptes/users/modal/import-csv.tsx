@@ -1,8 +1,9 @@
-import {Dispatch, useContext, useEffect, useRef, useState} from "react";
-import {CircleStackIcon, TrashIcon} from "@heroicons/react/24/outline";
+import React, {Dispatch, useEffect, useRef, useState} from "react";
+import {CircleStackIcon, PlusIcon, TrashIcon} from "@heroicons/react/24/outline";
 import {classNames} from "../../../../../utils/helper";
-import {IUser} from "../../../../../utils";
 import useUsers from "../../../../../hooks/use-users";
+import AddRole from "./buttons/add-role";
+import {IRole} from "../../../../../utils";
 
 type RowCsv = [
   firstname: string,
@@ -21,6 +22,7 @@ export default function ImportCsv ({ toggle }: Props) {
   const { mutate: createUsers} = createMany()
   const { data, isLoading } = index()
   const [disabled, setDisabled] = useState<boolean>(true)
+  const [roles, setRoles] = useState<IRole[]>([])
 
   useEffect(() => {
     if (csvArray.length) {
@@ -47,6 +49,13 @@ export default function ImportCsv ({ toggle }: Props) {
     setCsvArray([])
   }
 
+
+  function onDelete (index: number) {
+    const list = roles
+    list.splice(index, 1)
+    setRoles([...list])
+  }
+
   function exist (user, index): boolean {
     if (numero.includes(user[2])) return true
     for (let i = 0; i < index ; i++) {
@@ -63,18 +72,18 @@ export default function ImportCsv ({ toggle }: Props) {
       })
       return list
     }
-
     const list = filtered()
-    const array = list.map((item) => {
-      return {
-        firstname: item[0],
-        lastname: item[1],
-        numero: item[2],
-        password: item[2]
-      }
-    })
+
     createUsers({
-      users: array
+      users: list.map((item) => {
+        return {
+          firstname: item[0],
+          lastname: item[1],
+          numero: item[2],
+          password: item[2]
+        }
+      }),
+      roles: roles.map((role) => role.id)
     })
     toggle()
 
@@ -110,6 +119,31 @@ export default function ImportCsv ({ toggle }: Props) {
     <div className="p-8 flex flex-col h-full justify-between">
       <div>
         <h3 className="font-title text-2xl font-medium">Importer des utilisateurs</h3>
+        <div>
+          <div className="relative mt-2">
+            <span className="block truncate text-sm font-medium leading-6 text-gray-900">Roles</span>
+            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"></span>
+          </div>
+          {roles.length ? (
+              <>
+                {roles.map((role : IRole, index) => (
+                    <div className="relative">
+                      <button
+                          className="flex items-center gap-2 border px-3 py-2 rounded-md"
+                          onClick={() => onDelete(index)}
+
+                      >
+                        <span>{role.label}</span>
+                        <span><TrashIcon className='w-4' /></span>
+                      </button>
+                    </div>
+                ))}
+              </>
+          ) : <div></div>
+          }
+          <AddRole roles={roles} setRoles={setRoles} />
+        </div>
+
         <div>
           {
             !csvFile && <div className="pt-4">

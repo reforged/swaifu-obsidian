@@ -19,6 +19,12 @@ const pages = [
   { label: 'Etiquettes', href: '/manager/qcm/etiquettes', current: false},
   { label: 'Séquences', href: '/manager/qcm/sequences', current: false},
   { label: 'Sessions', href: '/manager/qcm/sessions', current: true},
+  { label: 'Examens', href: '/manager/qcm/examens', current: false},
+]
+
+const navigation = [
+  {name: "QCM", href: '/manager/qcm/home', current: false},
+  {name: "Sessions", href: '/manager/qcm/sessions', current: true},
 ]
 
 export default function HomeSessions () {
@@ -49,14 +55,13 @@ export default function HomeSessions () {
     option: [],
     rowAction: (item: any) => {
       router(`/manager/qcm/session/${item.id}`)
-      console.log(item)
     },
     open: false
   }
   return (
     <Manager layout={{
       label: 'Sessions',
-      location: [],
+      location: navigation,
       navigation: pages
     }}>
       <SessionContext.Provider value={[session, setSession]}>

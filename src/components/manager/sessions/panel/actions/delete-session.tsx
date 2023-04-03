@@ -5,15 +5,16 @@ import {LockClosedIcon, LockOpenIcon} from "@heroicons/react/24/outline";
 import {io} from "socket.io-client";
 import AuthenticationContext from "../../../../../contexts/AuthenticationContext";
 import {useNavigate} from "react-router";
+import useWebsocket from "../../../../../hooks/use-websocket";
 
 export default function DeleteSession () {
   const [room, setRoom] = useContext(RoomContext)
   const [user, setUser] = useContext(AuthenticationContext)
-  const socket = io('ws://localhost:3333')
+  const { socket } = useWebsocket()
   const router = useNavigate()
 
   function handleClick () {
-    socket.emit('delete_session', {
+    socket.emit('StopSession', {
       session: room.session,
       user: user
     })

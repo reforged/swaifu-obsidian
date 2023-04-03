@@ -23,7 +23,7 @@ export const Mermaid = ({ text }: MermaidProps) => {
           ref.current!.innerHTML = result;
         });
       } catch {
-        console.log("erreur diagram")
+
       }
 
     }

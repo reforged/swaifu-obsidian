@@ -18,10 +18,11 @@ const pages = [
 	{ label: 'Etiquettes', href: '/manager/qcm/etiquettes', current: false},
 	{ label: 'Séquences', href: '/manager/qcm/sequences', current: false},
 	{ label: 'Sessions', href: '/manager/qcm/sessions', current: false},
+	{ label: 'Examens', href: '/manager/qcm/examens', current: false},
 ]
 
 const navigation = [
-	{name: "QCM", href: '/manager/qcm', current: false},
+	{name: "QCM", href: '/manager/qcm/home', current: false},
 	{name: "Questions", href: '/manager/qcm/questions', current: true},
 ]
 
@@ -85,7 +86,7 @@ export default function HomeQuestion () {
 											</div>
 											: <div>
 												{ data &&
-													<div className="grid grid-cols-3 gap-4 p-4">
+													<div className="grid lg:grid-cols-3 gap-4 p-4">
 														{ filteredData<IQuestion>(data, ['label'], board.search).map((question: IQuestion) => (
 															<Question key={question.id} question={question} />
 														))}
@@ -158,7 +159,6 @@ function Question ({ question }: any) {
 
 	function handle () {
 		setShowQuestion(question)
-		console.log("test", showQuestion)
 	}
 
 	function onDelete () {
@@ -205,11 +205,15 @@ function Question ({ question }: any) {
 							<span className="text-sm">Type de question</span>
 							<div className="pt-2">
 								{
-									question.type === 'input' && <span className="bg-gray-200 px-2 py-1 rounded-md">Libre</span>
+									question.type === 'input' && <span className="bg-gray-200 px-2 py-1 rounded-md">ouverte</span>
 								}
 
 								{
 									question.type === 'checkbox' && <span className="bg-gray-200 px-2 py-1 rounded-md">QCM</span>
+								}
+
+								{
+									question.type === 'libre' && <span className="bg-gray-200 px-2 py-1 rounded-md">libre</span>
 								}
 
 							</div>

@@ -19,6 +19,10 @@ const navigation: INavigation[] = [
   { label: 'Roles', href: '/manager/comptes/roles'},
   { label: 'Permissions', href: '/manager/comptes/permissions'}
 ]
+const pages = [
+  {name: "Comptes", href: '/manager/accounts/home', current: false},
+  {name: "Roles", href: '/manager/accounts/roles', current: true},
+]
 
 export default function HomeRoles () {
   const { index, destroy } = useRoles()
@@ -37,7 +41,6 @@ export default function HomeRoles () {
   ]
 
   useEffect(() => {
-    console.log(data)
     if (data && !options && permissions) {
       setOptions({
         label: 'Roles',
@@ -66,7 +69,7 @@ export default function HomeRoles () {
     <Manager
       layout={{
         label: 'Gestion des Roles',
-        location: ['Gestion des Roles', 'Roles'],
+        location: pages,
         navigation: navigation
       }}
     >

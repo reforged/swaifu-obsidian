@@ -3,7 +3,6 @@ import {AnimatePresence, motion} from "framer-motion";
 import React, {useContext, useEffect, useState} from "react";
 import BoardContext from "../../../../../contexts/BoardContext";
 import {XMarkIcon} from "@heroicons/react/20/solid";
-import {UserPlusIcon} from "@heroicons/react/24/outline";
 import useRoles from "../../../../../hooks/use-roles";
 import {classNames} from "../../../../../utils/helper";
 
@@ -21,7 +20,7 @@ export default function CreateRole () {
 
   useEffect(() => {
     if (label && power && roles) {
-      console.log(roles)
+
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].label === label) setDisabled(true)
         else setDisabled(false)
@@ -120,7 +119,7 @@ export default function CreateRole () {
                                   disabled ? 'text-gray-400 bg-gray-50' : 'bg-indigo-500 text-white'
                                 )}
                               >
-                                Créer votre compte
+                                Créer votre role
                               </button>
                             </div>
                           </div>

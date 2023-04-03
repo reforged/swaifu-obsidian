@@ -3,6 +3,14 @@ import { isGroup } from '../filter/utils'
 import TextLogic from './text'
 import SelectLogic from './select'
 
+/**
+ * @obsidian/logic-wrapper
+ *
+ * (c) Bonnal Nathaël <pro.nathaelbonnal@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 export default class LogicWrapper<T> {
   private readonly groupCondition: ConditionGroupContract
   private data: T[]
@@ -13,6 +21,7 @@ export default class LogicWrapper<T> {
   }
 
   public filteredData () {
+    if (this.groupCondition.conditions.length === 0) return this.data
     return this.data.filter((item) => this.verifWithConjunction(item))
   }
 
@@ -34,6 +43,7 @@ export default class LogicWrapper<T> {
 
   public verifGroupConjunction (group: ConditionGroupContract, data: T) {
     const li: boolean[] = this.verifRow(data, group.conditions)
+    if (li.length === 0) return false
     if (group.conjunction === 'and') {
       return !li.includes(false);
     } else {

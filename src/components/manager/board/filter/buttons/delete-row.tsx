@@ -36,7 +36,7 @@ export default function DeleteRow ({ condition }: Props) {
 
     /*const li = board.filter.conditions.filter((item, index) => {
       if (isGroup(item)) {
-        console.log("index:", index)
+
         const subli = (item as ConditionGroupContract).conditions.filter((subitem) => {
           if (subitem.uid !== condition.uid) return item
         })

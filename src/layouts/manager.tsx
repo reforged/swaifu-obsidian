@@ -9,6 +9,7 @@ import {classNames} from "../utils/helper";
 import {ChevronRightIcon} from "@heroicons/react/24/outline";
 import {HomeIcon} from "@heroicons/react/20/solid";
 import useAuthentication from "../hooks/use-authentication";
+import Profil from "../components/manager/Profil";
 
 type Props = {
   children: ReactNode
@@ -55,18 +56,25 @@ export default function Manager ({ children, layout }: Props) {
 
 
   return (
-    <div className="hidden lg:flex lg:flex-shrink-0 min-h-screen bg-[#E2E9F3]">
+    <div className="flex flex-col lg:flex-row lg:flex-shrink-0 min-h-screen bg-[#E2E9F3]">
       <Sidebar />
       <div className="flex min-w-0 min-h-screen flex-1 flex-col overflow-hidden w-full h-full">
-        <div className="mx-auto w-full p-4 h-full min-h-screen flex ">
+        <div className="mx-auto w-full lg:p-4 h-full min-h-screen flex ">
           <div className="bg-white w-full min-h-full rounded-md shadow-md overflow-hidden">
 
-            <Navigation select={select} />
-            <div className="p-12">
-              <Breadcrumbs pages={layout.location}/>
-              <div className="py-8 flex items-center justify-between">
-                <span className="font-title text-3xl font-bold">{layout.label}</span>
+            <div className="hidden lg:flex">
+              <Navigation select={select} />
+
+            </div>
+
+            <div className="lg:p-12">
+              <div className="p-6 lg:p-0">
+                <Breadcrumbs pages={layout.location}/>
+                <div className="py-8 flex items-center justify-between">
+                  <span className="font-title text-3xl font-bold">{layout.label}</span>
+                </div>
               </div>
+
               <div className="">
                 {children}
               </div>
@@ -83,20 +91,23 @@ function Navigation ({ select }: { select: NavigationContract}) {
 
   return (
     <div className="bg-[#F7F9FC] w-full p-4 flex items-center justify-between relative">
-      { select.children &&
-        <div className="flex items-center gap-2">
-          { select.children.map((item, index) => (
-            <Link to={item.href} key={index}>
-              <div className={classNames(
-                location.pathname === item.href ? 'bg-white border !text-gray-900 font-medium' : '',
-                'px-3 py-2 rounded-md text-gray-500'
-              )}>
-                {item.label}
-              </div>
-            </Link>
-          ))}
-        </div>
-      }
+      <div className="flex items-center">
+        { select.children &&
+          <div className="flex items-center gap-2">
+            { select.children.map((item, index) => (
+              <Link to={item.href} key={index}>
+                <div className={classNames(
+                  location.pathname === item.href ? 'bg-white border !text-gray-900 font-medium' : '',
+                  'px-3 py-2 rounded-md text-gray-500'
+                )}>
+                  {item.label}
+                </div>
+              </Link>
+            ))}
+          </div>
+        }
+      </div>
+      <Profil />
     </div>
   )
 }

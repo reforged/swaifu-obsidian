@@ -1,5 +1,4 @@
 import { useCookies } from 'react-cookie'
-import ApiRequestBuilder from "./ApiRequestBuilder";
 import {useMutation, useQuery, useQueryClient} from "react-query";
 import {http} from "../utils/helper";
 import {IUser} from "../utils";
@@ -21,6 +20,12 @@ export default function useUsers () {
       return response.data
     })
   }
+  type PropsRegisteremail = {
+    email: string
+    firstname: string
+    lastname: string
+    password: string
+  }
 
   type DataUsers = {
     firstname: string
@@ -28,6 +33,7 @@ export default function useUsers () {
     numero: string
     password: string
   }
+
   function createMany () {
     return useMutation(async (data: { users: DataUsers[]}) => {
       const response = await http.post('/users/create-many', data, {
@@ -43,8 +49,8 @@ export default function useUsers () {
   }
 
   function store () {
-    return useMutation(async (data) => {
-      const response = await http.post('/users', data, {
+    return useMutation(async (data : any) => {
+      const response = await http.post('/users/create', data, {
         headers: {
           'Authorization': cookie.token
         }
@@ -94,5 +100,5 @@ export default function useUsers () {
     })
   }
 
-  return { index, createMany, destroy, updateMe }
+  return { index, createMany, destroy, updateMe, store}
 }

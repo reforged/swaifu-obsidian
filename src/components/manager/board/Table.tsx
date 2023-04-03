@@ -45,7 +45,7 @@ export default function Table<T> ({ data, skeleton, keys, columns, loading, onDe
 
 
   return (
-    <div>
+    <div className="overflow-x-scroll lg:overflow-x-visible">
       <table className="w-full min-w-full divide-y">
         <thead className="border-b border-[#E3E3E3]/2">
           <tr>
@@ -67,10 +67,8 @@ export default function Table<T> ({ data, skeleton, keys, columns, loading, onDe
         <tbody>
         <BoardContext.Consumer>
           {([board]) => {
-            console.log(board.filter)
             const wrapper = new LogicWrapper(board.filter, data)
             const result = wrapper.filteredData()
-            console.log(result)
             return (
               <>
                 { result.length

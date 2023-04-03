@@ -9,6 +9,9 @@ type Props = {
 }
 
 export default function AnswersStories () {
+  const [room, setRoom] = useContext(RoomContext)
+
+
   return (
     <RoomContext.Consumer>
       {([room]) => (
