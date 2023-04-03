@@ -41,7 +41,6 @@ export default function HomeRoles () {
   ]
 
   useEffect(() => {
-    console.log(data)
     if (data && !options && permissions) {
       setOptions({
         label: 'Roles',

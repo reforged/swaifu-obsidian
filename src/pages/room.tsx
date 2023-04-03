@@ -27,7 +27,6 @@ export default function Room () {
   const { socket } = useWebsocket()
 
   function JoinSuccess (data: JoinSuccessfulEvent) {
-    console.log(data)
     const question = data.session.question
     const userReponses = data.session.reponses.filter((item) => item.user_id === user.id)
     const reponse = question?.reponses.find((item) => {
@@ -40,7 +39,6 @@ export default function Room () {
       return value
     })
 
-    console.log(room, data.session)
 
     setRoom({
       ...room,
@@ -49,16 +47,6 @@ export default function Room () {
     })
   }
 
-
-  useEffect(() => {
-    if (code && user) {
-      console.log("test")
-
-
-
-    }
-
-  }, [])
 
 
 
@@ -90,19 +78,6 @@ export default function Room () {
     }
 
   }, [])
-  /*useEffect(() => {
-
-
-    return () => {
-      socket.off('StopSession', StopSession)
-      socket.off('StartSession', StartSession)
-      socket.off('JoinSuccessful', JoinSuccess)
-    }
-  }, [])*/
-
- useEffect(() => {
-   console.log(room)
- }, [room])
 
   return (
     <RoomContext.Provider value={[room, setRoom]}>

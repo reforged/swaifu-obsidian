@@ -159,7 +159,6 @@ function Question ({ question }: any) {
 
 	function handle () {
 		setShowQuestion(question)
-		console.log("test", showQuestion)
 	}
 
 	function onDelete () {

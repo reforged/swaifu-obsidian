@@ -55,7 +55,6 @@ export default function HomeSessions () {
     option: [],
     rowAction: (item: any) => {
       router(`/manager/qcm/session/${item.id}`)
-      console.log(item)
     },
     open: false
   }

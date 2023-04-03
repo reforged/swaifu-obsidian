@@ -26,7 +26,7 @@ export default function Session ({ session }: Props) {
       else return 0
     })
     const valide = li.reduce((acc, cur) => acc+=cur, 0)
-    console.log(valide, session.sequence.questions.length)
+
     setStats({
       labels: ["Bonne réponse", 'Mauvaise réponse'],
       datasets: [

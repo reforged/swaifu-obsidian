@@ -3,11 +3,20 @@ import React, {useContext, useEffect, useState} from "react";
 import {ExclamationCircleIcon} from "@heroicons/react/20/solid";
 import ExamenContext from "../../../contexts/ExamenContext";
 
-export default function TotalQuestion () {
+type Props = {
+  max: number
+}
+export default function TotalQuestion ({ max }: Props) {
   const [examen, setExamen] = useContext(ExamenContext)
   const [valide, setValide] = useState(true)
 
-
+  useEffect(() => {
+    if (examen.nbQuestions > max) {
+      setValide(false)
+    } else {
+      setValide(true)
+    }
+  }, [examen])
 
   function update (e) {
     setExamen({

@@ -7,10 +7,11 @@ import ActionBar from "./action-bar";
 import {io} from "socket.io-client";
 import RoomContext from "../../../../contexts/RoomContext";
 import {ArrowRightCircleIcon} from "@heroicons/react/24/outline";
+import useWebsocket from "../../../../hooks/use-websocket";
 
 export default function RightPart () {
   const [room, setRoom] = useContext(RoomContext)
-  const socket = io("ws://localhost:3333")
+  const { socket } = useWebsocket()
 
   function nextQuestion () {
     let index = 0

@@ -52,7 +52,7 @@ export default function OptionEtiquette ({ option, index }: Props) {
     const data = etiquettes.find((etiquette) => etiquette.id === option.etiquette.id)
     update()
     setMaxItem(data.questions.length)
-    console.log(option.etiquette)
+
   }, [])
 
 

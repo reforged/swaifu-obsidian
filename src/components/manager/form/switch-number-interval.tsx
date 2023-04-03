@@ -8,7 +8,7 @@ type Props = {
 }
 
 export default function SwitchNumberInterval ({ state, setState, max }: Props) {
-  console.log("MAX ITEM")
+
   function before () {
     if (state === 0) return
     setState(state-1)

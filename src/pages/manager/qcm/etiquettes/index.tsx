@@ -51,11 +51,6 @@ export default function HomeEtiquette () {
     toggle()
   }
 
-  useEffect(() => {
-    console.log(isLoading)
-  }, [isLoading])
-
-
   const options: Options<IEtiquette> = {
     label: 'Étiquette',
     view: 'liste',

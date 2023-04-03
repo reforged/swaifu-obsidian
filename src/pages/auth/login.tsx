@@ -95,7 +95,6 @@ function LoginWithEmail () {
   const { mutate: loginUser } = loginEmail()
 
   const handle = () => {
-    console.log(email, password)
     loginUser({ email, password })
   }
 
@@ -157,7 +156,6 @@ function LoginWithCode () {
   const { mutate: loginUser } = loginCode()
 
   const handle = () => {
-    console.log(numero, password)
     loginUser({ numero, password})
   }
 

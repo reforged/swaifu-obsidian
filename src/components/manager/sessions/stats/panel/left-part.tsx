@@ -19,7 +19,7 @@ type Props = {
 export default function LeftPartStat ({ question } : Props ) {
   const etiquettes = question.etiquettes
   const [session, setSession] = useContext(SessionContext)
-  console.log(session)
+
   return (
       <>
           <div className="col-span-4 border-r h-full p-4">

@@ -35,7 +35,7 @@ export default function Modal ({ toggle }) {
           })
         }
       }
-      console.log(combinaisonEtiquettes, combinaisonTotal)
+
       if (combinaisonEtiquettes) {
         if (combinaisonEtiquettes.length > combinaisonTotal) {
           if (combinaisonTotal !== examen.combinaison) {

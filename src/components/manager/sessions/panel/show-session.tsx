@@ -30,6 +30,7 @@ export default function ShowSession ({ reference, toggle }) {
 
   function newAnswer (data: NewAnswerEvent) {
     if (!room.session) return
+
     if (room.session.id === data.session.id) {
       setRoom({
         ...room,

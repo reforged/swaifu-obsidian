@@ -29,7 +29,7 @@ export default function Question () {
   const { socket } = useWebsocket()
 
   function submitAnswer () {
-    console.log(room)
+
     socket.emit('NewAnswer', {
       user: user,
       question: room.session.question,
@@ -70,7 +70,7 @@ export default function Question () {
 
   function questionUpdate (data: NewQuestion) {
     if (room.session && room.session.id === data.session.id) {
-      console.log(data, room.session)
+
       setRoom({
         ...room,
         locked: false,
@@ -95,8 +95,6 @@ export default function Question () {
 
   function showAnswer (data) {
     if (data.session.id === room.session.id) {
-      console.log(data)
-      console.log(room)
       setRoom({
         ...room,
         reponses: data.reponses
@@ -131,7 +129,6 @@ export default function Question () {
 
 
   useEffect(() => {
-    console.log(room)
     if (room.waiting) {
       setDisabled(true)
       return

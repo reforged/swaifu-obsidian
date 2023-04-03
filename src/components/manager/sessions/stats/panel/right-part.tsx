@@ -28,14 +28,14 @@ export default function RightPartStat ( {question} : Props) {
 
   useEffect(() => {
     const reponses = session.reponses.filter((item) => item.question_id === question.id)
-    console.log(reponses)
+
     const test = question.reponses.map((item) => {
       const li =  reponses.map((reponse) => {
         if (reponse.body === item.body) return reponse
       })
       return li.filter((i) => i)
     })
-    console.log(test)
+
     setData({
       labels: test.map((item, index) => `Question ${index+1}`),
       datasets: [
@@ -55,7 +55,7 @@ export default function RightPartStat ( {question} : Props) {
     })
   }, [])
 
-  console.log("GROSSS LOG", question)
+
 
   return (
     <>

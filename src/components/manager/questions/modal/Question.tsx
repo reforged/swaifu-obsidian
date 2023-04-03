@@ -31,7 +31,7 @@ export default function ModalQuestionView ({ questions }) {
     const original: IQuestion = questions
       .filter((item: IQuestion) => item.id === question.id)[0]
     const data: IQuestion[] = questions.filter((item: IQuestion) => item.id !== question.id)
-    console.log(question)
+
     if (data
       .map((item) => item.label.toLowerCase())
       .includes(question.label.toLowerCase())
@@ -63,9 +63,9 @@ export default function ModalQuestionView ({ questions }) {
   }
 
   useEffect(() => {
-    console.log(showQuestion)
+
     if (showQuestion) {
-      console.log(showQuestion)
+
       if (verifData()) setDisabled(false)
       else setDisabled(true)
     }
@@ -93,7 +93,7 @@ export default function ModalQuestionView ({ questions }) {
   function handleChange () {}
 
   function handleClick () {
-    console.log("UPDATE", showQuestion)
+
     if (showQuestion) {
       const objet = {
         ...showQuestion,

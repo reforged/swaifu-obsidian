@@ -20,7 +20,7 @@ export default function CreateRole () {
 
   useEffect(() => {
     if (label && power && roles) {
-      console.log(roles)
+
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].label === label) setDisabled(true)
         else setDisabled(false)

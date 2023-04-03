@@ -38,9 +38,9 @@ export default function CreateSimpleUser({ toggle }){
 
   function deleteRole(index : number) {
     const list = roles
-    console.log(index)
+
     list.splice(index, 1)
-    console.log(list)
+
     setRoles([...list])
   }
 
