@@ -3,6 +3,7 @@ import {useContext, useEffect, useState} from "react";
 import {classNames} from "../../utils/helper";
 import useUsers from "../../hooks/use-users";
 import Navbar from "../../components/diamond/Navbar";
+import SessionStories from "../../components/profil/session-stories";
 
 export default function ProfilHome () {
   const [open, setOpen] = useState(false)
@@ -11,7 +12,7 @@ export default function ProfilHome () {
       {([ user ]) => (
         <div>
           <Navbar open={open} setOpen={setOpen} />
-          <div className="flex flex-col w-full  max-w-7xl mx-auto mt-12">
+          <div className="flex flex-col w-full  max-w-7xl mx-auto mt-12 px-4 lg:px-0">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="bg-gray-100 p-4 rounded-full text-xl border">
@@ -28,8 +29,10 @@ export default function ProfilHome () {
 
             <div className="  w-full mt-12">
               <PersonnalInformation />
-              <div className="border mt-6">
-                <ListSession />
+              <div className=" mt-6">
+                <div>
+                  <SessionStories />
+                </div>
               </div>
 
             </div>
@@ -72,7 +75,7 @@ function PersonnalInformation () {
   }
 
   return (
-    <div className="bg-gray-100 border rounded-md w-full">
+    <div className="bg-white border rounded-md w-full">
 
       <div className="mt-5 md:col-span-2 md:mt-0">
         <div>
