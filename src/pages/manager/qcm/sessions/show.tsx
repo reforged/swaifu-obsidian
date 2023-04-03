@@ -17,12 +17,24 @@ const pages = [
   { label: 'Sessions', href: '/manager/qcm/sessions', current: true},
 ]
 
+
 export default function ShowSession () {
   const { show } = useSessions()
   const location = useLocation()
   const [session, setSession] = useState<ISession | null>(null)
+  const [navigation, setNavigation] = useState<any[]>([])
   const li = location.pathname.split('/')
   const { data } = show(li[li.length-1])
+
+  useEffect(() => {
+    setNavigation([
+      {name: "QCM", href: '/manager/qcm/home', current: false},
+      {name: "Sessions", href: '/manager/qcm/sessions', current: false},
+      {
+        name: data.id, href: `/manager/qcm/session/${data.id}`, current: true
+      }
+    ])
+  }, [data])
 
   const options: Options<IQuestion> = {
     filter: {
@@ -50,7 +62,7 @@ export default function ShowSession () {
   return (
     <Manager layout={{
       label: 'Session',
-      location: [],
+      location: navigation,
       navigation: pages
     }}>
       <SessionContext.Provider value={[session, setSession]}>
@@ -64,7 +76,7 @@ export default function ShowSession () {
               <div>
 
                 <Board<IQuestion> name={"Questions"} options={options}>
-                  <div className="grid grid-cols-4 gap-4 p-4">
+                  <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 p-4">
                     { data.sequence.questions.map((item) => (
                       <QuestionStat question={item} />
                     ))}

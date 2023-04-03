@@ -54,7 +54,7 @@ export default function CreateUser () {
                   <div className=" h-full">
                     <Tab.Group>
                       <div className="grid grid-cols-12 divide-x h-full">
-                        <div className="col-span-4">
+                        <div className="col-span-4 z-0 relative">
                           <Tab.List>
                             <div className="flex flex-col text-left p-8 gap-2">
                               <Tab className="ui-selected:bg-gray-100 rounded-md p-3 group hover:bg-gray-50">
@@ -77,7 +77,7 @@ export default function CreateUser () {
 
                           </Tab.List>
                         </div>
-                        <div className="col-span-8 h-full">
+                        <div className="col-span-8 h-full overflow-y-scroll pb-12">
                           <Tab.Panels>
                             <div className="flex-1 h-full w-full flex-col">
                               <Tab.Panel>

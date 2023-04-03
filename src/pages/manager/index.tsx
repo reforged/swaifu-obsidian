@@ -15,13 +15,11 @@ export default function Home () {
     <Manager
       layout={{
         label: "Page d'accueil",
-        navigation: pages,
-        location: []
       }}
     >
       <AuthenticationContext.Consumer>
         {([ user ]) => (
-          <div>
+          <div className="px-6 lg:px-0">
             <h1 className="text-2xl font-medium">Good morning, {user?.email} 👋</h1>
 
             <div className="mt-5 p-5 bg-purple-100 rounded-md inline-flex w-full items-center justify-between">
@@ -43,7 +41,7 @@ export default function Home () {
                 <h2 className="text-lg font-medium">Les derniers questionnaires créés</h2>
                 <NavLink to="/questions" className="text-purple-800 text-purple-900 font-medium">See all</NavLink>
               </div>
-              <div className="py-5 grid grid-cols-4 gap-5">
+              <div className="py-5 grid grid-cols-1 lg:grid-cols-4 gap-5">
                 {[0, 1, 2, 3].map((n): JSX.Element => (
                   <div key={n} className="col-span-1 border border-gray-200 rounded-md shadow hover:shadow-xl p-5">
                     <div className="w-10 h-10 flex items-center justify-center">

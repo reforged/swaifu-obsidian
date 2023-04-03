@@ -2,7 +2,7 @@ import Navbar from "../components/diamond/Navbar";
 import React, {useState} from "react";
 
 const stats = [
-  { label: 'Plus de 28.000 lignes de code on était écrite pour ce projet', value: '28k lignes' },
+  { label: 'Plus de 30.000 lignes de code on était écrite pour ce projet', value: '30k lignes' },
   { label: 'Assets under holding', value: '$119 trillion' },
   { label: 'New users annually', value: '46,000' },
 ]

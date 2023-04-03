@@ -35,12 +35,12 @@ export default function Navbar ({ }: Props) {
               <div className="flex flex-shrink-0 items-center">
                 <img
                   className="block h-8 w-8 lg:hidden object-cover rounded-md"
-                  src="../../public/favicon.ico"
+                  src="https://cdn.discordapp.com/attachments/1092374549133275186/1092374584709369886/favicon.png"
                   alt="Your Company"
                 />
                 <img
                   className="hidden h-8 w-8 lg:block object-cover rounded-md"
-                  src="../../public/favicon.ico"
+                  src="https://cdn.discordapp.com/attachments/1092374549133275186/1092374584709369886/favicon.png"
                   alt="Your Company"
                 />
 
@@ -250,7 +250,7 @@ function MobileNavbar ({ open, setOpen }: MobileProps) {
               <div className="flex flex-shrink-0 items-center px-4 justify-between">
                 <img
                   className="h-8 w-auto"
-                  src="../../public/favicon.ico"
+                  src="https://cdn.discordapp.com/attachments/1092374549133275186/1092374584709369886/favicon.png"
                   alt="Your Company"
                 />
                 <AuthenticationContext.Consumer>
