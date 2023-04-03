@@ -9,6 +9,7 @@ import {classNames} from "../utils/helper";
 import {ChevronRightIcon} from "@heroicons/react/24/outline";
 import {HomeIcon} from "@heroicons/react/20/solid";
 import useAuthentication from "../hooks/use-authentication";
+import Profil from "../components/manager/Profil";
 
 type Props = {
   children: ReactNode
@@ -63,6 +64,7 @@ export default function Manager ({ children, layout }: Props) {
 
             <div className="hidden lg:flex">
               <Navigation select={select} />
+
             </div>
 
             <div className="lg:p-12">
@@ -89,20 +91,23 @@ function Navigation ({ select }: { select: NavigationContract}) {
 
   return (
     <div className="bg-[#F7F9FC] w-full p-4 flex items-center justify-between relative">
-      { select.children &&
-        <div className="flex items-center gap-2">
-          { select.children.map((item, index) => (
-            <Link to={item.href} key={index}>
-              <div className={classNames(
-                location.pathname === item.href ? 'bg-white border !text-gray-900 font-medium' : '',
-                'px-3 py-2 rounded-md text-gray-500'
-              )}>
-                {item.label}
-              </div>
-            </Link>
-          ))}
-        </div>
-      }
+      <div className="flex items-center">
+        { select.children &&
+          <div className="flex items-center gap-2">
+            { select.children.map((item, index) => (
+              <Link to={item.href} key={index}>
+                <div className={classNames(
+                  location.pathname === item.href ? 'bg-white border !text-gray-900 font-medium' : '',
+                  'px-3 py-2 rounded-md text-gray-500'
+                )}>
+                  {item.label}
+                </div>
+              </Link>
+            ))}
+          </div>
+        }
+      </div>
+      <Profil />
     </div>
   )
 }

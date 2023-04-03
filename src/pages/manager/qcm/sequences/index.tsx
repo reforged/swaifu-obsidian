@@ -43,7 +43,7 @@ const pages = [
 ]
 
 const navigation = [
-  {name: "QCM", href: '/manager/qcm', current: false},
+  {name: "QCM", href: '/manager/qcm/home', current: false},
   {name: "Séquences", href: '/manager/qcm/sequences', current: true},
 ]
 

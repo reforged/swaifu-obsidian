@@ -23,6 +23,7 @@ export type IUser = {
   email?: string
   permissions: IPermission[]
   roles: IRole[]
+  sessions: ISession[]
 }
 
 export type IReponse = {

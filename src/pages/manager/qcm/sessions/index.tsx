@@ -22,6 +22,11 @@ const pages = [
   { label: 'Examens', href: '/manager/qcm/examens', current: false},
 ]
 
+const navigation = [
+  {name: "QCM", href: '/manager/qcm/home', current: false},
+  {name: "Sessions", href: '/manager/qcm/sessions', current: true},
+]
+
 export default function HomeSessions () {
   const { index } = useSessions()
   const { data, isLoading } = index()
@@ -57,7 +62,7 @@ export default function HomeSessions () {
   return (
     <Manager layout={{
       label: 'Sessions',
-      location: [],
+      location: navigation,
       navigation: pages
     }}>
       <SessionContext.Provider value={[session, setSession]}>

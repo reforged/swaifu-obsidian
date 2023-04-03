@@ -12,7 +12,7 @@ const pages = [
 ]
 
 const navigation = [
-  {name: "QCM", href: '/manager/qcm', current: true},
+  {name: "QCM", href: '/manager/qcm/home', current: true},
 ]
 
 export default function HomeQCM () {

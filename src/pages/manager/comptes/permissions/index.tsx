@@ -17,6 +17,12 @@ const navigation: INavigation[] = [
   { label: 'Permissions', href: '/manager/comptes/permissions'}
 ]
 
+const pages = [
+  {name: "Comptes", href: '/manager/accounts/home', current: false},
+  {name: "Permissions", href: '/manager/accounts/permissions', current: true},
+]
+
+
 export default function HomePermissions () {
   const { index } = usePermissions()
   const { data , isLoading } = index()
@@ -61,7 +67,7 @@ export default function HomePermissions () {
     <Manager
       layout={{
         label: 'Gestion des Permissions',
-        location: ['Gestion des Permissions', 'Permissions'],
+        location: pages,
         navigation: navigation
       }}
     >

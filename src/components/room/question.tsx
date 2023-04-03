@@ -12,6 +12,10 @@ import AuthenticationContext from "../../contexts/AuthenticationContext";
 import {useCookies} from "react-cookie";
 import {LockEvent, NewQuestion} from "../../utils/room/events";
 import useAutosizeTextArea from "../../hooks/use-autosize-text-area";
+import InputFormReponse from "./reponses/input";
+import RadioSelect from "./reponses/radio-select";
+import ReponseNuageWords from "./reponses/reponse-nuage-words";
+import useWebsocket from "../../hooks/use-websocket";
 
 export default function Question () {
   const [room, setRoom] = useContext(RoomContext)
@@ -22,14 +26,14 @@ export default function Question () {
   const [disabled, setDisabled] = useState<boolean>(true)
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
   useAutosizeTextArea(textAreaRef.current, value)
-  const socket = io('ws://localhost:3333')
+  const { socket } = useWebsocket()
 
   function submitAnswer () {
     console.log(room)
     socket.emit('NewAnswer', {
       user: user,
       question: room.session.question,
-      reponse: room.session.question.type === 'input' ? value : selected,
+      reponse: room.session.question.type === 'checkbox' ? selected : value,
       session: room.session
     })
   }
@@ -127,12 +131,13 @@ export default function Question () {
 
 
   useEffect(() => {
+    console.log(room)
     if (room.waiting) {
       setDisabled(true)
       return
     }
     if (!room.session) return
-    if (room.session.question.type === 'input') {
+    if (room.session.question.type === 'input' || room.session.question.type === 'libre') {
       if (value) setDisabled(false)
       else setDisabled(true)
     } else {
@@ -166,85 +171,40 @@ export default function Question () {
           </div>
           <div>
             {room.reponses && room.reponses.length ?
-              <div className="flex flex-col gap-4">
-                { room.reponses.map((reponse) => (
-                  <div
-                    className={classNames(
-                      'relative block cursor-pointer rounded-lg border  px-6 py-4 shadow-sm focus:outline-none sm:flex sm:justify-between',
-                      reponse.valide ? 'bg-green-200' : 'bg-red-200'
-                    )}
-                  >
-                    <ReactMarkdown
-                      children={reponse.body}
-                      components={{
-                        code: ({node, ...props}) => Fence({children: props})
-                      }}
-                      remarkPlugins={[remarkMath]}
-                      rehypePlugins={[rehypeKatex]}
-                    />
+
+              <>
+                {room.session.question.type === 'libre' ?
+
+                  <ReponseNuageWords/>
+                  :
+                  <div className="flex flex-col gap-4">
+                    {room.reponses.map((reponse) => (
+                      <div
+                        className={classNames(
+                          'relative block cursor-pointer rounded-lg border  px-6 py-4 shadow-sm focus:outline-none sm:flex sm:justify-between',
+                          reponse.valide ? 'bg-green-200' : 'bg-red-200'
+                        )}
+                      >
+                        <ReactMarkdown
+                          children={reponse.body}
+                          components={{
+                            code: ({node, ...props}) => Fence({children: props})
+                          }}
+                          remarkPlugins={[remarkMath]}
+                          rehypePlugins={[rehypeKatex]}
+                        />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                }
+              </>
+
               :
               <div>
                 <div>
-                  {room.session.question.type === 'input'
-
-                    ? <div>
-
-                      <textarea
-                        className="w-full"
-                        ref={textAreaRef}
-                        value={value}
-                        onChange={(event) => setValue(event.currentTarget.value)}
-                      />
-
-                    </div>
-                    :
-                    <div>
-                      <RadioGroup value={selected} onChange={setSelected}>
-                        <div className="space-y-4">
-                          {room.session!.question!.reponses.map((reponse, key) => (
-                            <RadioGroup.Option
-                              disabled={room.waiting}
-                              key={key}
-                              value={reponse}
-                              className={({checked, active}) =>
-                                classNames(
-                                  checked ? 'border-transparent bg-indigo-50' : 'border-gray-300',
-                                  active ? 'border-indigo-600 ring-2 ring-indigo-600' : '',
-                                  'relative block cursor-pointer rounded-lg border  px-6 py-4 shadow-sm focus:outline-none sm:flex sm:justify-between'
-                                )
-                              }
-                            >
-                              {({active, checked}) => (
-                                <>
-                                  <ReactMarkdown
-                                    children={reponse.body}
-                                    components={{
-                                      code: ({node, ...props}) => Fence({children: props})
-                                    }}
-                                    remarkPlugins={[remarkMath]}
-                                    rehypePlugins={[rehypeKatex]}
-                                  />
-                                  <span
-                                    className={classNames(
-                                      active ? 'border' : 'border-2',
-                                      checked ? 'border-indigo-600' : 'border-transparent',
-                                      'pointer-events-none absolute -inset-px rounded-lg'
-                                    )}
-                                    aria-hidden="true"
-                                  />
-                                </>
-                              )}
-                            </RadioGroup.Option>
-                          ))}
-                        </div>
-                      </RadioGroup>
-                    </div>
-
-
-
+                  {room.session.question.type === 'checkbox'
+                    ? <RadioSelect selected={selected} setSelected={setSelected} />
+                    : <InputFormReponse value={value} setValue={setValue} textAreaRef={textAreaRef} />
                   }
                   <div>
                     <button

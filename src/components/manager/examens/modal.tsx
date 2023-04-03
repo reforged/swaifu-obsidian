@@ -10,19 +10,22 @@ import Examen from "./examen";
 import TotalQuestion from "./total-question";
 import TotalSujets from "./total-sujets";
 import {Interval} from "./types";
+import SujetStories from "./sujets/sujet-stories";
 
 export default function Modal ({ toggle }) {
   const [examen, setExamen] = useContext(ExamenContext)
   const [nbSujet, setNbSujet] = useState(0)
   const [disabled, setDisabled] = useState<boolean>(true)
+  const [totalQuestions, setTotalQuestions] = useState(0)
 
   useEffect(() => {
-    //const data = combinaison(examen.nbQuestions, examen.totalQuestions)
     if (examen.options.length) {
       const data = new Examen(examen.nbQuestions, examen.nbSujets, examen.options)
       const combinaisonEtiquettes: Interval[] = data.getCombinaison()
       const total = data.numberQuestionsUnique()
       const combinaisonTotal = combinaison(examen.nbQuestions, total)
+
+      setTotalQuestions(total)
 
       if (total) {
         if (total !== examen.totalQuestions) {
@@ -32,6 +35,7 @@ export default function Modal ({ toggle }) {
           })
         }
       }
+      console.log(combinaisonEtiquettes, combinaisonTotal)
       if (combinaisonEtiquettes) {
         if (combinaisonEtiquettes.length > combinaisonTotal) {
           if (combinaisonTotal !== examen.combinaison) {
@@ -58,7 +62,7 @@ export default function Modal ({ toggle }) {
     if (
       examen.combinaison >= examen.nbSujets &&
       examen.nbQuestions <= examen.totalQuestions &&
-      examen.label.length
+      examen.label.length && !examen.sujets.length
     ) setDisabled(false)
     else setDisabled(true)
   }, [examen])
@@ -67,6 +71,7 @@ export default function Modal ({ toggle }) {
   function createExamen () {
     const data = new Examen(examen.nbQuestions, examen.nbSujets, examen.options)
     const result = data.execute()
+
     setExamen({
       ...examen,
       sujets: result
@@ -106,8 +111,17 @@ export default function Modal ({ toggle }) {
                 <CircleStackIcon className="w-4" />
               </span>
               <span className="flex items-center gap-2">
-                <span className="">Nombres de sujet:</span>
-                <span className='text-gray-900'>86</span>
+                <span className="">Nombres de sujet possibles:</span>
+                <span className='text-gray-900'>{examen.combinaison}</span>
+              </span>
+            </div>
+            <div className="text-gray-400 flex items-center gap-2 px-3 py-1 rounded-full border">
+              <span>
+                <CircleStackIcon className="w-4" />
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="">Nombres de questions:</span>
+                <span className='text-gray-900'>{totalQuestions}</span>
               </span>
             </div>
           </div>
@@ -115,23 +129,20 @@ export default function Modal ({ toggle }) {
         </div>
         {/* BOARD */}
         <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-9">
+          <div className="col-span-9 flex flex-col gap-12">
             {/* FIRST BOARD */}
             <div className="border p-4 bg-white shadow-sm rounded-md">
               <div className="flex justify-between items-start pb-8">
                 <div className="flex flex-col">
 
                   <TotalSujets />
-                  <TotalQuestion />
-                  <span>
-                    {examen.totalQuestions}
-                  </span>
+                  <TotalQuestion max={totalQuestions} />
+
                 </div>
 
 
                 <AddEtiquette />
               </div>
-              <span>Nombre de sujets possibles : {examen.combinaison}</span>
               <div className="border rounded-md mt-8">
                 { examen.options.length ?
                   <div className="flex flex-col divide-y">
@@ -159,6 +170,8 @@ export default function Modal ({ toggle }) {
               </div>
 
             </div>
+
+            { examen.sujets.length && <SujetStories />}
           </div>
           <div className="col-span-3 relative">
 

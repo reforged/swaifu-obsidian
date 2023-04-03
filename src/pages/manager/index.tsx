@@ -11,7 +11,6 @@ const pages = [
   { name: 'Utilisateurs', href: '/manager/comptes/users', current: true},
 ]
 export default function Home () {
-  //const socket = io("ws://localhost:3333");
   return (
     <Manager
       layout={{

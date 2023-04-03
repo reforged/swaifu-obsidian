@@ -26,6 +26,7 @@ import Register from "./pages/auth/register";
 import ShowSession from "./pages/manager/qcm/sessions/show";
 import HomeExamen from "./pages/manager/qcm/examens";
 import useWebsocket from "./hooks/use-websocket";
+import TeamPage from "./pages/team";
 
 
 function App() {
@@ -116,6 +117,7 @@ function App() {
                 <Route path={"/room/*"} element={<Room />} />
               </Route>
 
+              <Route path={"/team"} element={<TeamPage />}/>
 
 
               <Route path="/profil" element={<Auth />}>

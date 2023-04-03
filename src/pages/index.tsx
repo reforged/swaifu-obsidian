@@ -5,12 +5,14 @@ import Navbar from "../components/diamond/Navbar";
 import {io} from "socket.io-client";
 import AuthenticationContext from "../contexts/AuthenticationContext";
 import {useNavigate} from "react-router";
+import useWebsocket from "../hooks/use-websocket";
+import {Link} from "react-router-dom";
 
 export default function Index () {
   const [open, setOpen] = useState<boolean>(false)
   const [user, setUser] = useContext(AuthenticationContext)
   const [code, setCode] = useState<string>('')
-  const socket = io("ws://localhost:3333")
+  const { socket } = useWebsocket()
   const router = useNavigate()
 
   function joinSession () {
@@ -78,22 +80,21 @@ export default function Index () {
               />
 
             <div className="mt-24 sm:mt-32 lg:mt-16">
-              <a href="#" className="inline-flex space-x-6">
-              <span className="rounded-full bg-indigo-600/10 dark:bg-indigo-500/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-600 dark:text-indigo-400 ring-1 ring-inset ring-indigo-600/10 dark:ring-indigo-500/20">
-                What's new
-              </span>
-                <span className="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-gray-600 dark:text-gray-400">
-                <span>Le site de question 2.0</span>
-                <ChevronRightIcon className="h-5 w-5 text-gray-400 dark:text-gray-500" aria-hidden="true" />
-              </span>
-              </a>
+              <Link to={"/team"} className="inline-flex space-x-6">
+                <span className="rounded-full bg-indigo-600/10 dark:bg-indigo-500/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-600 dark:text-indigo-400 ring-1 ring-inset ring-indigo-600/10 dark:ring-indigo-500/20">
+                  Première Release
+                </span>
+                  <span className="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-gray-600 dark:text-gray-400">
+                  <span>Tout frais tout beau</span>
+                  <ChevronRightIcon className="h-5 w-5 text-gray-400 dark:text-gray-500" aria-hidden="true" />
+                </span>
+              </Link>
             </div>
             <h1 className="mt-10 text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
-              Joues avec des superbes questions
+              Reforged
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-500">
-              Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet
-              fugiat veniam occaecat fugiat aliqua.
+              Un site pour créer des questions pas comme les autres ! N'ayez crainte on bug pas !
             </p>
             <div className="mt-10 flex items-center gap-x-6">
               <div className="">
@@ -113,7 +114,7 @@ export default function Index () {
                 className="rounded-md bg-indigo-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 onClick={joinSession}
               >
-                Get started
+                Bonne Chance
               </button>
 
             </div>

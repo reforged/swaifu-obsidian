@@ -15,7 +15,7 @@ const pages = [
 ]
 
 const navigation = [
-  {name: "QCM", href: '/manager/qcm', current: false},
+  {name: "QCM", href: '/manager/qcm/home', current: false},
   {name: 'Examens', href: '/manager/qcm/examens', current: true}
 ]
 
