@@ -7,8 +7,8 @@ export default function Avatar () {
         <>
           { user &&
             <div>
-              <div className="bg-gray-100 p-4 w-64 h-64 rounded-full flex items-center lg:rounded-md  border">
-                <span className="mx-auto text-xl lg:text-6xl">{ user.firstname[0]}{user.lastname[0]}</span>
+              <div className="bg-gray-100 p-4 w-32 h-32 md:w-64 md:h-64 flex items-center rounded-md  border">
+                <span className="mx-auto text-4xl md:text-6xl">{ user.firstname[0]}{user.lastname[0]}</span>
               </div>
             </div>
           }

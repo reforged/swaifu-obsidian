@@ -5,7 +5,7 @@ import {IRole} from "../../utils";
 
 export default function HeaderProfil () {
   return (
-    <div className="flex items-center gap-12 w-full">
+    <div className="flex md:items-center gap-4 md:gap-12 w-full">
       <Avatar />
       <Information />
     </div>
@@ -48,12 +48,12 @@ function Information () {
                 </div>
               }
               <div>
-                <span className="text-6xl text-gray-900 font-medium">
+                <span className="text-xl md:text-6xl text-gray-900 font-medium truncate">
                   { user.lastname } { user.firstname }
                 </span>
               </div>
-              <div className="flex flex-col gap-2">
-                { user.email && <span className="text-gray-300">Adresse email <span className="text-gray-800 ml-4">{ user.email}</span></span> }
+              <div className="flex flex-col gap-2 text-xs md:text-md">
+                { user.email && <span className="text-gray-300 truncate">Adresse email <span className="text-gray-800 ml-4">{ user.email}</span></span> }
                 { user.numero && <span className="text-gray-300">Numéro étudiant <span className="text-gray-800 ml-4">{ user.numero}</span></span> }
               </div>
             </div>
