@@ -12,10 +12,10 @@ import Table from "../../../../components/manager/board/Table";
 import CreateUser from "../../../../components/manager/comptes/users/modal/create-user";
 import {Options} from "../../../../components/manager/board/types";
 import {uid} from "../../../../utils/helper";
-import useQuestions from "../../../../hooks/use-questions";
-import useEtiquettes from "../../../../hooks/use-etiquettes";
 import useRoles from "../../../../hooks/use-roles";
 import usePermissions from "../../../../hooks/use-permissions";
+import StateContext from '../../../../contexts/StateContext'
+import ShowUser from "../../../../components/manager/comptes/users/modal/show-user";
 
 const navigation: INavigation[] = [
   { label: 'Home', href: '/manager/comptes'},
@@ -33,11 +33,12 @@ export default function HomeUsers () {
   const { index, destroy } = useUsers()
   const { index: fetchRoles  } = useRoles()
   const { index: fetchPermissions } = usePermissions()
-
+  const [user, setUser] = useState<IUser | null>(null)
   const { data: permissions } = fetchPermissions()
   const { data: roles } = fetchRoles()
   const { data , isLoading } = index()
   const { mutate: deleteUser } = destroy()
+  const [open, setOpen] = useState<boolean>(false)
 
   const [options, setOptions] = useState<Options<IUser>>()
 
@@ -49,6 +50,11 @@ export default function HomeUsers () {
     {label: 'Roles', key: 'roles', input: 'select', checked: true, default: false, filter: true},
     {label: 'Permissions', key: 'permissions', input: 'select', checked: true, default: false, filter: true}
   ]
+
+  function onClick (user: IUser) {
+    setUser(user)
+    setOpen(!open)
+  }
 
   useEffect(() => {
     if (data && !options && roles && permissions) {
@@ -70,7 +76,8 @@ export default function HomeUsers () {
         },
         keys: ['firstname', 'lastname'],
         open: false,
-        option: ['filter', 'column']
+        option: ['filter', 'column'],
+        rowAction: onClick
       })
     }
   }, [data])
@@ -83,19 +90,23 @@ export default function HomeUsers () {
         navigation: navigation
       }}
     >
-      { options &&
-        <Board name={'Utilisateur'} options={options} action={<Action />}>
-          <Table<IUser>
-            columns={columns}
-            loading={isLoading}
-            data={data as IUser[]}
-            keys={options.keys}
-            skeleton={<UserSkeleton />}
-            onDelete={deleteUser}
-          />
-          <CreateUser />
-        </Board>
-      }
+      <StateContext.Provider value={[user, setUser]}>
+        { options &&
+          <Board name={'Utilisateur'} options={options} action={<Action />}>
+            <Table<IUser>
+              columns={columns}
+              loading={isLoading}
+              data={data as IUser[]}
+              keys={options.keys}
+              skeleton={<UserSkeleton />}
+              onDelete={deleteUser}
+            />
+            <CreateUser />
+          </Board>
+        }
+        { user && <ShowUser open={open} setOpen={setOpen} />}
+      </StateContext.Provider>
+
     </Manager>
   )
 }
