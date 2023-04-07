@@ -62,6 +62,20 @@ export default function useUsers () {
     }})
   }
 
+  function update () {
+    return useMutation(async (data) => {
+      console.log(data)
+      const response = await http.put(`/users/${data.id}`, data, {
+        headers: {
+          'Authorization': cookie.token
+        }
+      })
+      return response.data
+    }, { onSuccess: async () => {
+      await queryClient.invalidateQueries(['users'])
+    }})
+  }
+
   function destroy () {
     return useMutation(async (data: any) => {
       const response = await http.delete(`/users/${data.id}`, {
@@ -100,5 +114,5 @@ export default function useUsers () {
     })
   }
 
-  return { index, createMany, destroy, updateMe, store}
+  return { index, createMany, destroy, updateMe, store, update}
 }
