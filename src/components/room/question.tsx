@@ -29,7 +29,6 @@ export default function Question () {
   const { socket } = useWebsocket()
 
   function submitAnswer () {
-
     socket.emit('NewAnswer', {
       user: user,
       question: room.session.question,
@@ -60,52 +59,6 @@ export default function Question () {
 
   }, [room])
 
-  function responseOfAnswerSending (data) {
-    setRoom({
-      ...room,
-      session: data.session,
-      waiting: data.waiting
-    })
-  }
-
-  function questionUpdate (data: NewQuestion) {
-    if (room.session && room.session.id === data.session.id) {
-
-      setRoom({
-        ...room,
-        locked: false,
-        waiting: false,
-        session: {
-          ...room.session,
-          question: data.session.question,
-        },
-        reponses: []
-      })
-    }
-  }
-
-  function lockAnswer (data: LockEvent) {
-    if (room.session && data.session.id === room.session.id) {
-      setRoom({
-        ...room,
-        locked: data.locked
-      })
-    }
-  }
-
-  function showAnswer (data) {
-    if (data.session.id === room.session.id) {
-      setRoom({
-        ...room,
-        reponses: data.reponses
-      })
-    }
-  }
-
-  socket.on('QuestionUpdate', questionUpdate)
-  socket.on('LockAnswer', lockAnswer)
-  socket.on('ShowAnswer', showAnswer)
-  socket.on('ResponseOfAnswerSending', responseOfAnswerSending)
 
   /*useEffect(() => {
 

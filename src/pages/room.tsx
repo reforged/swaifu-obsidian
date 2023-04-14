@@ -7,7 +7,13 @@ import {useNavigate} from "react-router";
 import {IRoom} from "../utils/room";
 import {ISession} from "../utils";
 import WaintingRoom from "../components/room/wainting-room";
-import {JoinEvent, JoinSuccessfulEvent, StartEvent} from "../utils/room/events";
+import {
+  JoinEvent,
+  JoinSuccessfulEvent,
+  LockEvent,
+  NewQuestion,
+  StartEvent
+} from "../utils/room/events";
 import Question from "../components/room/question";
 import {useCookies} from "react-cookie";
 import useWebsocket from "../hooks/use-websocket";
@@ -51,7 +57,6 @@ export default function Room () {
 
 
   function StartSession (data) {
-
     if (data.session.code === code) {
       console.log(data)
       setRoom({
@@ -64,6 +69,52 @@ export default function Room () {
   function StopSession () {
     router('/')
   }
+
+  function LockAnswer (data: LockEvent) {
+    if (room.session && data.session.id === room.session.id) {
+      setRoom({
+        ...room,
+        locked: data.locked
+      })
+    }
+  }
+
+  function ShowAnswer (data) {
+    if (data.session.id === room.session.id) {
+      setRoom({
+        ...room,
+        reponses: data.reponses
+      })
+    }
+  }
+
+  function QuestionUpdate (data: NewQuestion) {
+    if (room.session && room.session.id === data.session.id) {
+      setRoom({
+        ...room,
+        locked: false,
+        waiting: false,
+        session: {
+          ...room.session,
+          question: data.session.question
+        },
+        reponses: []
+      })
+    }
+  }
+
+  function ResponseOfAnswerSending (data) {
+    setRoom({
+      ...room,
+      session: data.session,
+      waiting: data.waiting
+    })
+  }
+
+  socket.on('QuestionUpdate', QuestionUpdate)
+  socket.on('LockAnswer', LockAnswer)
+  socket.on('ShowAnswer', ShowAnswer)
+  socket.on('ResponseOfAnswerSending', ResponseOfAnswerSending)
 
   socket.on('StopSession', StopSession)
   socket.on('StartSession', StartSession)
