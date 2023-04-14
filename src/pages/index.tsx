@@ -8,6 +8,8 @@ import {useNavigate} from "react-router";
 import useWebsocket from "../hooks/use-websocket";
 import {Link} from "react-router-dom";
 
+import pkg from '../../package.json'
+
 export default function Index () {
   const [open, setOpen] = useState<boolean>(false)
   const [user, setUser] = useContext(AuthenticationContext)
@@ -75,14 +77,14 @@ export default function Index () {
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8">
            <img
                 className="h-11 w-11 object-cover rounded-md"
-                src="https://cdn.discordapp.com/attachments/1092374549133275186/1092374584709369886/favicon.png"
+                src="https://cdn.discordapp.com/attachments/1071145886580740116/1081192167768346644/image.png"
                 alt="Your Company"
               />
 
             <div className="mt-24 sm:mt-32 lg:mt-16">
               <Link to={"/team"} className="inline-flex space-x-6">
                 <span className="rounded-full bg-indigo-600/10 dark:bg-indigo-500/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-600 dark:text-indigo-400 ring-1 ring-inset ring-indigo-600/10 dark:ring-indigo-500/20">
-                  Première Release
+                  Version {pkg.version}
                 </span>
                   <span className="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-gray-600 dark:text-gray-400">
                   <span>Tout frais tout beau</span>
@@ -91,10 +93,10 @@ export default function Index () {
               </Link>
             </div>
             <h1 className="mt-10 text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
-              Reforged
+              Twitch Question
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-500">
-              Un site pour créer des questions pas comme les autres ! N'ayez crainte on bug pas !
+              Twitch Question, l'outil pour interagir, capter l'attention et mesurer la compréhension.
             </p>
             <div className="mt-10 flex items-center gap-x-6">
               <div className="">
