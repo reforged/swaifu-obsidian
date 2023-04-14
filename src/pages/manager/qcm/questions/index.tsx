@@ -62,8 +62,7 @@ export default function HomeQuestion () {
 					<div className="relative">
 						<div className="flex items-start justify-between w-full">
 							<div>
-								{ data && <ModalQuestionView questions={data} />
-								}
+								{ data && <ModalQuestionView questions={data} /> }
 
 
 							</div>

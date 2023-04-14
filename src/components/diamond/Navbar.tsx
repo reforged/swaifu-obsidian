@@ -23,24 +23,25 @@ type Props = {
 const navigation = [
   {label: 'Accueil', href: '/'},
   {label: "L'Équipe", href: '/team'},
+  {label: "Nos projets", href: "/projects"}
 ]
 export default function Navbar ({ }: Props) {
   const [open, setOpen] = useState<boolean>(false)
   return (
-    <>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="absolute top-0 left-0 w-full z-50">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
         <div className="flex h-16 justify-between">
           <div className="flex">
             <Link to={"/"} className="flex flex-shrink-0 items-center">
               <div className="flex flex-shrink-0 items-center">
                 <img
                   className="block h-8 w-8 lg:hidden object-cover rounded-md"
-                  src="https://cdn.discordapp.com/attachments/1092374549133275186/1092374584709369886/favicon.png"
+                  src="https://cdn.discordapp.com/attachments/1071145886580740116/1081192167768346644/image.png"
                   alt="Your Company"
                 />
                 <img
                   className="hidden h-8 w-8 lg:block object-cover rounded-md"
-                  src="https://cdn.discordapp.com/attachments/1092374549133275186/1092374584709369886/favicon.png"
+                  src="https://cdn.discordapp.com/attachments/1071145886580740116/1081192167768346644/image.png"
                   alt="Your Company"
                 />
 
@@ -86,7 +87,7 @@ export default function Navbar ({ }: Props) {
       </div>
 
       <MobileNavbar open={open} setOpen={setOpen}/>
-    </>
+    </div>
 
   )
 }
@@ -250,7 +251,7 @@ function MobileNavbar ({ open, setOpen }: MobileProps) {
               <div className="flex flex-shrink-0 items-center px-4 justify-between">
                 <img
                   className="h-8 w-auto"
-                  src="https://cdn.discordapp.com/attachments/1092374549133275186/1092374584709369886/favicon.png"
+                  src="https://cdn.discordapp.com/attachments/1071145886580740116/1081192167768346644/image.png"
                   alt="Your Company"
                 />
                 <AuthenticationContext.Consumer>

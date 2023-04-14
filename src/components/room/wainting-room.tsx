@@ -12,8 +12,8 @@ export default function WaintingRoom () {
           </a>
         </div>
 
-        <div className="mx-auto mt-8 object-cover rounded-md overflow-hidden">
-          <img src="https://cdn.discordapp.com/attachments/1052152529682710558/1092379703068868608/reforged.gif" alt=""/>
+        <div className="mx-auto mt-8 object-cover rounded-md overflow-hidden ">
+          <img className="lg:w-2/3 mx-auto rounded-md" src="https://images7.memedroid.com/images/UPLOADED154/562a13ae77369.jpeg" alt=""/>
         </div>
 
       </div>

@@ -1,10 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Anuphan:wght@100;200;300;400;500;600;700&display=swap');
+
+
 h1, h2, h3 {
   font-weight: 600;
   color: #1d1d1f;
 
   line-height: 1;
   letter-spacing: -0.014em;
-  font-family: SF Pro Display,SF Pro Icons,Helvetica Neue,Helvetica,Arial,sans-serif;
+  font-family: 'Anuphan', sans-serif;
+}
+html, body {
+  font-family: 'Anuphan', sans-serif !important;
 }
 
 h1 {

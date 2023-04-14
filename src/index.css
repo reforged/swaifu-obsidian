@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import url('https://fonts.googleapis.com/css2?family=Anuphan:wght@300&display=swap');
 .button {
     @apply rounded-md border border-gray-400 px-2 py-1 duration-100 ease-in-out;
 }
@@ -12,6 +12,7 @@
 .button--not--disable {
     @apply bg-green-300 !border-green-400;
 }
+
 
 .test {
     cursor: pointer;
@@ -30,3 +31,4 @@ input[type=number] {
 .retour--ligne {
     break-before: page;
 }
+

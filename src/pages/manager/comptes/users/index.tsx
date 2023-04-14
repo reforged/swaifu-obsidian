@@ -52,7 +52,10 @@ export default function HomeUsers () {
   ]
 
   function onClick (user: IUser) {
-    setUser(user)
+    setUser({
+      ...user,
+      password: ''
+    })
     setOpen(!open)
   }
 
