@@ -15,6 +15,7 @@
     "@heroicons/react": "^2.0.13",
     "@markdoc/markdoc": "^0.2.1",
     "@nivo/bar": "^0.80.0",
+    "@nivo/calendar": "^0.80.0",
     "@nivo/core": "^0.80.0",
     "@nivo/line": "^0.80.0",
     "@nivo/pie": "^0.80.0",

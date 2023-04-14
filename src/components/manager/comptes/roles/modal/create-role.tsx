@@ -5,6 +5,11 @@ import BoardContext from "../../../../../contexts/BoardContext";
 import {XMarkIcon} from "@heroicons/react/20/solid";
 import useRoles from "../../../../../hooks/use-roles";
 import {classNames} from "../../../../../utils/helper";
+import RoleSelect from "../../users/modal/role-select";
+import {IPermission} from "../../../../../utils";
+import usePermissions from "../../../../../hooks/use-permissions";
+import {PlusIcon} from "@heroicons/react/24/outline";
+import PermissionSelect from "../../../permission-select";
 
 
 export default function CreateRole () {
@@ -13,6 +18,7 @@ export default function CreateRole () {
 
   const [label, setLabel] = useState<string>('')
   const [power, setPower] = useState(0)
+  const [permissions, setPermissions] = useState<IPermission[]>([])
   const [disabled, setDisabled] = useState<boolean>(true)
   const { index, store } = useRoles()
   const { mutate: createRole } = store()
@@ -41,7 +47,11 @@ export default function CreateRole () {
   }, [isVisible])
 
   function onSubmit () {
-    createRole({ label, power: Math.round(power) })
+    createRole({
+      label,
+      power: Math.round(power),
+      permissions: permissions.map((item) => item.id)
+    })
     toggle()
   }
 
@@ -110,6 +120,7 @@ export default function CreateRole () {
                                 </div>
                               </div>
                             </div>
+                            <PermissionSelect permissions={permissions} setPermissions={setPermissions} />
                             <div className="mt-8">
                               <button
                                 onClick={onSubmit}

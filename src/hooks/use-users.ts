@@ -35,7 +35,7 @@ export default function useUsers () {
   }
 
   function createMany () {
-    return useMutation(async (data: { users: DataUsers[]}) => {
+    return useMutation(async (data: { users: DataUsers[], roles: string[]}) => {
       const response = await http.post('/users/create-many', data, {
         headers: {
           'Authorization': cookie.token

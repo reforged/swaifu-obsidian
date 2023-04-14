@@ -5,7 +5,7 @@ import {Options} from "../../../../components/manager/board/types";
 import {ISession, IUser} from "../../../../utils";
 import {uid} from "../../../../utils/helper";
 import SessionContext from "../../../../contexts/SessionContext";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import CreateSession from "../../../../components/manager/sessions/create-session";
 import {StructureContract} from "../../../../contexts/BoardContext";
 import Table from "../../../../components/manager/board/Table";
@@ -41,6 +41,15 @@ export default function HomeSessions () {
   })
   const router = useNavigate()
   const { socket } = useWebsocket()
+
+  useEffect(() => {
+    if (session && !room.session) {
+      setRoom({
+        ...room,
+        session
+      })
+    }
+  }, [session])
 
   const columns: StructureContract[] = [
     {label: "Code", key: 'code', input: 'text', checked: true, default: true, filter: true},

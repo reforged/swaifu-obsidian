@@ -4,6 +4,7 @@ import {classNames} from "../../../../../utils/helper";
 import useUsers from "../../../../../hooks/use-users";
 import AddRole from "./buttons/add-role";
 import {IRole} from "../../../../../utils";
+import RoleSelect from "../../../role-select";
 
 type RowCsv = [
   firstname: string,
@@ -83,7 +84,7 @@ export default function ImportCsv ({ toggle }: Props) {
           password: item[2]
         }
       }),
-      roles: roles.map((role) => role.id)
+      roles: roles.map((role) => role.id!)
     })
     toggle()
 
@@ -120,28 +121,8 @@ export default function ImportCsv ({ toggle }: Props) {
       <div>
         <h3 className="font-title text-2xl font-medium">Importer des utilisateurs</h3>
         <div>
-          <div className="relative mt-2">
-            <span className="block truncate text-sm font-medium leading-6 text-gray-900">Roles</span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"></span>
-          </div>
-          {roles.length ? (
-              <>
-                {roles.map((role : IRole, index) => (
-                    <div className="relative">
-                      <button
-                          className="flex items-center gap-2 border px-3 py-2 rounded-md"
-                          onClick={() => onDelete(index)}
 
-                      >
-                        <span>{role.label}</span>
-                        <span><TrashIcon className='w-4' /></span>
-                      </button>
-                    </div>
-                ))}
-              </>
-          ) : <div></div>
-          }
-          <AddRole roles={roles} setRoles={setRoles} />
+          <RoleSelect roles={roles} setRoles={setRoles} />
         </div>
 
         <div>

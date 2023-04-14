@@ -5,6 +5,8 @@ import AddPermission from "./buttons/add-permission";
 import {IPermission, IRole} from "../../../../../utils";
 import {PlusIcon} from "@heroicons/react/24/outline";
 import AddRole from "./buttons/add-role";
+import RoleSelect from "../../../role-select";
+import PermissionSelect from "../../../permission-select";
 export default function CreateSimpleUser({ toggle }){
   const [disabled, setDisabled] = useState<boolean>(true)
   const { store } = useUsers()
@@ -127,51 +129,8 @@ export default function CreateSimpleUser({ toggle }){
           />
         </div>
         <div>
-          <div className="relative mt-2">
-            <span className="block truncate text-sm font-medium leading-6 text-gray-900">Roles</span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"></span>
-          </div>
-          {roles.length ?
-            <>
-              {roles.map((role : IRole, index) => (
-                <div className="relative">
-                  <button
-                    className="flex items-center gap-2 border px-3 py-2 rounded-md"
-                    onClick={() => deleteRole(index)}
-                  >
-                    <span>{role.label}</span>
-                    <span><PlusIcon className='w-6' /></span>
-                  </button>
-                </div>
-              ))}
-            </>
-            : <></>
-          }
-          <AddRole roles={roles}  setRoles={setRoles}/>
-        </div>
-        <div>
-          <div className="relative mt-2">
-            <span className="block truncate text-sm font-medium leading-6 text-gray-900">Permissions</span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"></span>
-          </div>
-          {permissions.length ?
-            <>
-              {permissions.map((permission : IPermission, index) => (
-                <div className="relative">
-                  <button
-                    className="flex items-center gap-2 border px-3 py-2 rounded-md"
-                    onClick={() => deletePermission(index)}
-
-                  >
-                    <span>{permission.label}</span>
-                    <span><PlusIcon className='w-6' /></span>
-                  </button>
-                </div>
-              ))}
-            </>
-            : <></>
-          }
-          <AddPermission permissions={permissions} setPermissions={setPermissions} />
+          <RoleSelect roles={roles} setRoles={setRoles} />
+          <PermissionSelect permissions={permissions} setPermissions={setPermissions} />
         </div>
 
 
