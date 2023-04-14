@@ -16,7 +16,7 @@ export default function ProfilHome () {
           { user &&
             <div>
               <Navbar open={open} setOpen={setOpen} />
-              <div className="flex flex-col w-full  max-w-7xl mx-auto mt-12 px-4 lg:px-0">
+              <div className="flex flex-col w-full  max-w-7xl mx-auto mt-32 px-4 lg:px-0">
                 <div className="flex md:items-center justify-between">
                   <HeaderProfil />
                 </div>

@@ -43,7 +43,7 @@ export default function RightPart () {
   return (
     <>
       { room.session && room.session.question &&
-        <div className="col-span-8 h-full p-4 overflow-y-scroll">
+        <div className="col-span-8 h-full p-4 py-20 overflow-y-scroll">
           <div className="flex flex-col overflow-y-scroll">
             <div>
               <span>{room.session.question.label}</span>

@@ -8,6 +8,7 @@ import {uid} from "../../../../utils/helper";
 import QuestionStat from "../../../../components/manager/sessions/stats/panel/ShowQuestionStat";
 import {useEffect, useState} from "react";
 import SessionContext from "../../../../contexts/SessionContext";
+import ActiveUsersStats from "./active-users-stats";
 
 const pages = [
   { label: 'Home', href: '/manager/qcm', current: false},
@@ -27,13 +28,16 @@ export default function ShowSession () {
   const { data } = show(li[li.length-1])
 
   useEffect(() => {
-    setNavigation([
-      {name: "QCM", href: '/manager/qcm/home', current: false},
-      {name: "Sessions", href: '/manager/qcm/sessions', current: false},
-      {
-        name: data.id, href: `/manager/qcm/session/${data.id}`, current: true
-      }
-    ])
+    if (data) {
+      setNavigation([
+        {name: "QCM", href: '/manager/qcm/home', current: false},
+        {name: "Sessions", href: '/manager/qcm/sessions', current: false},
+        {
+          name: data.id, href: `/manager/qcm/session/${data.id}`, current: true
+        }
+      ])
+    }
+
   }, [data])
 
   const options: Options<IQuestion> = {
@@ -72,7 +76,7 @@ export default function ShowSession () {
               <div>
                 LISTE
               </div>
-
+              <ActiveUsersStats />
               <div>
 
                 <Board<IQuestion> name={"Questions"} options={options}>

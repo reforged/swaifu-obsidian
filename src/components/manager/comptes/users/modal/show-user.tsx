@@ -49,13 +49,14 @@ export default function ShowUser ({ open, setOpen }: Props) {
 
 
   function handlerUpdate () {
+    console.log(user.password)
     const newUser: User = {
       id: user.id!,
       email: user.email !== currentUser.email ? user.email : undefined,
       numero: user.numero !== currentUser.numero ? user.numero : undefined,
       firstname: user.firstname,
       lastname: user.lastname,
-      password: password.length ? password : undefined,
+      password: user.password.length ? user.password : undefined,
       roles: user.roles.map((item) => item.id!),
       permissions: user.permissions.map((item) => item.id!),
     }
@@ -65,6 +66,8 @@ export default function ShowUser ({ open, setOpen }: Props) {
         delete newUser[key as keyof User]
       }
     })
+
+    console.log(newUser)
 
     updateUser(newUser)
     setOpen(false)
@@ -84,21 +87,28 @@ export default function ShowUser ({ open, setOpen }: Props) {
       setCurrentUser(user)
       return
     }
+    console.log(user)
     if (
       user.lastname !== currentUser.lastname ||
       user.firstname !== currentUser.firstname ||
       user.email !== currentUser.email ||
       user.numero !== currentUser.numero ||
-      password.length > 4 ||
+      user.password.length > 4 ||
       !sameListe(user.roles, currentUser.roles) ||
-      !sameListe(user.permissions, currentUser.permissions) &&
-      (user.lastname.length && user.firstname.length)
+      !sameListe(user.permissions, currentUser.permissions)
     ) {
-      if (user.email.length || user.numero.length === 8) {
-        setDisabled(false)
+      console.log(user.firstname.length, user.lastname.length)
+      if (user.firstname.length && user.lastname.length) {
+        console.log("test")
+        if (user.email.length || user.numero.length === 8) {
+          setDisabled(false)
+        } else {
+          setDisabled(true)
+        }
       } else {
         setDisabled(true)
       }
+
 
     } else {
       setDisabled(true)
@@ -245,8 +255,11 @@ export default function ShowUser ({ open, setOpen }: Props) {
                             type="password"
                             name="password"
                             id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.currentTarget.value)}
+                            value={user.password}
+                            onChange={(e) => setUser({
+                              ...user,
+                              password: e.currentTarget.value
+                            })}
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             placeholder="Mot de passe"
                             aria-describedby="password-optional"
