@@ -30,6 +30,7 @@ import TeamPage from "./pages/team";
 import {IExamen} from "./components/manager/examens/types";
 import ExamenContext from "./contexts/ExamenContext";
 import ShowExamen from "./pages/manager/qcm/examens/show";
+import ProjectPage from "./pages/project";
 
 function App() {
   const [user, setUser] = useState<IUser | null>(null)
@@ -135,6 +136,7 @@ function App() {
                 </Route>
 
                 <Route path={"/team"} element={<TeamPage />}/>
+                <Route path={"/projects"} element={<ProjectPage />} />
 
 
                 <Route path="/profil" element={<Auth />}>

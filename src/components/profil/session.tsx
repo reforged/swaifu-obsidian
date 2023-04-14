@@ -11,10 +11,44 @@ import {AnimatePresence, motion} from "framer-motion";
 import {useEffect, useState} from "react";
 import {Pie} from "react-chartjs-2";
 import {classNames} from "../../utils/helper";
+import { ResponsivePie } from '@nivo/pie'
 
 type Props = {
   session: ISession
 }
+
+const data = [
+  {
+    "id": "elixir",
+    "label": "elixir",
+    "value": 42,
+    "color": "hsl(93, 70%, 50%)"
+  },
+  {
+    "id": "php",
+    "label": "php",
+    "value": 540,
+    "color": "hsl(179, 70%, 50%)"
+  },
+  {
+    "id": "sass",
+    "label": "sass",
+    "value": 217,
+    "color": "hsl(327, 70%, 50%)"
+  },
+  {
+    "id": "hack",
+    "label": "hack",
+    "value": 50,
+    "color": "hsl(87, 70%, 50%)"
+  },
+  {
+    "id": "rust",
+    "label": "rust",
+    "value": 103,
+    "color": "hsl(59, 70%, 50%)"
+  }
+]
 
 export default function Session ({ session }: Props) {
   const { ref, toggle, isVisible} = useComponentVisible()
@@ -112,26 +146,37 @@ export default function Session ({ session }: Props) {
                     </span>
                   </button>
                 </div>
-                <span className="text-sm text-gray-600">Vos réponses</span>
-                <div className="flex flex-col gap-2 pt-4">
-                  { session.reponses.map((reponse) => (
-                    <div
-                      className={classNames(
-                        'border rounded-md p-2',
-                        reponse.valide ? 'bg-green-200' : 'bg-gray-100'
-                      )}
-                      key={reponse.id}
-                    >
-                      { reponse.body }
+                <div className="overflow-y-scroll">
+                  <div>
+                    <h1>{ session.sequence.label}</h1>
+                  </div>
+                  <span className="text-sm text-gray-600">Vos réponses</span>
+                  <div className="flex flex-col gap-2 pt-4">
+                    { session.reponses.map((reponse) => (
+                      <div
+                        className={classNames(
+                          'border rounded-md p-2',
+                          reponse.valide ? 'bg-green-200' : 'bg-gray-100'
+                        )}
+                        key={reponse.id}
+                      >
+                        { reponse.body }
+                      </div>
+                    ))}
+                  </div>
+                  <div className="w-96">
+                    <PieChart />
+                  </div>
+
+                  { stats &&
+                    <div className="mt-8 lg:w-96">
+                      <Pie data={stats} />
                     </div>
-                  ))}
+                  }
+
                 </div>
 
-                { stats &&
-                  <div className="mt-8 lg:w-96">
-                    <Pie data={stats} />
-                  </div>
-                }
+
               </div>
             </div>
           </motion.div>
@@ -139,5 +184,137 @@ export default function Session ({ session }: Props) {
       </AnimatePresence>
     </div>
 
+  )
+}
+
+function PieChart () {
+  return (
+    <ResponsivePie
+      data={data}
+      margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+      innerRadius={0.5}
+      padAngle={0.7}
+      cornerRadius={3}
+      activeOuterRadiusOffset={8}
+      borderWidth={1}
+      borderColor={{
+        from: 'color',
+        modifiers: [
+          [
+            'darker',
+            0.2
+          ]
+        ]
+      }}
+      arcLinkLabelsSkipAngle={10}
+      arcLinkLabelsTextColor="#333333"
+      arcLinkLabelsThickness={2}
+      arcLinkLabelsColor={{ from: 'color' }}
+      arcLabelsSkipAngle={10}
+      arcLabelsTextColor={{
+        from: 'color',
+        modifiers: [
+          [
+            'darker',
+            2
+          ]
+        ]
+      }}
+      defs={[
+        {
+          id: 'dots',
+          type: 'patternDots',
+          background: 'inherit',
+          color: 'rgba(255, 255, 255, 0.3)',
+          size: 4,
+          padding: 1,
+          stagger: true
+        },
+        {
+          id: 'lines',
+          type: 'patternLines',
+          background: 'inherit',
+          color: 'rgba(255, 255, 255, 0.3)',
+          rotation: -45,
+          lineWidth: 6,
+          spacing: 10
+        }
+      ]}
+      fill={[
+        {
+          match: {
+            id: 'ruby'
+          },
+          id: 'dots'
+        },
+        {
+          match: {
+            id: 'c'
+          },
+          id: 'dots'
+        },
+        {
+          match: {
+            id: 'go'
+          },
+          id: 'dots'
+        },
+        {
+          match: {
+            id: 'python'
+          },
+          id: 'dots'
+        },
+        {
+          match: {
+            id: 'scala'
+          },
+          id: 'lines'
+        },
+        {
+          match: {
+            id: 'lisp'
+          },
+          id: 'lines'
+        },
+        {
+          match: {
+            id: 'elixir'
+          },
+          id: 'lines'
+        },
+        {
+          match: {
+            id: 'javascript'
+          },
+          id: 'lines'
+        }
+      ]}
+      legends={[
+        {
+          anchor: 'bottom',
+          direction: 'row',
+          justify: false,
+          translateX: 0,
+          translateY: 56,
+          itemsSpacing: 0,
+          itemWidth: 100,
+          itemHeight: 18,
+          itemTextColor: '#999',
+          itemDirection: 'left-to-right',
+          itemOpacity: 1,
+          symbolSize: 18,
+          symbolShape: 'circle',
+          effects: [
+            {
+              on: 'hover',
+              style: {
+                itemTextColor: '#000'
+              }
+            }
+          ]
+        }
+      ]}
+    />
   )
 }

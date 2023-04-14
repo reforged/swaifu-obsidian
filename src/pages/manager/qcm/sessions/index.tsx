@@ -5,14 +5,17 @@ import {Options} from "../../../../components/manager/board/types";
 import {ISession, IUser} from "../../../../utils";
 import {uid} from "../../../../utils/helper";
 import SessionContext from "../../../../contexts/SessionContext";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import CreateSession from "../../../../components/manager/sessions/create-session";
 import {StructureContract} from "../../../../contexts/BoardContext";
 import Table from "../../../../components/manager/board/Table";
 import UserSkeleton from "../../../../skeleton/UserSkeleton";
 import {logger} from "react-query/types/react/logger";
 import {useNavigate} from "react-router";
-
+import RoomContext from '../../../../contexts/RoomContext'
+import {IRoom} from "../../../../utils/room";
+import {NewAnswerEvent} from "../../../../components/manager/sessions/types/events";
+import useWebsocket from "../../../../hooks/use-websocket";
 const pages = [
   { label: 'Home', href: '/manager/qcm', current: false},
   { label: 'Questions', href: '/manager/qcm/questions', current: false},
@@ -31,14 +34,52 @@ export default function HomeSessions () {
   const { index } = useSessions()
   const { data, isLoading } = index()
   const [session, setSession] = useState<ISession | null>(null)
+  const [room, setRoom] = useState<IRoom>({
+    session: session,
+    locked: false,
+    waiting: false
+  })
   const router = useNavigate()
+  const { socket } = useWebsocket()
+
+  useEffect(() => {
+    if (session && !room.session) {
+      setRoom({
+        ...room,
+        session
+      })
+    }
+  }, [session])
 
   const columns: StructureContract[] = [
     {label: "Code", key: 'code', input: 'text', checked: true, default: true, filter: true},
     {label: "Users", key: 'users', input: 'select', checked: true, default: false, filter: false},
     {label: "Reponses", key: 'reponses', input: 'select', checked: true, default: false, filter: false},
-
   ]
+
+  function NewUser (data) {
+    if (!room.session) return
+    if (room.session.id === data.session.id) {
+      setRoom({
+        ...room,
+        session: data.session
+      })
+    }
+  }
+
+  function NewAnswer (data: NewAnswerEvent) {
+    if (!room.session) return
+
+    if (room.session.id === data.session.id) {
+      setRoom({
+        ...room,
+        session: data.session
+      })
+    }
+  }
+
+  socket.on('NewUser', NewUser)
+  socket.on('NewAnswer', NewAnswer)
 
   const options: Options<ISession> = {
     label: 'Session',
@@ -65,18 +106,21 @@ export default function HomeSessions () {
       navigation: pages
     }}>
       <SessionContext.Provider value={[session, setSession]}>
-        { data &&
-        <Board name={"Session"} options={options} action={<CreateSession />}>
-          <Table<ISession>
-            columns={columns}
-            loading={isLoading}
-            data={data as ISession[]}
-            keys={options.keys}
-            skeleton={<UserSkeleton />}
-            onDelete={() => console.log("test")}
-          />
-        </Board>
-        }
+        <RoomContext.Provider value={[room, setRoom]}>
+          { data &&
+            <Board name={"Session"} options={options} action={<CreateSession />}>
+              <Table<ISession>
+                columns={columns}
+                loading={isLoading}
+                data={data as ISession[]}
+                keys={options.keys}
+                skeleton={<UserSkeleton />}
+                onDelete={() => console.log("test")}
+              />
+            </Board>
+          }
+        </RoomContext.Provider>
+
       </SessionContext.Provider>
 
     </Manager>

@@ -29,7 +29,12 @@ export default function Question () {
   const { socket } = useWebsocket()
 
   function submitAnswer () {
-
+    console.log({
+      user: user,
+      question: room.session.question,
+      reponse: room.session.question.type === 'checkbox' ? selected : value,
+      session: room.session
+    })
     socket.emit('NewAnswer', {
       user: user,
       question: room.session.question,
@@ -56,56 +61,8 @@ export default function Question () {
         setSelected(reponse)
       }
     }
-
-
   }, [room])
 
-  function responseOfAnswerSending (data) {
-    setRoom({
-      ...room,
-      session: data.session,
-      waiting: data.waiting
-    })
-  }
-
-  function questionUpdate (data: NewQuestion) {
-    if (room.session && room.session.id === data.session.id) {
-
-      setRoom({
-        ...room,
-        locked: false,
-        waiting: false,
-        session: {
-          ...room.session,
-          question: data.session.question,
-        },
-        reponses: []
-      })
-    }
-  }
-
-  function lockAnswer (data: LockEvent) {
-    if (room.session && data.session.id === room.session.id) {
-      setRoom({
-        ...room,
-        locked: data.locked
-      })
-    }
-  }
-
-  function showAnswer (data) {
-    if (data.session.id === room.session.id) {
-      setRoom({
-        ...room,
-        reponses: data.reponses
-      })
-    }
-  }
-
-  socket.on('QuestionUpdate', questionUpdate)
-  socket.on('LockAnswer', lockAnswer)
-  socket.on('ShowAnswer', showAnswer)
-  socket.on('ResponseOfAnswerSending', responseOfAnswerSending)
 
   /*useEffect(() => {
 
@@ -143,6 +100,20 @@ export default function Question () {
     }
   }, [value, room.waiting, selected])
 
+  useEffect(() => {
+    console.log("QUESTION COMPONENT", room)
+  }, [room])
+
+  function ResponseOfAnswerSending (data) {
+    console.log("RESPONSE OF ANSWER", data)
+    setRoom({
+      ...room,
+      session: data.session,
+      waiting: data.waiting
+    })
+  }
+
+  socket.on('ResponseOfAnswerSending', ResponseOfAnswerSending)
 
   return (
     <>
@@ -203,13 +174,13 @@ export default function Question () {
                     ? <RadioSelect selected={selected} setSelected={setSelected} />
                     : <InputFormReponse value={value} setValue={setValue} textAreaRef={textAreaRef} />
                   }
-                  <div>
+                  <div className="pt-4">
                     <button
                       className={classNames(
                         'w-full p-4 rounded-md border bg-indigo-500 text-white',
                         disabled ? '!bg-gray-100 !text-gray-600' : ''
                       )}
-                      disabled={disabled}
+                      disabled={disabled || room.locked}
                       onClick={submitAnswer}
                     >
                       Envoyer sa réponse

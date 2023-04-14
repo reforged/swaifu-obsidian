@@ -156,7 +156,7 @@ export default function ModalEditor ({ data }: Props) {
                     </div>
 
                   </div>
-                  <div className="absolute bottom-0 right-0 p-2 z-50">
+                  <div className="fixed bottom-0 right-0 p-2 z-50">
                     <button
                       disabled={disabled}
                       onClick={handleClick}

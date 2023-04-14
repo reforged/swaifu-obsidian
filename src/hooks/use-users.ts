@@ -35,7 +35,7 @@ export default function useUsers () {
   }
 
   function createMany () {
-    return useMutation(async (data: { users: DataUsers[]}) => {
+    return useMutation(async (data: { users: DataUsers[], roles: string[]}) => {
       const response = await http.post('/users/create-many', data, {
         headers: {
           'Authorization': cookie.token
@@ -56,6 +56,20 @@ export default function useUsers () {
         }
       })
 
+      return response.data
+    }, { onSuccess: async () => {
+      await queryClient.invalidateQueries(['users'])
+    }})
+  }
+
+  function update () {
+    return useMutation(async (data) => {
+      console.log(data)
+      const response = await http.put(`/users/${data.id}`, data, {
+        headers: {
+          'Authorization': cookie.token
+        }
+      })
       return response.data
     }, { onSuccess: async () => {
       await queryClient.invalidateQueries(['users'])
@@ -100,5 +114,5 @@ export default function useUsers () {
     })
   }
 
-  return { index, createMany, destroy, updateMe, store}
+  return { index, createMany, destroy, updateMe, store, update}
 }

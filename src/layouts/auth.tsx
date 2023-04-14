@@ -11,7 +11,7 @@ export default function Auth () {
   const { data } = me()
 
   if (!user) {
-    router('/login')
+    router('/')
     return <div>Non Connecté</div>
   }
 
