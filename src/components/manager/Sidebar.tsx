@@ -126,7 +126,7 @@ function Navigation () {
         </div>
       </div>
       <div>
-        {links.map((link, index) => <Item link={link} /> )}
+        {links.map((link, index) => <Item link={link} key={index} /> )}
       </div>
     </div>
   )
@@ -207,15 +207,16 @@ function MobileSidebar ({ open, setOpen }) {
               <div className="mt-5 h-0 flex-1 overflow-y-auto">
                 <nav className="px-2">
                   <div className="flex flex-col gap-2">
-                    { links.filter((link) => link.children).map((link) => (
-                      <div className="px-3">
+                    { links.filter((link) => link.children).map((link, index) => (
+                      <div className="px-3" key={index}>
                         <h3 className=" text-sm font-medium text-gray-500" id="mobile-teams-headline">
                           {link.label}
                         </h3>
                         {link.children &&
                           <div className="flex flex-col">
-                            {link.children.map((item) => (
+                            {link.children.map((item, index) => (
                               <NavLink
+                                key={index}
                                 to={item.href}
                                 className={({ isActive }) => classNames('flex rounded-md p-3 hover:bg-[#E2E9F3] hover:text-[#5B50D6] ease-in-out duration-200', isActive ? 'bg-[#E2E9F3]' : '')}
                               >

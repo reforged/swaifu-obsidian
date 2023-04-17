@@ -40,7 +40,7 @@ export default function Room () {
       return value
     })
 
-    console.log("JOIN SUCCESS", data, room)
+    console.log("JOIN SUCESS", data, room)
 
     setRoom({
       ...room!,
@@ -130,6 +130,7 @@ export default function Room () {
 
 
   useEffect(() => {
+    console.log("USE EFFECT ROOM LOG", room)
     socket.connect()
     socket.on('QuestionUpdate', QuestionUpdate)
     socket.on('LockAnswer', LockAnswer)
@@ -149,6 +150,7 @@ export default function Room () {
       socket.off('StopSession')
       socket.off('StartSession')
       socket.off('JoinSuccessful')
+      socket.disconnect()
     }
   }, [])
 
@@ -164,7 +166,6 @@ export default function Room () {
         code: code
       })
     }
-
   }, [])
 
   return (

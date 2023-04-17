@@ -76,7 +76,7 @@ export default function Index () {
         <div className="mx-auto max-w-7xl px-6 pt-10 pb-24 sm:pb-32 lg:flex lg:py-40 lg:px-8">
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8">
            <img
-                className="h-11 w-11 object-cover rounded-md"
+                className="h-11 w-11 hidden lg:flex object-cover rounded-md"
                 src="https://cdn.discordapp.com/attachments/1071145886580740116/1081192167768346644/image.png"
                 alt="Your Company"
               />
@@ -132,7 +132,7 @@ export default function Index () {
                     className="w-[76rem] rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10 hidden dark:block"
                   />
                   <img
-                    src="https://tailwindui.com/img/component-images/project-app-screenshot.png"
+                    src="https://animotaku.fr/wp-content/uploads/2022/07/Liste-episodes-anime-One-Piece-saga-arc-Alabasta.jpeg"
                     alt="App screenshot"
                     width={2432}
                     height={1442}

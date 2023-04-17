@@ -146,12 +146,13 @@ export default function Question () {
                   <ReponseNuageWords/>
                   :
                   <div className="flex flex-col gap-4">
-                    {room.reponses.map((reponse) => (
+                    {room.reponses.map((reponse, index) => (
                       <div
                         className={classNames(
                           'relative block cursor-pointer rounded-lg border  px-6 py-4 shadow-sm focus:outline-none sm:flex sm:justify-between',
                           reponse.valide ? 'bg-green-200' : 'bg-red-200'
                         )}
+                        key={index}
                       >
                         <ReactMarkdown
                           children={reponse.body}

@@ -1,5 +1,6 @@
 import { createElement, ReactNode } from 'react'
 import axios from "axios";
+import * as stringSimilarity from 'string-similarity'
 
 export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -64,4 +65,60 @@ export function somme (li: number[]) {
   return li.reduce(
     (acc, current) => acc += current, 0
   )
+}
+
+interface WordCount {
+  word: string
+  count: number
+}
+
+export interface GroupedWords {
+  [key: string]: {
+    words: string[]
+    count: number
+  }
+}
+
+export function groupSimilarStrings (strings: string[]): GroupedWords {
+  const groups: GroupedWords = {}
+
+  for (let i = 0; i < strings.length; i++) {
+    const group: string[] = [strings[i]];
+
+    for (let j = i + 1; j < strings.length; j++) {
+      const similarity = stringSimilarity.compareTwoStrings(strings[i], strings[j]);
+
+      if (similarity >= 0.55) {
+        group.push(strings[j]);
+        strings.splice(j, 1);
+        j--;
+      }
+    }
+
+    const wordCounts: WordCount[] = group.reduce((acc, cur) => {
+      const index = acc.findIndex(item => item.word === cur)
+
+      if (index >= 0) {
+        acc[index].count++
+      } else {
+        acc.push({ word: cur, count: 1 })
+      }
+
+      return acc
+    }, [])
+
+    const topWord = wordCounts.reduce((acc, cur) => cur.count > acc.count ? cur : acc, { word: '', count: 0 })
+
+    if (groups[topWord.word]) {
+      groups[topWord.word].words.push(...group)
+      groups[topWord.word].count += group.length
+    } else {
+      groups[topWord.word] = {
+        words: group,
+        count: group.length,
+      };
+    }
+  }
+
+  return groups
 }

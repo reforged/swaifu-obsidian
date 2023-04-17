@@ -15,7 +15,7 @@ const timeline = [
   {
     name: 'Ruby',
     description:
-      'Ruby ',
+      "Ruby est notre package qui regroupe l'ensemble de notre REST-Api",
     date: 'Janvier 2023',
     link: 'https://github.com/reforged/sawifu-ruby',
     dateTime: '2023-01',

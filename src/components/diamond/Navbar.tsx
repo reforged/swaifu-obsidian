@@ -28,7 +28,7 @@ const navigation = [
 export default function Navbar ({ }: Props) {
   const [open, setOpen] = useState<boolean>(false)
   return (
-    <div className="absolute top-0 left-0 w-full z-50">
+    <div className="absolute top-0 left-0 w-full z-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
         <div className="flex h-16 justify-between">
           <div className="flex">
@@ -61,7 +61,7 @@ export default function Navbar ({ }: Props) {
 
             </div>
           </div>
-          <div className="hidden sm:ml-6 sm:flex sm:items-center gap-8">
+          <div className="hidden sm:ml-6 lg:flex sm:items-center gap-8">
             <AuthenticationContext.Consumer>
               {([ user ]) => (
                 <div>
@@ -85,8 +85,10 @@ export default function Navbar ({ }: Props) {
           </button>
         </div>
       </div>
+      <div>
+        <MobileNavbar open={open} setOpen={setOpen}/>
+      </div>
 
-      <MobileNavbar open={open} setOpen={setOpen}/>
     </div>
 
   )

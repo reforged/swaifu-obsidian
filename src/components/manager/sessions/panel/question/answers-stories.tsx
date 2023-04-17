@@ -21,8 +21,8 @@ export default function AnswersStories () {
               <AnswersNumber />
               <span className="text-xs absolute top-0 left-0 m-2 p-2  rounded-md bg-gray-50">Réponses</span>
               <div className="flex flex-col gap-4 pt-6">
-                { room.session.question.reponses.map((reponse) => (
-                  <Answer answer={reponse} />
+                { room.session.question.reponses.map((reponse, index) => (
+                  <Answer answer={reponse} key={index}/>
                 ))}
               </div>
             </div>

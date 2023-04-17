@@ -185,8 +185,8 @@ function ContentSection () {
             </p>
             <div className="mt-10 max-w-xl text-base leading-7 text-gray-700">
               <p>
-                Dans un optique de "perfection", chacun des membres des deux équipes ont conçu
-                diverses fonctionnalités, et implémenter une architecture scalable et performante.
+                Dans une optique de "perfection", chacun des membres des deux équipes ont conçu
+                diverses fonctionnalités, et implémenté une architecture scalable et performante.
               </p>
               <p className="mt-4">
                 La création d'une nouvelle couche d'abstraction côté server par <a href="" className="udnerline text-indigo-500">Oscar Hawkins</a> afin
@@ -196,13 +196,13 @@ function ContentSection () {
               <p className="mt-4">
                 Pour le client, l'utilisation de React et Typescript ont permis de pouvoir développer une multitude
                 de composants et permettre d'être plus scalable sur l'ensemble de l'application. Des composants comme le système de filtre,
-                le système de gestions de données dynamique ou encore le "notion-like" pour la création de questions créé par <a
+                le système de gestion de données dynamiques ou encore le "notion-like" pour la création de questions créé par <a
                 href="https://github.com/NathaelB" target="_blank" className="text-indigo-500">Nathaël Bonnal</a>.
               </p>
               <p className="mt-10">
-                A travers ce projet, <span className="text-indigo-500">Loïc Alfonsi</span> et <span className="text-indigo-500">Guibert-Lode Titouan</span> ont pu
-                découvrir davantage le domaine du web et plus particulièrement du développement front-end et développement back-end. Chacun ont contribués sur leurs
-                tâches respectifs tout en apprenant  avec le lead de chaque équipe.
+                À travers ce projet, <span className="text-indigo-500">Loïc Alfonsi</span> et <span className="text-indigo-500">Guibert-Lode Titouan</span> ont pu
+                découvrir davantage le domaine du web et plus particulièrement du développement front-end et développement back-end. Chacun a contribué sur leurs
+                tâches respectives tout en apprenant  avec le lead de chaque équipe.
               </p>
             </div>
           </div>
