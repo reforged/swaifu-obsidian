@@ -7,9 +7,10 @@ import {IRole} from "../../../../../utils";
 import RoleSelect from "../../../role-select";
 
 type RowCsv = [
+  numero: string,
   firstname: string,
   lastname: string,
-  numero: string
+  email: string
 ]
 
 type Props = {
@@ -37,6 +38,7 @@ export default function ImportCsv ({ toggle }: Props) {
     }
   }, [csvArray.length])
 
+
   useEffect(() => {
     if (data) {
       const filtered = data.filter((item) => !!item.numero)
@@ -58,9 +60,9 @@ export default function ImportCsv ({ toggle }: Props) {
   }
 
   function exist (user, index): boolean {
-    if (numero.includes(user[2])) return true
+    if (numero.includes(user[0])) return true
     for (let i = 0; i < index ; i++) {
-      if (csvArray[i][2] === user[2]) return true
+      if (csvArray[i][0] === user[0]) return true
     }
 
     return false
@@ -78,10 +80,11 @@ export default function ImportCsv ({ toggle }: Props) {
     createUsers({
       users: list.map((item) => {
         return {
-          firstname: item[0],
-          lastname: item[1],
-          numero: item[2],
-          password: item[2]
+          numero: item[0],
+          firstname: item[1],
+          lastname: item[2],
+          email: item[3],
+          password: item[0]
         }
       }),
       roles: roles.map((role) => role.id!)
@@ -93,8 +96,9 @@ export default function ImportCsv ({ toggle }: Props) {
   function processCsv (str: string) {
     let rows: any = str.split("\n")
     rows = rows.map((row: any) => {
-      return row.replace(/;/g, " ").split(' ');
+      return row.split(';');
     })
+    console.log(rows)
     setCsvArray(rows)
   }
 
@@ -277,9 +281,9 @@ function ViewUser ({ user, setCsvArray, csvArray, index, numero }: UserProps) {
 
 
   function exist (): boolean {
-    if (numero.includes(user[2])) return true
+    if (numero.includes(user[0])) return true
     for (let i = 0; i < index ; i++) {
-      if (csvArray[i][2] === user[2]) return true
+      if (csvArray[i][0] === user[0]) return true
     }
 
     return false
@@ -292,14 +296,18 @@ function ViewUser ({ user, setCsvArray, csvArray, index, numero }: UserProps) {
     )}>
       <div
         className={classNames(
-          'flex items-center gap-1',
+          'flex  gap-1 flex-col',
         )}
       >
-        <span>{user[0]}</span>
-        <span>{user[1]}</span>
+        <span>{user[3]}</span>
+        <div className="flex items-center gap-1">
+          <span>{user[1]}</span>
+          <span>{user[2]}</span>
+        </div>
+
       </div>
 
-      <span>{user[2]}</span>
+      <span>{user[0]}</span>
 
       <div className="absolute invisible group-hover:visible right-2">
         <button onClick={removeUser}>

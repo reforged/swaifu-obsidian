@@ -206,7 +206,7 @@ const TodoReponses = ({ setSelected, context }: TodoReponsesProps) => {
       {([question, setQuestion]) => (
         <div className="pt-4">
           { question!.reponses.map((reponse: IReponse, index: number) => (
-            <div>
+            <div key={index}>
               <button
                 key={index}
                 className={classNames(

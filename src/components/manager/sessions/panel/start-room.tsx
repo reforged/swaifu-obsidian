@@ -15,23 +15,6 @@ export default function StartRoom () {
     })
   }
 
-  function startSession (data) {
-    setRoom({
-      ...room,
-      session: data.session
-    })
-  }
-
-  useEffect(() => {
-    socket.on('StartSession', startSession)
-
-    return () => {
-      socket.off('StartSession', startSession)
-    }
-  }, [])
-
-
-
   return (
     <RoomContext.Consumer>
       {([room]) => (

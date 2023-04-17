@@ -51,6 +51,17 @@ export default function HomeSessions () {
     }
   }, [session])
 
+  function startSession (data) {
+    setRoom({
+      ...room,
+      session: data.session
+    })
+  }
+
+  useEffect(() => {
+
+  }, [])
+
   const columns: StructureContract[] = [
     {label: "Code", key: 'code', input: 'text', checked: true, default: true, filter: true},
     {label: "Users", key: 'users', input: 'select', checked: true, default: false, filter: false},
@@ -78,8 +89,19 @@ export default function HomeSessions () {
     }
   }
 
-  socket.on('NewUser', NewUser)
-  socket.on('NewAnswer', NewAnswer)
+
+
+  useEffect(() => {
+    socket.on('NewUser', NewUser)
+    socket.on('NewAnswer', NewAnswer)
+    socket.on('StartSession', startSession)
+    console.log("TEST SESSION PROFESSEUR")
+    return () => {
+      socket.off('NewUser')
+      socket.off('NewAnswer')
+      socket.off('StartSession')
+    }
+  })
 
   const options: Options<ISession> = {
     label: 'Session',
